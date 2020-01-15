@@ -27,5 +27,4 @@ def main():
           "\nIncome: ${:.2f}".format(income), "\nYou have", dogs,
           "dog(s)", "\nYou are on team", twilight)
 
-
 main()
