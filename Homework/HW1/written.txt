@@ -1,0 +1,27 @@
+'''
+    Nathanial Ziegler
+    CS5001
+    Homework 1
+    January 15, 2020
+'''
+
+Written #1
+1A Float
+1B Integer
+1C Integer
+1D Float
+1E String
+1F String
+1G String
+
+Written #2
+2A 1.4
+2B 1.4
+2C 1
+2D 2
+
+Written #3
+Because hellolaney does not have " or ' around it, it is being interpreted as a variable, not a string. Because no value and data type has been assigned to the variable by the user, when the print function is called on hellolaney, an error is returned. If it were a string, for example print('hellolaney'), hellolaney would display on the screen. 
+
+Written #4
+print("{:.2f}".format(amount))

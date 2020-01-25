@@ -1,0 +1,37 @@
+'''
+    Nathanial Ziegler
+    CS5001
+    Homework 2
+    January 21, 2020
+'''
+
+Written #1
+1A print_formatted("Hello, my name is Nate.")
+1B max_number = get_max(2, 10)
+1C log = log_base_two(8)
+
+Written #2
+The return statement signals the end of a function. Any line(s) of code that
+appear after a return statement will not be executed.
+
+Written #3
+3A 19
+   18
+
+3B 19
+   18
+   19
+
+3C 18
+   20
+   19
+
+Written #4
+It would depend on the what I need to do with the output. If I need to save the
+value so that the computer can interact with it, then I would select
+Function #1. However, if all I need to do is display the value to a user,
+then Function #2 is sufficient. Using Function #1 would give you the flexibility
+of either having the number for the computer to use or to later display the value
+using the print function. Given that, if I had to select one, I would
+go with Function #1.
+

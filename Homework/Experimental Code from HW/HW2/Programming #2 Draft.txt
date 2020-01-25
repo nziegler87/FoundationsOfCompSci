@@ -1,0 +1,6 @@
+have to name the file digits
+
+name the function get_digit
+
+
+

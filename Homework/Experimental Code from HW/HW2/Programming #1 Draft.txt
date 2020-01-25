@@ -1,0 +1,49 @@
+Test Cases:
+
+a1 = a, a2 = a+d, a3 = a+2d, a3 = a+3d, a5 = a+4d
+
+a = 3
+d = 7
+
+a1 = 3
+a2 = 10
+a3 = 17
+a4 = 24
+a5 = 31
+a24 = 164
+
+
+a = 0
+d = -2
+
+a1 = 0
+a2 = -2
+a3 = -6
+a4 = -8
+a5 = -10
+a14 = -26
+
+a = 35
+d = 21
+
+a1 = 35
+a2 = 56
+a3 = 77
+a4 = 98
+
+a = -120
+d = 17
+
+a67 = 1002
+
+need to collect inputs and print them with the expected value and the
+actual value
+
+----
+
+need to collect initial, diff, n and calculate the sum
+
+Test 1: 1, 5, 10 | First: 10  Last: 46 | E: 235
+Test 2: -12, 3, 6 | First: -12 Last: 3| E: -4.5
+Test 3: 1014, 57, 67 | First: 1014 Last: 4776 | E: 2895
+Test 4: -89, -4, 101 | First: -89 Last: -489| E: -289
