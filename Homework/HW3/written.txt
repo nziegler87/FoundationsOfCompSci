@@ -1,0 +1,21 @@
+'''
+    Nathanial Ziegler
+    CS 5001
+    January 28, 2020
+    HW 3
+'''
+
+Written #1
+1A Beetlejuice!
+1B Ghost with the Most!
+1C Loop is infinite
+
+Written #2
+2A Option 1
+2B
+
+Written #3
+3
+
+Written #4
+1, 2, 3, 5, 2, 3, 4, 6
