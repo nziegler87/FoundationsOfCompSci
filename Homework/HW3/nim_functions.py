@@ -30,9 +30,8 @@ def is_over(number):
         Does: Input number of remaining beans and return False if
               all beans are used, else True.
     '''
-    if number == 0:
-        return False
-    else:
+    if number <= 3:
         return True
-    
-    
+    else:
+        return False
+
