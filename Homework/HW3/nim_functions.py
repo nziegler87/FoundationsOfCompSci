@@ -91,6 +91,6 @@ def computer_deduct(bean_pile):
         deduct = random.randint(1, 3)
     elif bean_pile == 3:
         deduct = 2
-    elif bean_pile < 2:
+    else:
         deduct = 1
     return deduct
