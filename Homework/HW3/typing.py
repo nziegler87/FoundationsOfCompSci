@@ -23,7 +23,7 @@ def main():
           "When you want to end the typing test, type DONE\n")
 
     # Start test and record time
-    start_tirgger = input("Hit enter when you are ready and we will start"
+    start_trigger = input("Hit enter when you are ready and we will start"
                           " the clock!")
     start_time = round(time.time(), 2)
 
@@ -41,7 +41,7 @@ def main():
 
         # Check to see if user typed DONE else analyze results
         if user_input == "DONE":
-            # Capture end time
+            # Capture end time and break loop
             end_time = round(time.time(), 2)
             break
 
