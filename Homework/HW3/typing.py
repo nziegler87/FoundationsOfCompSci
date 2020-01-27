@@ -18,8 +18,9 @@ import time
 
 def main():
     # Welcome user and explain program
-    print("Welcome to the WPM test...a cheaper and much simpler version of "
+    print("Welcome to the WPM test...a simplified version of "
           "Mavis Beacon.\nType each sentence exactly as it appears below.\n"
+          "Hit return at the end of the line to generate a new sentence.\n"
           "When you want to end the typing test, type DONE\n")
 
     # Start test and record time
@@ -39,21 +40,17 @@ def main():
         # Capture user typing
         user_input = input()
 
-        # Check to see if user typed DONE else analyze results
+        # If user types DONE, captue end time and break loop
         if user_input == "DONE":
-            # Capture end time and break loop
             end_time = round(time.time(), 2)
             break
 
+        # Else, calculate words typed and errors and add to running totals
         else:
-            # Calculate words typed and errors and add to running totals
             words_typed = count_words(user_input)
             errors = count_mismatches(sentence, user_input)
             total_word_count += words_typed
             total_errors += errors
-
-            # Rest user input
-            user_input = ""
 
     # Calculate total time and report result with word count
     total_time = end_time - start_time
@@ -69,6 +66,5 @@ def main():
                                       total_time)
     print("You made", total_errors, "mistakes, so your adjusted wpm "
           "is", round(adjusted_wpm))
-    
-    
+
 main()
