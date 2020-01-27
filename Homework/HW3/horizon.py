@@ -5,7 +5,8 @@
     HW 3
     Description:
         Animation of moon moving across screen. When then moon overlaps with
-        the sun, the background turns dark.
+        the sun, the background turns dark. Animation stops when moon
+        is off screen.
 
     Referenced:
         https://learn.wecode24.com/animation-with-turtle-graphics/
