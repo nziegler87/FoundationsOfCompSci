@@ -4,7 +4,7 @@
     January 29, 2020
     HW 3
     Description:
-        Functions for nim -- coin_flip and is_over
+        Functions for nim
 '''
 
 import random
