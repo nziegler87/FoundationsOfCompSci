@@ -60,8 +60,8 @@ def test_all_is_over():
     ''' Inputs: none
         Returns: Number of tests failed
     '''
-
     num_fail = 0
+    
     # Test 1 - Test Number: 20; Expected Result: False
     if not test_is_over(20, False):
         num_fail += 1
@@ -73,6 +73,51 @@ def test_all_is_over():
         num_fail += 1
     # Test 4 - Test Number: 4; Expected Result: False
     if not test_is_over(4, False):
+        num_fail += 1
+
+    return num_fail
+
+def test_validate_input(user_input, option_a, option_b, expected):
+    ''' Name: test_validate_input
+        Input: user_input, option_a, option_b, expected (strings)
+        Returns: True or False
+        Does: Calls validate_input and passes user_input compares it to
+              option_a and option_b then returns True if at least one matches
+              else returns False. Then compares actual output vs expected.
+    '''
+    print("Test inputs:\n User Input: ", user_input, "\nOption A: ",
+          option_a, "     Option B: ", option_b, "\nExpected Result: ",
+          expected, sep = "")
+    actual = validate_input(user_input, option_a, option_b)
+    print("Actual:", actual, "\n")
+    return actual == expected
+
+def test_all_validate_input():
+    ''' Inputs: none
+        Returns: number of failed tests
+    '''
+    num_fail = 0
+    
+    # Test 1 - User Input: "H" ; Option A: "H"; Option B: "T"; Expected: True
+    if not test_validate_input("H", "H", "T", True):
+        num_fail += 1
+        
+    # Test 2 - User Input: "h"; Option A: "H"; Option B: "T"; Expected: False
+    if not test_validate_input("h", "H", "T", False):
+        num_fail += 1
+    
+    # Test 3 - User Input: "g"; Option A: "H"; Option B: "T"; Expected: False
+    if not test_validate_input("g", "H", "T", False):
+        num_fail += 1
+    
+    # Test 4 - User Input: "Blue"; Option A: "Red"; Option B: "Green";
+    #          Expected: False
+    if not test_validate_input("Blue", "Red", "Green", False):
+        num_fail += 1
+    
+    # Test 5 - User Input: "Blue"; Option A: "Red"; Option B: "Blue";
+    #          Expected: True
+    if not test_validate_input("Blue", "Red", "Blue", True):
         num_fail += 1
 
 def test_coin_toss_result(user_choice, toss_result, player_name, expected):
@@ -93,8 +138,8 @@ def test_all_coin_toss_result():
     ''' Inputs: none
         Returns: Number of test failed
     '''
-
     num_fail = 0
+    
     # Test 1 - Player Name: "Jonas"; User Choice: "H";
     #          Toss Result: "T"; Expected: "computer"
     if not test_coin_toss_result("H", "T", "Jonas", "computer"):
@@ -107,17 +152,19 @@ def test_all_coin_toss_result():
 
     # Test 3 - Player Name: "Sally"; User Choice: "T";
     #          Toss Result: "T"; Expected: "Sally"
-    if not test_coin_toss_result("T", "T", "Sally", "computer"):
+    if not test_coin_toss_result("T", "T", "Sally", "Sally"):
         num_fail += 1
     # Test 4 - Player Name: "Lanie"; User Choice: "T";
     #          Toss Result: "H"; Expected: "computer"
     if not test_coin_toss_result("T", "H", "Lanie", "computer"):
         num_fail += 1
 
+    return num_fail
+
 def main():
 
-    # Testing of test_flip
-    print("--Testing test_flip--\n")
+    # Testing of coin_flip
+    print("--Testing coin_flip--\n")
     
     failed_tests = test_all_flip()
     if failed_tests == 0:
@@ -128,16 +175,24 @@ def main():
     # Testing of is_over
     print("--Testing is_over--\n")
     
-    fail_tests = test_all_is_over()
-    if failed_tests  == 0:
+    failed_tests = test_all_is_over()
+    if failed_tests == 0:
         print("All tests passed.\n")
     else:
         print(failed_tests, "test failed.\n")
 
+    # Testing of validate_input
+    print("--Testing validate_input--\n")
+    failed_tests = test_all_validate_input()
+    if failed_tests == 0:
+        print("All tests passed.\n")
+    else:
+        print(failed_tests, "tests failed.\n")
+
     # Testing of coin_toss_result
     print("--Testing coin_toss_result--\n")
     
-    failed_test = test_all_coin_toss_result()
+    failed_tests = test_all_coin_toss_result()
     if failed_tests == 0:
         print("All tests passed.\n")
     else:
