@@ -120,6 +120,8 @@ def test_all_validate_input():
     if not test_validate_input("Blue", "Red", "Blue", True):
         num_fail += 1
 
+    return num_fail
+
 def test_coin_toss_result(user_choice, toss_result, player_name, expected):
     ''' Inputs: For one test -- user_choice (H or T), random
                 result (H or T), player_name, and expected (str)

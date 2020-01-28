@@ -25,6 +25,8 @@ def main():
     # Ask if player wants to be heads or tails
     user_choice = user_coin_selection(player_name)
     while not validate_input(user_choice, COIN_SIDE_A, COIN_SIDE_B):
+        print("I'm sorry, that is not a valid input. You must enter "
+              "either ", COIN_SIDE_A, " or ", COIN_SIDE_B,".\n", sep = "")
         user_choice = user_coin_selection(player_name)
 
     # Actual coin toss

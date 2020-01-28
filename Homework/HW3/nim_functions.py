@@ -32,7 +32,6 @@ def is_over(number):
     else:
         return False
 
-# NEED TO WRITE TEST
 def validate_input(user_input, option_a, option_b):
     ''' Name: validate_input
         Inputs: user_input, option_a, option_b (all ints)
@@ -41,8 +40,6 @@ def validate_input(user_input, option_a, option_b):
               if user_input matches one of the responses.
     '''
     if user_input != option_a and user_input != option_b:
-        print("I'm sorry, that is not a valid input. You must enter "
-              "either ", option_a, " or ", option_b,".\n", sep = "")
         return False
     else:
         return True
