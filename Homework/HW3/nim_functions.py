@@ -41,13 +41,11 @@ def user_coin_selection(player_name):
     while True:
         user_choice = input(player_name + ", enter H for Heads "
                             "or T for tales: ").upper()
-        if user_choice == "H":
-            return "H"
-        elif user_choice == "T":
-            return "T"
-        else:
+        if user_choice != "H" and user_choice != "T":
             print("You must enter either H for Heads or T for Tails. "
                   "Try again.\n")
+        else:
+            return user_choice
 
 def coin_toss_result(user_choice, toss_result, player_name):
     ''' Name: coin_toss_result
