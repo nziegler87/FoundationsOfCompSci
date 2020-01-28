@@ -14,7 +14,8 @@
 '''
 
 import turtle
- 
+
+# Constants for functions
 SUN_RADIUS = 100
 MOON_RADIUS = 100
 SCREEN_SIZE = 800
