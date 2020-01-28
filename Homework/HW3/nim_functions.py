@@ -32,22 +32,30 @@ def is_over(number):
     else:
         return False
 
-# STILL NEED TO WRITE TEST SUITE...HOW TO ACCOUNT FOR INVALID MOV
+# NEED TO WRITE TEST
+def validate_input(user_input, option_a, option_b):
+    ''' Name: validate_input
+        Inputs: user_input, option_a, option_b (all ints)
+        Returns: Boolean (True or False)
+        Does: Compares user_input to two options and returns True
+              if user_input matches one of the responses.
+    '''
+    if user_input != option_a and user_input != option_b:
+        print("I'm sorry, that is not a valid input. You must enter "
+              "either ", option_a, " or ", option_b,".\n", sep = "")
+        return False
+    else:
+        return True
+        
+# STILL NEED TO WRITE TEST SUITE...HOW TO ACCOUNT FOR INV
 def user_coin_selection(player_name):
     ''' Name: user_coin_selection
         Input: player_name, string
         Returns: User selection, either H or T (strings) for coing toss
     '''
-    while True:
-        user_choice = input(player_name + ", enter H for Heads "
-                            "or T for tales: ").upper()
-        if user_choice == "H":
-            return "H"
-        elif user_choice == "T":
-            return "T"
-        else:
-            print("You must enter either H for Heads or T for Tails. "
-                  "Try again.\n")
+    user_choice = input(player_name + ", enter H for Heads "
+                        "or T for tales: ").upper()
+    return user_choice
 
 def coin_toss_result(user_choice, toss_result, player_name):
     ''' Name: coin_toss_result
@@ -87,8 +95,10 @@ def computer_deduct(bean_pile):
         Input: Number of beans remaining, int greater than 0
         Returns: Number of beans computer wishes to deduct (int)
     '''
-    if bean_pile > 3:
+    if bean_pile > 4:
         deduct = random.randint(1, 3)
+    elif bean_pile == 4:
+        deduct = 3
     elif bean_pile == 3:
         deduct = 2
     else:

@@ -7,6 +7,9 @@
         Game of NIM with one pile of beans, ranging from 5 and 30.
 '''
 
+COIN_SIDE_A = "H"
+COIN_SIDE_B = "T"
+
 import random
 
 from nim_functions import *
@@ -19,10 +22,16 @@ def main():
     player_name = input("But first who am I playing against? "
                         "Enter your name: ")
 
-    # Coin toss to select first player
+    # Ask if player wants to be heads or tails
     user_choice = user_coin_selection(player_name)
+    while not validate_input(user_choice, COIN_SIDE_A, COIN_SIDE_B):
+        user_choice = user_coin_selection(player_name)
+
+    # Actual coin toss
     toss_result = coin_flip(random.randint(1,2))
     turn = coin_toss_result(user_choice, toss_result, player_name)
+
+    # Announce winner
     if turn == "computer":
         print("\nYou lost the coin toss. I get to go first!\n")
     else:
