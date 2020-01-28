@@ -95,8 +95,10 @@ def computer_deduct(bean_pile):
         Input: Number of beans remaining, int greater than 0
         Returns: Number of beans computer wishes to deduct (int)
     '''
-    if bean_pile > 3:
+    if bean_pile > 4:
         deduct = random.randint(1, 3)
+    elif bean_pile == 4:
+        deduct = 3
     elif bean_pile == 3:
         deduct = 2
     else:
