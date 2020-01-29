@@ -1,7 +1,7 @@
 '''
     Nathanial Ziegler
     CS 5001
-    January 28, 2020
+    January 29, 2020
     HW 3
     Description:
         Animation of moon moving across screen. When then moon overlaps with

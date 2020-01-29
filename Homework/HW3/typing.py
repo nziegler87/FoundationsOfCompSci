@@ -4,7 +4,10 @@
     January 29, 2020
     HW 3
     Description:
-        Typing test - UPDATE!
+        Basic typing tests. User is prompted to hit enter to begin test.
+        They type the random generated sentence, hitting enter at each line
+        to generate a new sentences. When finsihed, user types DONE.
+        WPM, Number of Mistakes, and Adjusted WPM are then displayed.
 
     My results from test:
         You typed 29 words in 27.20 seconds.
@@ -24,8 +27,8 @@ def main():
           "When you want to end the typing test, type DONE\n")
 
     # Start test and record time
-    start_trigger = input("Hit enter when you are ready and we will start"
-                          " the clock!")
+    start_trigger = input("Hit enter when you are ready and we will start "
+                          "the clock!")
     start_time = round(time.time(), 2)
 
     # Set starting word and error counts
@@ -40,7 +43,7 @@ def main():
         # Capture user typing
         user_input = input()
 
-        # If user types DONE, captue end time and break loop
+        # If user types DONE, capture end time and break loop
         if user_input == "DONE":
             end_time = round(time.time(), 2)
             break
