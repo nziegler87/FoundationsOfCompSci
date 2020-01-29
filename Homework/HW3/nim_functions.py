@@ -43,14 +43,13 @@ def validate_input(user_input, option_a, option_b):
         return False
     else:
         return True
-        
-# STILL NEED TO WRITE TEST SUITE...HOW TO ACCOUNT FOR INV
+
 def user_coin_selection(player_name):
     ''' Name: user_coin_selection
         Input: player_name, string
         Returns: User selection, either H or T (strings) for coing toss
     '''
-    user_choice = input(player_name + ", enter H for Heads "
+    user_choice = input("\n" + player_name + ", enter H for Heads "
                         "or T for tales: ").upper()
     return user_choice
 
@@ -66,27 +65,20 @@ def coin_toss_result(user_choice, toss_result, player_name):
     else:
         return "computer"
 
-# STILL NEED TO WRITE TEST SUITE...HOW TO ACCOUNT FOR INVALID MOVE
-def user_deduct(bean_pile):
-    ''' Name: user_deduct
-        Input: Number of beans remaining (int)
-        Returns: Number of beans user wishes to deduct (int)
+def validate_deduct(bean_pile, deduct):
+    ''' Name: validate_deduct
+        Input: bean_pile and deduct (ints)
+        Returns: True or False
+        Does: Ensures user deduction for min game is valid
     '''
-    while True:
-        deduct = int(input("\nThere are " + str(bean_pile) + " beans "
-                           "remaining.\nYou must take at least one bean "
-                           "but no more than three.\nHow many do you want "
-                           "to take? "))
-        if deduct > bean_pile:
-            print("Invalid move. You can not take more beans "
-                  "than what is left in the pot.\nTry again.")
+    if deduct > bean_pile:
+        return False
+    else:
+        if deduct <= 3 and deduct > 0:
+            return True
         else:
-            if deduct <= 3 and deduct > 0:
-                return deduct
-            else:
-                print("Invalid move. Try again.")
+            return False
 
-# STILL NEED TO WRITE TEST SUITE...HOW TO ACCOUNT FOR RANDOM INT
 def computer_deduct(bean_pile):
     ''' Name: computer_deduct
         Input: Number of beans remaining, int greater than 0

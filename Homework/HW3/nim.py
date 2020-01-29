@@ -4,7 +4,9 @@
     January 29, 2020
     HW3
     Description:
-        Game of NIM with one pile of beans, ranging from 5 and 30.
+        Game of NIM with one pile of beans, ranging from 5 and 30. Game is between
+        computer and one player. Begins with coin toss and alternates turns
+        until no beans are left. Player to take last bean loses the game.
 '''
 
 COIN_SIDE_A = "H"
@@ -23,17 +25,19 @@ def main():
                         "Enter your name: ")
 
     # Ask if player wants to be heads or tails
-    user_choice = user_coin_selection(player_name)
-    while not validate_input(user_choice, COIN_SIDE_A, COIN_SIDE_B):
-        print("I'm sorry, that is not a valid input. You must enter "
-              "either ", COIN_SIDE_A, " or ", COIN_SIDE_B,".\n", sep = "")
+    while True:
         user_choice = user_coin_selection(player_name)
+        if not validate_input(user_choice, COIN_SIDE_A, COIN_SIDE_B):
+            print("I'm sorry, that is not a valid input. You must enter "
+                  "either ", COIN_SIDE_A, " or ", COIN_SIDE_B,".\n", sep = "")
+        else:
+            break
 
     # Actual coin toss
     toss_result = coin_flip(random.randint(1,2))
     turn = coin_toss_result(user_choice, toss_result, player_name)
 
-    # Announce winner
+    # Announce coin toss winner
     if turn == "computer":
         print("\nYou lost the coin toss. I get to go first!\n")
     else:
@@ -65,7 +69,15 @@ def main():
             turn = "computer"
 
             # Collect number of beans to remove from pile
-            deduct = user_deduct(bean_pile)
+            while True:
+                deduct = int(input("\nThere are " + str(bean_pile) + " beans "
+                           "remaining.\nYou must take at least one bean "
+                           "but no more than three.\nHow many do you want "
+                           "to take? "))
+                if not validate_deduct(bean_pile, deduct):
+                    print("Invalid move. Try again.")
+                else:
+                    break
 
             # Deduct beans from pile
             bean_pile -= deduct
