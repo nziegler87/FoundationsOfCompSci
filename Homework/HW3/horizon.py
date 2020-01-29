@@ -24,35 +24,54 @@ MOON_X_CORD = -475
 SUN_X_CORD = 150
 DAYLIGHT_SKY = "#C9EEFF"
 ECLIPSE_SKY = "#738993"
+TRACER_REFRESH = 0
+TURTLE_DRAW_SPEED = 0
 ANIMATION_SPEED = 3
 
-def main():
+# Images for turtles
+SUN_GIF = "./images/sun.gif"
+MOON_GIF = "./images/moon.gif"
 
+def turtle_setup(turtle, draw_speed, x_cord, y_cord, image):
+    ''' Name: turtle_setup
+        Input: turtle (variable), draw_speed (int), x_cord & y_cord (float),
+               image (string or var)
+        Return: nothing
+        Does: Sets starting location, animiation speed, and image
+              for turtle
+    '''
+    turtle.speed(draw_speed)
+    turtle.up()
+    turtle.setpos(x_cord, y_cord)
+    turtle.shape(image)
+
+def screen_setup(turtle, x_dimension, y_dimension, bg_color, refresh_rate):
+    ''' Name: screen_setup
+        Input: turtle (variable), x_dimension and y_dimension (floats),
+               bg_color (string), refresh_rate (int)
+        Return: nothing
+        Does: Sets initial screen settings: size, color, and refresh time rate
+    '''
+    turtle.setup(x_dimension, y_dimension)
+    turtle.bgcolor(bg_color)
+    turtle.tracer(refresh_rate)
+
+def main():
     # Set screen and initial canvas color
     screen = turtle.Screen()
-    screen.setup(SCREEN_SIZE, SCREEN_SIZE)
-    screen.bgcolor(DAYLIGHT_SKY)
-    screen.tracer(0)
+    screen_setup(screen, SCREEN_SIZE, SCREEN_SIZE, DAYLIGHT_SKY, TRACER_REFRESH)
 
     # Add sun and moon shapes
-    sun_gif = "./images/sun.gif"
-    moon_gif = "./images/moon.gif"
-    screen.addshape(sun_gif)
-    screen.addshape(moon_gif)
+    screen.addshape(SUN_GIF)
+    screen.addshape(MOON_GIF)
 
     # Create sun turtle
     sun = turtle.Turtle()
-    sun.speed(0)
-    sun.up()
-    sun.setpos(SUN_X_CORD, Y_CORD)
-    sun.shape(sun_gif)
+    turtle_setup(sun, TURTLE_DRAW_SPEED, SUN_X_CORD, Y_CORD, SUN_GIF)
 
     # Create moon turtle
     moon = turtle.Turtle()
-    moon.speed(0)
-    moon.up()
-    moon.setpos(MOON_X_CORD, Y_CORD)
-    moon.shape(moon_gif)
+    turtle_setup(moon, TURTLE_DRAW_SPEED, MOON_X_CORD, Y_CORD, MOON_GIF)
 
     # Animation loop
     while True:
