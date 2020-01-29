@@ -26,8 +26,8 @@ def calculate_wpm(word_count, sec):
 
 def calculate_adjusted(word_count, total_mistakes, sec):
     ''' Function: calculate_adjusted
-        Input: num of total words, mistakes, and sec (int, int, float)
-        Return: words_per_min adjust for mistakes (float)
+        Input: word_count and total_mistakes (ints) and sec (float)
+        Return: adjusted_wpm (float)
     '''
     # Return 0 WPM if user made too many mistakes
     if total_mistakes >= word_count:

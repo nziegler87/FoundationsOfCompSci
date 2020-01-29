@@ -46,7 +46,7 @@ def validate_input(user_input, option_a, option_b):
     else:
         return True
 
-def user_coin_selection(player_name, string):
+def user_coin_selection(player_name):
     ''' Name: user_coin_selection
         Input: player_name (string)
         Returns: User selection, either H or T (strings) for coing toss

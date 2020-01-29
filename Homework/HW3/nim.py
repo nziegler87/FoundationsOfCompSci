@@ -4,9 +4,10 @@
     January 29, 2020
     HW3
     Description:
-        Game of NIM with one pile of beans, ranging from 5 and 30. Game is between
-        computer and one player. Begins with coin toss and alternates turns
-        until no beans are left. Player to take last bean loses the game.
+        Game of NIM with one pile of beans, ranging from 5 and 30.
+        Game is between computer and one player. Begins with coin toss
+        and alternates turns until no beans are left. Player to take
+        last bean loses the game.
 '''
 
 import random
@@ -71,9 +72,9 @@ def main():
             # Collect number of beans to remove from pile
             while True:
                 deduct = int(input("\nThere are " + str(bean_pile) + " beans "
-                           "remaining.\nYou must take at least one bean "
-                           "but no more than three.\nHow many do you want "
-                           "to take? "))
+                                   "remaining.\nYou must take at least one "
+                                   "bean but no more than three.\nHow many "
+                                   "do you want to take? "))
                 if not validate_deduct(bean_pile, deduct):
                     print("\nInvalid move. Try again.")
                 else:
