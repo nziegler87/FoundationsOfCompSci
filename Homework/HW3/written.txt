@@ -6,11 +6,15 @@
 '''
 
 Written #1
-1A Beetlejuice!
-   Beetlejuice!
-   Beetlejuice!
-1B Ghost with the Most!
-1C Loop is infinite
+1A
+Beetlejuice!
+Beetlejuice!
+Beetlejuice!
+
+1B
+Ghost with the Most!
+
+1C Loop is infinite - prints(shake shake shake shake shake shake) over and over and over
 
 Written #2
 2A Option 1
