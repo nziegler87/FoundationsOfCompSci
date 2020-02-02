@@ -35,22 +35,31 @@ def count_one_wins(result_list, goals_list):
             count += 1
     return count
 
-
 def compile_streaks(result_list):
     ''' Name: compile_streaks
         Input: list of results, each item a string
         Returns: list of results, with streaks combined
     '''
+
+    list_length = len(result_list)
     count = 1
+    streak_list = []
     for i in range(len(result_list)):
-        if result_list[i] == result_list[i + 1]:
-            count += 1
+        if i < (list_length - 1):
+            if list_length == 1:
+                streak_list.append(str(count) + result_list[i])
+            elif result_list[i] == result_list[(i + 1)]:
+                count += 1
+            else:
+                streak_list.append(str(count) + result_list[i])
+                count = 1
         else:
-            print(count, result_list[i], sep = "", end = " ")
-            count = 1
-        
-            
-        
+            if result_list[i] == result_list[(i - 1)]:
+                streak_list.append(str(count) + result_list[i])
+            else:
+                streak_list.append(str(count) + result_list[i])
+    streak_string = " ".join(streak_list)
+    return streak_string        
 
 def sum_points(result_list, season, game_number):
     ''' Name: sum_points
@@ -58,7 +67,8 @@ def sum_points(result_list, season, game_number):
                season and game_number - ints
         Returns: number of points up to season and game_number as int
     '''
-    game = (((season - 1) * GAMES_IN_SEASON) + game_number)
+    game = (season - 1) * GAMES_IN_SEASON
+    game += game_number
     short_list = result_list[:game]
     total = 0
     for i in short_list:
@@ -70,18 +80,22 @@ def sum_points(result_list, season, game_number):
             total += LOSS_POINTS
     return total
 
-
-
-##def count_one_wins(result_list, goals_list, result, goal):
-##    ''' Name: count_one_wins
-##        Inputs: list of game results (each item a string) and list of goal
-##                results (each item an int)
-##        Returns: number of games won with only one goal (int)
-##    '''
-##    count = 0
-##    for i in range(len(result_list)):
-##        if result_list[i] == result and goals_list[i] == goal:
-##            count += 1
-##    return count
-
-
+# Actually don't need this
+def validate_game_entry(result_list, season, game_number):
+    ''' Name:  validate_game_entry
+        Input: list of results, each item as a string;
+               season and game number - ints
+        Returns: True or False
+        Does: Returns False if user inputs a season/game combo
+              that results in more games than currenty played,
+              else True
+    '''
+    game = (season - 1) * GAMES_IN_SEASON
+    game += game_number
+    total_games = len(result_list)
+    if game <= total_game:
+        True
+    else:
+        False
+            
+        
