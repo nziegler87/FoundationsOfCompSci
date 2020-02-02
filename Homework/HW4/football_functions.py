@@ -5,6 +5,9 @@
     HW 4
     Description:
         Functions for football_stats
+
+    Consulted:
+    https://realpython.com/python-sleep/
 '''
 
 GAMES_IN_SEASON = 38
@@ -79,6 +82,20 @@ def sum_points(result_list, season, game_number):
         else:
             total += LOSS_POINTS
     return total
+
+##def compare_seasons(result_list, season, game_number, compare_season):
+##    ''' Name: compare_seasons
+##        Input: list of goals, each item as int
+##        Returns:
+##    '''
+##    start_game = (season - 1) * GAMES_IN_SEASON
+##    end_game = ((season - 1) * GAMES_IN_SEASON) + GAMES_IN_SEASON
+##    season_list = result_list[start_game: end_game]
+##    season_total = 0
+##    for i in season_list:
+##        season_total += i
+    
+    
 
 # Actually don't need this
 def validate_game_entry(result_list, season, game_number):
