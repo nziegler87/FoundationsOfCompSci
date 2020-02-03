@@ -10,6 +10,8 @@
     https://realpython.com/python-sleep/
 '''
 
+ONE_GOAL = 1
+WIN = "W"
 GAMES_IN_SEASON = 38
 WIN_POINTS = 3
 DRAW_POINTS = 1
@@ -34,7 +36,7 @@ def count_one_wins(result_list, goals_list):
     '''
     count = 0
     for i in range(len(result_list)):
-        if result_list[i] == "W" and goals_list[i] == 1:
+        if result_list[i] == WIN and goals_list[i] == ONE_GOAL:
             count += 1
     return count
 
