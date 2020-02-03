@@ -9,9 +9,11 @@
     Consulted:
     https://realpython.com/python-sleep/
 '''
-
+# Constants for count_one_wins
 ONE_GOAL = 1
 WIN = "W"
+
+# Constants for compile_streaks
 GAMES_IN_SEASON = 38
 WIN_POINTS = 3
 DRAW_POINTS = 1
@@ -41,7 +43,7 @@ def count_one_wins(result_list, goals_list):
     return count
 
 # Modified that removes string joining
-def compile_streaks_2(result_list):
+def compile_streaks(result_list):
     ''' Name: compile_streaks
         Input: list of results, each item a string
         Returns: list of results, with streaks combined
@@ -61,40 +63,21 @@ def compile_streaks_2(result_list):
                 count = 1
         else:
             streak_list.append(streak)
-    string = ""
-    for i in range(len(streak_list)):
-        if i < ((len(streak_list)) - 1):
-            string += (streak_list[i] + " ")
-        else:
-            string += (streak_list[i])
-    return string
+    final_string = convert_to_string(streak_list)
+    return final_string
 
-# original
-def compile_streaks(result_list):
-    ''' Name: compile_streaks
-        Input: list of results, each item a string
-        Returns: list of results, with streaks combined
+def convert_to_string(original_list):
+    ''' Name: convert_to_string
+        Input: list of strings
+        Returns: list of strings joined as one string
     '''
-
-    list_length = len(result_list)
-    count = 1
-    streak_list = []
-    for i in range(len(result_list)):
-        if i < (list_length - 1):
-            if list_length == 1:
-                streak_list.append(str(count) + result_list[i])
-            elif result_list[i] == result_list[(i + 1)]:
-                count += 1
-            else:
-                streak_list.append(str(count) + result_list[i])
-                count = 1
+    output_string = ""
+    for i in range(len(original_list)):
+        if i < (len(original_list) - 1):
+            output_string += (original_list[i] + " ")
         else:
-            if result_list[i] == result_list[(i - 1)]:
-                streak_list.append(str(count) + result_list[i])
-            else:
-                streak_list.append(str(count) + result_list[i])
-    streak_string = " ".join(streak_list)
-    return streak_string
+            output_string += (original_list[i])
+    return output_string
 
 def sum_points(result_list, season, game_number):
     ''' Name: sum_points
