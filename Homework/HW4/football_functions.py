@@ -59,8 +59,13 @@ def compile_streaks_2(result_list):
                 count = 1
         else:
             streak_list.append(streak)
+    string = ""
     for i in range(len(streak_list)):
-        print(streak_list[i], end = " ")
+        if i < ((len(streak_list)) - 1):
+            string += (streak_list[i] + " ")
+        else:
+            string += (streak_list[i])
+    return string
 
 # original
 def compile_streaks(result_list):
