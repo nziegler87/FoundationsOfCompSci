@@ -38,6 +38,31 @@ def count_one_wins(result_list, goals_list):
             count += 1
     return count
 
+# Modified that removes string joining
+def compile_streaks_2(result_list):
+    ''' Name: compile_streaks
+        Input: list of results, each item a string
+        Returns: list of results, with streaks combined
+    '''
+    list_length = len(result_list)
+    count = 1
+    streak_list = []
+    for i in range(len(result_list)):
+        streak = (str(count) + result_list[i])
+        if i < (list_length - 1):
+            if list_length == 1:
+                streak_list.append(streak)
+            elif result_list[i] == result_list[(i + 1)]:
+                count += 1
+            else:
+                streak_list.append(streak)
+                count = 1
+        else:
+            streak_list.append(streak)
+    for i in streak_list:
+        print(i, end = " ")
+
+# original
 def compile_streaks(result_list):
     ''' Name: compile_streaks
         Input: list of results, each item a string
@@ -62,7 +87,7 @@ def compile_streaks(result_list):
             else:
                 streak_list.append(str(count) + result_list[i])
     streak_string = " ".join(streak_list)
-    return streak_string        
+    return streak_string
 
 def sum_points(result_list, season, game_number):
     ''' Name: sum_points
@@ -94,25 +119,5 @@ def sum_points(result_list, season, game_number):
 ##    season_total = 0
 ##    for i in season_list:
 ##        season_total += i
-    
-    
-
-# Actually don't need this
-def validate_game_entry(result_list, season, game_number):
-    ''' Name:  validate_game_entry
-        Input: list of results, each item as a string;
-               season and game number - ints
-        Returns: True or False
-        Does: Returns False if user inputs a season/game combo
-              that results in more games than currenty played,
-              else True
-    '''
-    game = (season - 1) * GAMES_IN_SEASON
-    game += game_number
-    total_games = len(result_list)
-    if game <= total_game:
-        True
-    else:
-        False
             
         
