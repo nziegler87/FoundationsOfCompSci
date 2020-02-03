@@ -51,9 +51,6 @@ def compile_pixels(original):
                     count = 1
             else:
                 combined_pixels.append(pixel)
-##                if original[i][j] == original[i][(j - 1)]:
-##                    combined_pixels.append(pixel)
-##                else:
-##                    combined_pixels.append(pixel)
+
         combined_pixels_list.append(combined_pixels)
     return combined_pixels_list
