@@ -15,14 +15,14 @@ WIN_POINTS = 3
 DRAW_POINTS = 1
 LOSS_POINTS = 0
 
-def count_result(result_list, result):
+def count_result(result_list, outcome):
     ''' Name: count_result
-        Input: list of strings, comparison string
+        Input: list results, each item as string, comparison string
         Returns: count (int) of results in list
     '''
     count = 0
-    for i in result_list:
-        if i == result:
+    for i in range(len(result_list)):
+        if result_list[i] == outcome:
             count += 1
     return count
 
