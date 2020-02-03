@@ -5,29 +5,51 @@
 ##          ["W", "W", "W", "W", "L", "L", "L", "L"],
 ##          ["W", "G", "G", "G", "L", "L", "P", "P"]]
 
+##small = [["P", "P", "P", "P"],
+##	 ["P", "G", "G", "G"],
+##	 ["L", "L", "L", "L"],
+##	 ["L", "L", "P", "P"],
+##	 ["W", "W", "W", "W"],
+##	 ["W", "G", "G", "G"]]
+
 ROW_PER_PAGE = 3
 COL_PER_PAGE = 4
 
 def compress(raw):
+    ''' Name: compress
+        Input: string of pixels as strings
+        Returns: paginated and compressed list of pixels
+    '''
     paginated_string = paginate(raw)
     combined_pixels_string = compile_pixels(paginated_string)
     return combined_pixels_string
 
 def paginate(master):
-    temp = []
+    ''' Name: paginate
+        Input: list of strings
+        Returns: list of of page-specific lists
+    '''
+    final_list = []
+
+    # Calculate number of rows and cols in given list
     num_row = int(len(master) / ROW_PER_PAGE)
     num_col = int(len(master[0]) / COL_PER_PAGE)
+
+    # Iterate through list by sections of 3 rows and 4 colums, appending each section
+    # as new list, appending to new list to create nested list of list
     for row in range(num_row):
         for col in range(num_col):
             row_mult = row * ROW_PER_PAGE
             col_mult = col * COL_PER_PAGE
             line = []
-            for i in range(3):
-                for j in range(4):
-
+            for i in range(ROW_PER_PAGE):
+                for j in range(COL_PER_PAGE):
                     line.append(master[(row_mult + i)][(col_mult + j)])
-            temp.append(line)
-    return temp
+
+            # Add each each page of pixels to overal list
+            final_list.append(line)
+
+    return final_list
 
 def compile_pixels(original):
     ''' Name: compile_pixels
@@ -35,6 +57,8 @@ def compile_pixels(original):
         Returns: updated lists with repeat pixel colors combined
     '''
     combined_pixels_list = []
+
+    # Iterate through each list within the list, combining like strings
     for i in range(len(original)):
         list_length = len(original[i])
         count = 1
@@ -52,5 +76,7 @@ def compile_pixels(original):
             else:
                 combined_pixels.append(pixel)
 
+        # Add string of compressed pixels to overal list
         combined_pixels_list.append(combined_pixels)
+
     return combined_pixels_list
