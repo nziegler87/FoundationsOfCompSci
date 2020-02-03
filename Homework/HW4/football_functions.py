@@ -98,16 +98,21 @@ def sum_points(result_list, season, game_number):
             total += LOSS_POINTS
     return total
 
-##def compare_seasons(result_list, season, game_number, compare_season):
-##    ''' Name: compare_seasons
-##        Input: list of goals, each item as int
-##        Returns:
-##    '''
-##    start_game = (season - 1) * GAMES_IN_SEASON
-##    end_game = ((season - 1) * GAMES_IN_SEASON) + GAMES_IN_SEASON
-##    season_list = result_list[start_game: end_game]
-##    season_total = 0
-##    for i in season_list:
-##        season_total += i
+def average_score(result_list, goals_list):
+    ''' Name: average_score
+        Input: list of results (strs), list of goals (ints),
+               outcome (str)
+        Returns: average score (float)
+        Does: Calculates the average score for games that were won
+    '''
+    count = 0
+    total = 0
+    for i in range(len(result_list)):
+        if result_list[i] == WIN:
+            count += 1
+            total += goals_list[i]
+    average = total / count
+    return average
+
             
         
