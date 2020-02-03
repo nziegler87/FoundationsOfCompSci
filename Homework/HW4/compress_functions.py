@@ -1,3 +1,12 @@
+'''
+    CS 50001
+    Nathanial Ziegler
+    February 5, 2020
+    HW 4
+    Description:
+        UPDATE
+'''
+
 ##master = [["P", "P", "P", "P", "G", "G", "G", "G"],
 ##          ["P", "G", "G", "G", "Y", "Y", "L", "L"],
 ##          ["L", "L", "L", "L", "P", "P", "L", "L"],
@@ -36,7 +45,7 @@ def paginate(master):
     num_col = int(len(master[0]) / COL_PER_PAGE)
 
     # Iterate through list by sections of 3 rows and 4 colums, appending each section
-    # as new list, appending to new list to create nested list of list
+    # as new list, which are then appended to master list
     for row in range(num_row):
         for col in range(num_col):
             row_mult = row * ROW_PER_PAGE
