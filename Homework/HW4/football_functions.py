@@ -9,6 +9,9 @@
     Consulted:
     https://realpython.com/python-sleep/
 '''
+
+import time
+
 # Constants for count_one_wins
 ONE_GOAL = 1
 WIN = "W"
@@ -30,6 +33,18 @@ def count_result(result_list, outcome):
             count += 1
     return count
 
+def print_all_results(results, result_options):
+    ''' Name: print_all_results
+        Input: list of strings
+        Return: nothing
+        Does: Calls count_result functions, passing each itteration of
+              result_options to count_result functions and prints output
+    '''
+    for i in range(len(result_options)):
+        outcome = count_result(results, result_options[i])
+        print("\t", result_options[i], ": ", outcome, sep = "")
+    print()
+
 def count_one_wins(result_list, goals_list):
     ''' Name: count_one_wins
         Inputs: list of game results (each item a string), list of goal
@@ -42,7 +57,6 @@ def count_one_wins(result_list, goals_list):
             count += 1
     return count
 
-# Modified that removes string joining
 def compile_streaks(result_list):
     ''' Name: compile_streaks
         Input: list of results, each item a string
@@ -112,7 +126,14 @@ def average_score(result_list, goals_list):
             count += 1
             total += goals_list[i]
     average = total / count
+    average = round(average, 2)
     return average
 
-            
-        
+def print_with_delay(string):
+    ''' Name: print_with_delay
+        Input:
+        Returns: Nothing
+        Does: Prints and then delays to next line
+    '''
+    print(string, "\n")
+    time.sleep(2)      

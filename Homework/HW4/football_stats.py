@@ -4,9 +4,7 @@
     February 5, 2020
     HW 4
     Description:
-        UPDATE
-
-
+        Prints statistics for English football
 '''
 
 from football_functions import *
@@ -30,32 +28,27 @@ GOALS = [2, 1, 1, 3, 0, 3, 4, 1, 4, 0, 1, 0, 1, 1, 1,
          2, 2, 1, 3, 1, 0, 1, 1, 1, 2, 4, 0, 1, 0, 0, 2]
 
 def main():
-
     print("How many games did Tottenham win, lose, and draw over the two seasons?")
-    for i in POSSIBLE_RESULTS:
-        outcome = count_result(RESULTS, i)
-        print("\t", i, ": ", outcome, sep = "")
-    print()
+    print_all_results(RESULTS, POSSIBLE_RESULTS)
     time.sleep(2)
 
-    print("How many games did we win despite scoring only one goal?")
+    print("How many games did we win, despite scoring only one goal?")
     wins = count_one_wins(RESULTS, GOALS)
-    print(wins, "\n")
-
-    time.sleep(2)
+    print_with_delay(wins)
 
     print("What did our “streaks” look like over the season?")
     streaks = compile_streaks(RESULTS)
-    print(streaks, "\n")
-
-    time.sleep(2)
+    print_with_delay(streaks)
 
     print("How many points did Tottenham have after the 20th game of the second ",
           "season in the list?")
     points = sum_points(RESULTS, 2, 20)
-    print(points, "\n")
+    print_with_delay(points)
+    
+    print("What is the average score for all games won across the season?")
+    average = average_score(RESULTS, GOALS)
+    print_with_delay(average)
 
-    print("Compare the total goals scored by season 2, game 6 to the same time ",
-          "in season 1.")
+    print("Thank you!")
 
 main()
