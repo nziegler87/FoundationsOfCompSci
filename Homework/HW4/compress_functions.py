@@ -71,17 +71,17 @@ def paginate(master):
 def calculate_row(original_list, row_per_page):
     ''' Name: calculate_row
         Input: list of nested strings
-        Returns: number of rows in list
+        Returns: number pages based on number of rows (int)
     '''
-    num_row = int(len(master) / row_per_page)
+    num_row = int(len(original_list) / row_per_page)
     return num_row
 
-def calculate_col(original_list, col_per_page)
+def calculate_col(original_list, col_per_page):
     ''' Name: calculate_col
         Input: list of nested strings
-        Returns: number of columns in list
+        Returns: number of pages based on number of cols (int)
     '''
-    num_col = int(len(master[0]) / col_per_page)
+    num_col = int(len(original_list[0]) / col_per_page)
     return num_col
 
 def compile_pixels(original):
