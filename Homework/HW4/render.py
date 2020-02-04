@@ -94,35 +94,19 @@ def draw_page_original(turtle, pixel_list):
                 color = pixel_to_color(pixel_list[j])
                 draw_pixel(turtle, color, PIXEL_SIZE)
                 turtle.forward(10)
-                
+
 def draw_page(turtle, pixel_list):
-    start_x = turtle.xcor()
-    start_y = turtle.ycor()
-    for i in range(len(pixel_list)):
-        if i < 3:
+    i = 0
+    for j in range(1, 4):
+        start_x = turtle.xcor()
+        start_y = turtle.ycor()
+        while i < ((j * 4)):
             color = pixel_to_color(pixel_list[i])
             draw_pixel(turtle, color, PIXEL_SIZE)
             turtle.forward(10)
-        elif i == 3:
-            color = pixel_to_color(pixel_list[i])
-            draw_pixel(turtle, color, PIXEL_SIZE)
-            turtle.forward(10)
-            turtle.goto(start_x, start_y - PIXEL_SIZE)
-        elif i > 3 and i < 7:
-            color = pixel_to_color(pixel_list[i])
-            draw_pixel(turtle, color, PIXEL_SIZE)
-            turtle.forward(10)
-        elif i == 7:
-            color = pixel_to_color(pixel_list[i])
-            draw_pixel(turtle, color, PIXEL_SIZE)
-            turtle.forward(10)
-            turtle.goto(start_x, start_y - (PIXEL_SIZE * 2))
-        else:
-            color = pixel_to_color(pixel_list[i])
-            draw_pixel(turtle, color, PIXEL_SIZE)
-            turtle.forward(10)
-        
-        
+            i += 1
+        turtle.goto(start_x, (start_y - PIXEL_SIZE))
+               
 def decompress(compressed_list):
     decompressed_list = []
     for i in range(len(compressed_list)):
