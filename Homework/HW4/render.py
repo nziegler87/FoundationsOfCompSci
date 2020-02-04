@@ -95,7 +95,18 @@ def draw_page(turtle, pixel_list):
                 draw_pixel(turtle, color, PIXEL_SIZE)
                 turtle.forward(10)
         
-    
+def decompress(compressed_list):
+    decompressed_list = []
+    temp_list = []
+    for i in range(len(compressed_list)):
+        page_list = []
+        for j in range(len(compressed_list[i])):
+            item = compressed_list[i][j].split(" ")
+            for num in range(int(item[0])):
+                temp_list.append(item[1])
+    page_list.append(temp_list)
+    print(temp_list)
+    return temp_list
     
 
 def main():
