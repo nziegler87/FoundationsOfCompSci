@@ -7,19 +7,27 @@
         UPDATE
 '''
 
-##master = [["P", "P", "P", "P", "G", "G", "G", "G"],
-##          ["P", "G", "G", "G", "Y", "Y", "L", "L"],
-##          ["L", "L", "L", "L", "P", "P", "L", "L"],
-##          ["L", "L", "P", "P", "L", "L", "L", "L"],
-##          ["W", "W", "W", "W", "L", "L", "L", "L"],
-##          ["W", "G", "G", "G", "L", "L", "P", "P"]]
+P = "P"
+G = "G"
+Y = "Y"
+L = "L"
+W = "W"
 
-##small = [["P", "P", "P", "P"],
-##	 ["P", "G", "G", "G"],
-##	 ["L", "L", "L", "L"],
-##	 ["L", "L", "P", "P"],
-##	 ["W", "W", "W", "W"],
-##	 ["W", "G", "G", "G"]]
+##master = [[P, P, P, P, G, G, G, G],
+##          [P, G, G, G, Y, Y, L, L],
+##          [L, L, L, L, P, P, L, L],
+##          [L, L, P, P, L, L, L, L],
+##          [W, W, W, W, L, L, L, L],
+##          [W, G, G, G, L, L, P, P]]
+##
+##
+##small = [[P, P, P, P],
+##         [P, G, G, G],
+##         [L, L, L, L],
+##         [L, L, P, P],
+##         [W, W, W, W],
+##         [W, G, G, G]]
+
 
 ROW_PER_PAGE = 3
 COL_PER_PAGE = 4
