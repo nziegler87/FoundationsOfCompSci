@@ -7,6 +7,9 @@
         UPDATE
 '''
 
+ROW_PER_PAGE = 3
+COL_PER_PAGE = 4
+
 IMAGE_OPTIONS = ["BIG", "LITTLE"]
 
 from render_images import *
@@ -55,32 +58,59 @@ def collect_image_size(option_list):
 def setup_screen(turtle):
     turtle.tracer(0)
 
-def draw_pixel(turtle, screen, color, size):
+def draw_pixel(turtle, color, PIXEL_SIZE):
     turtle.hideturtle()
+    turtle.down()
     turtle.color(color, color)
     turtle.begin_fill()
     for i in range(4):
-        turtle.forward(size)
+        turtle.forward(PIXEL_SIZE)
         turtle.right(90)
     turtle.end_fill()
-    screen.update()
+    turtle.up()
 
-##def draw_page(turtle, screen, color, size, pixel_list):
+def pixel_to_color(pixel):
+    if pixel == "P":
+        color = "purple"
+    elif pixel == "B":
+        color = "black"
+    elif pixel == "L":
+        color = "light blue"
+    elif pixel == "Y":
+        color = "yellow"
+    elif pixel == "O":
+        color = "brown"
+    else:
+        color = "red"
+    return color
+
+def draw_page(turtle, pixel_list):
+    start_x = turtle.xcor()
+    start_y = turtle.ycor()
+    for row in range(3):
+        for col in range(4):          
+            col_mult = col * 4
+            for i in range(len(pixel_list)):
+                color = pixel_to_color(pixel_list[j])
+                draw_pixel(turtle, color, PIXEL_SIZE)
+                turtle.forward(10)
+        
+    
     
 
 def main():
     print("Welcome. Let me render an image for you!")
-    ask_image_size()
-    user_selection = collect_image_size(IMAGE_OPTIONS)
-
-    string = compress(user_selection)
-
-    print(string)
-
+##    ask_image_size()
+##    user_selection = collect_image_size(IMAGE_OPTIONS)
+##
+##    string = compress(user_selection)
+##
+##    print(string)
+##
 ##    screen = turtle.Screen()
 ##    setup_screen(screen)
 ##    draw = turtle.Turtle()
-##    draw_pixel(draw, screen, "light blue", 10)
+
     
 
 main()

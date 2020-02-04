@@ -1,9 +1,9 @@
-P = "purple"
-B = "black"
-L = "light blue"
-Y = "yellow"
-O = "brown"
-R = "red"
+P = "P"
+B = "B"
+L = "L"
+Y = "Y"
+O = "O"
+R = "R"
 
 LITTLE_IMG = [ [L, L, L, L, R, R, R, R, L, L, L, L],
                [L, L, L, R, R, R, R, R, R, L, L, L],
