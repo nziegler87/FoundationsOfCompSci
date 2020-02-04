@@ -84,7 +84,7 @@ def pixel_to_color(pixel):
         color = "red"
     return color
 
-def draw_page(turtle, pixel_list):
+def draw_page_original(turtle, pixel_list):
     start_x = turtle.xcor()
     start_y = turtle.ycor()
     for row in range(3):
@@ -94,6 +94,29 @@ def draw_page(turtle, pixel_list):
                 color = pixel_to_color(pixel_list[j])
                 draw_pixel(turtle, color, PIXEL_SIZE)
                 turtle.forward(10)
+                
+def draw_page(turtle, pixel_list):
+    start_x = turtle.xcor()
+    start_y = turtle.ycor()
+    i = 1
+    while i < len(pixel_list):
+        while i <= 4:
+            color = pixel_to_color(pixel_list[i])
+            draw_pixel(turtle, color, PIXEL_SIZE)
+            turtle.forward(10)
+            i += 1
+        turtle.goto(start_x, start_y - PIXEL_SIZE)
+        while i < 8:
+            color = pixel_to_color(pixel_list[i])
+            draw_pixel(turtle, color, PIXEL_SIZE)
+            turtle.forward(10)
+            i += 1
+        turtle.goto(start_x, start_y - (PIXEL_SIZE * 2))
+        color = pixel_to_color(pixel_list[i])
+        draw_pixel(turtle, color, PIXEL_SIZE)
+        turtle.forward(10)
+        i += 1
+        
         
 def decompress(compressed_list):
     decompressed_list = []
@@ -106,7 +129,7 @@ def decompress(compressed_list):
             for num in range(number):
                 page_list.append(pixel)
         decompressed_list.append(page_list)
-    print(decompressed_list)
+    return(decompressed_list)
     
 
 def main():
@@ -114,9 +137,8 @@ def main():
 ##    ask_image_size()
 ##    user_selection = collect_image_size(IMAGE_OPTIONS)
 ##
-##    string = compress(user_selection)
-##
-##    print(string)
+##    compressed_string = compress(user_selection)
+##    decompressed_string = decompress(compressed_string)
 ##
 ##    screen = turtle.Screen()
 ##    setup_screen(screen)
