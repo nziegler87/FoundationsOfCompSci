@@ -1,0 +1,43 @@
+'''
+    CS 5001
+    Nathanial Ziegler
+    February 5, 2020
+    HW 4
+'''
+Written #1
+1A - TypeError
+1B - IndexError
+1C - TypeError
+
+Written #2
+2A
+[3, 4, 5]
+[8, 9, 10]
+
+2B
+3
+4
+5
+8
+9
+10
+
+Written #3
+2
+
+Written #4
+4A
+3
+2
+1
+
+4B
+3
+3
+3
+
+4C
+1
+2
+3
+
