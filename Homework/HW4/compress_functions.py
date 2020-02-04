@@ -13,7 +13,7 @@ Y = "Y"
 L = "L"
 W = "W"
 
-##master = [[P, P, P, P, G, G, G, G],
+##big = [[P, P, P, P, G, G, G, G],
 ##          [P, G, G, G, Y, Y, L, L],
 ##          [L, L, L, L, P, P, L, L],
 ##          [L, L, P, P, L, L, L, L],
@@ -43,14 +43,14 @@ def compress(raw):
 
 def paginate(master):
     ''' Name: paginate
-        Input: list of strings
+        Input: list of nested strings
         Returns: list of of page-specific lists
     '''
     final_list = []
 
     # Calculate number of rows and cols in given list
-    num_row = int(len(master) / ROW_PER_PAGE)
-    num_col = int(len(master[0]) / COL_PER_PAGE)
+    num_row = calculate_row(master, ROW_PER_PAGE)
+    num_col = calculate_col(master, COL_PER_PAGE)
 
     # Iterate through list by sections of 3 rows and 4 colums, appending each section
     # as new list, which are then appended to master list
@@ -67,6 +67,22 @@ def paginate(master):
             final_list.append(line)
 
     return final_list
+
+def calculate_row(original_list, row_per_page):
+    ''' Name: calculate_row
+        Input: list of nested strings
+        Returns: number of rows in list
+    '''
+    num_row = int(len(master) / row_per_page)
+    return num_row
+
+def calculate_col(original_list, col_per_page)
+    ''' Name: calculate_col
+        Input: list of nested strings
+        Returns: number of columns in list
+    '''
+    num_col = int(len(master[0]) / col_per_page)
+    return num_col
 
 def compile_pixels(original):
     ''' Name: compile_pixels
