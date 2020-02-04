@@ -35,8 +35,10 @@ def ask_image_size():
 
 def input_to_file(user_selection):
     ''' Name: input_to_file
-        Input: nothing
-        Return
+        Input: user selection as a string
+        Return: file name variable based on user input
+        Does: returns BIG_IMG if user enters "BIG" or LITTLE_IMG if
+              user enters "LITTLE"
     '''
     if user_selection == "BIG":
         return BIG_IMG
@@ -45,8 +47,8 @@ def input_to_file(user_selection):
 
 def collect_image_size(option_list):
     ''' Name: collect_image_size
-        Input:
-        Returns:
+        Input: list of user options, each as string
+        Returns: name of file to be generated
     '''
     selection = input("Enter BIG or LITTLE: ").upper()
     while not validate_input(selection, option_list):
@@ -55,8 +57,32 @@ def collect_image_size(option_list):
     file = input_to_file(selection)
     return file
 
-def setup_screen(turtle):
+def determine_x_size(original_list, PIXEL_SIZE):
+    num_pixels = len(original_list[0])
+    x_size = num_pixels * PIXEL_SIZE
+    return x_size
+
+def determine_y_size(original_list, PIXEL_SIZE):
+    num_pixels = len(original_list)
+    y_size = num_pixels * PIXEL_SIZE
+    return y_size
+
+# My want to fiddle with this
+def setup_screen(turtle, original_list, PIXEL_SIZE):
     turtle.tracer(0)
+    x_size = determine_x_size(original_list, PIXEL_SIZE)
+    y_size = determine_y_size(original_list, PIXEL_SIZE)
+    turtle.setup(x_size, y_size)
+
+def determine_x_start(original_list, PIXEL_SIZE):
+    x_size = determine_x_size(original_list, PIXEL_SIZE)
+    x_cord = x_size / 2
+    return x_cord
+
+def determine_y_start(original_list, PIXEL_SIZE):
+    y_size = determine_y_size(original_list, PIXEL_SIZE)
+    y_cord = y_size / 2
+    return y_cord
 
 def draw_pixel(turtle, color, PIXEL_SIZE):
     turtle.hideturtle()
