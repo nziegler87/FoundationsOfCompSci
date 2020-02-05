@@ -4,9 +4,9 @@
     February 5, 2020
     HW 4
     Description:
-        Function to first paginate a nest list of lists of pixels onto pages
+        Function to first paginate a nested list of lists of pixels into pages
         of four colums and three rows. Then a function to combine streaks
-        of pixels. These are combined into one function to compress an nest
+        of pixels. These are combined into one function to compress a nest
         list of list of pixels.
 '''
 
@@ -41,7 +41,7 @@ def paginate(input_string):
     '''
     final_list = []
 
-    # Calculate number of rows and cols in given list
+    # Calculate number of page rows and cols in given list
     num_row = calculate_row_pages(input_string, ROW_PER_PAGE)
     num_col = calculate_col_pages(input_string, COL_PER_PAGE)
 
@@ -51,7 +51,7 @@ def paginate(input_string):
             row_mult = row * ROW_PER_PAGE
             col_mult = col * COL_PER_PAGE
 
-            # Create a page of pixels based on 3 row x 4 col page
+            # Create a pages of pixels based on 3 row x 4 col page
             page = []
             for i in range(ROW_PER_PAGE):
                 for j in range(COL_PER_PAGE):
@@ -72,7 +72,7 @@ def calculate_row_pages(original_list, row_per_page):
 
 def calculate_col_pages(original_list, col_per_page):
     ''' Name: calculate_col
-        Input: list of nested strings
+        Input: list of nested strings that are uniform in 
         Returns: number of col pages based on number of cols (int)
     '''
     pixels = int(len(original_list[0]))
@@ -96,7 +96,7 @@ def compile_pixels(uncompiled):
             # Set potential pixel or pixel streak to be added to temp string
             pixel = str(count) + " " + uncompiled[i][j]
 
-            # Compare each item in list adding streak or pixel to temp string
+            # Compare each item to next adding streak or pixel to temp string
             if j < (list_length - 1):
                 if list_length == 1:
                     compiled_pixels.append(pixel)
