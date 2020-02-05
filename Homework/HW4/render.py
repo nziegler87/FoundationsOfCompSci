@@ -1,10 +1,11 @@
 '''
-    CS 5001
     Nathanial Ziegler
+    CS 5001
     February 5, 2020
-    HW 3
+    HW 4
     Description:
-        UPDATE
+        Ask user if they want to render a large or small image. Compresses the
+        string of pixels and then uses Turtle to render image on screen.        
 '''
 
 ROW_PER_PAGE = 3
@@ -192,7 +193,25 @@ def draw_image(turtle, image_list):
         turtle.goto((start_x + (PIXEL_SIZE * COL_PER_PAGE)), start_y)
     turtle.goto((start_x - 80), start_y - 30)
 
-    
+
+def draw_image_two(turtle, image_list, num_row, num_col):
+    ''' Name: draw_image
+        Inputs: turtle, image_list (nested list of strings),
+                num_row and num_col -- both ints
+        Returns: nothing
+    '''
+    j = 0
+    count = 0
+    for i in range(len(image_list)):
+        while j < ((count * num_col) + num_col):
+            start_x = turtle.xcor()
+            start_y = turtle.ycor()
+            pixel_list = image_list[j]
+            draw_page(turtle, pixel_list)
+            turtle.goto((start_x + 40), start_y)
+            j += 1
+        count += 1
+        turtle.goto((start_x - 80), start_y - 30)
 
 def main():
     print("Welcome. Let me render an image for you!")
@@ -203,16 +222,19 @@ def main():
 ##    decompressed_string = decompress(compressed_string)
 ##
     screen = turtle.Screen()
-    screen.tracer(0)
+##    screen.tracer(0)
 
+    page_per_row = calculate_row_pages(LITTLE_IMG, ROW_PER_PAGE)
+    page_per_col = calculate_col_pages(LITTLE_IMG, COL_PER_PAGE)
+    
     compress_img = compress(LITTLE_IMG)
     decompress_img = decompress(compress_img)
     draw = turtle.Turtle()
-    draw.hideturtle()
-    draw_image(draw, decompress_img)
-    screen.update()
+##    draw.hideturtle()
+    draw_image_two(draw, decompress_img, page_per_row, page_per_col)
+##    screen.update()
 
-    
+
 
 main()
 

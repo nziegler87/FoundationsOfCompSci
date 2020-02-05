@@ -1,3 +1,13 @@
+'''
+    Nathanial Ziegler
+    CS 5001
+    February 5, 2020
+    HW 4
+    Description:
+        Constants and nested list of strings for images
+'''
+
+
 # Cosntants for lists
 P = "P"
 B = "B"
