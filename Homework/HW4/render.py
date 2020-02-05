@@ -6,7 +6,10 @@
     Description:
         Ask user if they want to render a large or small image. Compresses the
         string of pixels for corresponding image. Then decompress and
-        uses Turtle to render image on screen.        
+        uses Turtle to render image on screen.
+
+    Consulted:
+        https://www.geeksforgeeks.org/python-string-split/
 '''
 
 from render_images import *
@@ -55,7 +58,7 @@ def input_to_file(user_selection):
 def decompress(compressed_list):
     ''' Name: decompress
         Input: nested list of strings where pixel streaks have been combined
-        Returns: nested list where pixels treaks have been separated
+        Returns: nested list where pixels streaks have been separated
         Does: decompresses nested pixel list
     '''
     decompressed_list = []
@@ -101,18 +104,18 @@ def set_start_cord(draw_turtle, uncompressed_img, pixel_size, row_per_page,
                    col_per_page):
     ''' Name: set_start_cord
         Input: draw_turtle name, uncompressed image (nested list of strings),
-               pixel_size (int)
+               pixel_size (int), and row_per_page and col_per_page (ints)
         Returns: nothing
         Does: sets turtle to x, y cord so image is centered on page
     '''
     draw_turtle.up()
 
-    # Calculate y cord using original image
+    # Calculate start y cord using original image
     num_row = calculate_row_pages(uncompressed_img, row_per_page)
     y_size = num_row * row_per_page * pixel_size
     y_cord = y_size / 2
 
-    # Calcuate x cord using original image 
+    # Calcuate start x cord using original image 
     num_col = calculate_col_pages(uncompressed_img, col_per_page)
     x_size = num_col * col_per_page * pixel_size
     x_cord = x_size / 2
@@ -125,7 +128,7 @@ def draw_pixel(turtle, color, pixel_size):
         Returns: nothing
         Does: Draws one "pixel" based on pixel size and color
     '''
-    # Set turtle initial state; set to down incase not reaady to write
+    # Set turtle initial state; set to down incase up
     turtle.hideturtle()
     turtle.down()
     turtle.color(color, color)
@@ -176,7 +179,7 @@ def draw_page(turtle, pixel_list):
         while j < ((i * COL_PER_PAGE)):
             color = pixel_to_color(pixel_list[j])
             draw_pixel(turtle, color, PIXEL_SIZE)
-            turtle.forward(10)
+            turtle.forward(PIXEL_SIZE)
             j += 1
 
         # Move turtle to starting point but down a row of pixles
@@ -192,6 +195,7 @@ def draw_image(turtle, image_list, num_row, num_col):
     start_y = turtle.ycor()
     row = 1
     for page in range(len(image_list)):
+        #Draw row of pixels, starting new row when max col reached
         if page < (row * num_col):
             x_cord = turtle.xcor()
             y_cord = turtle.ycor()
@@ -199,6 +203,7 @@ def draw_image(turtle, image_list, num_row, num_col):
             draw_page(turtle, pixel_list)
             turtle.goto((x_cord + (COL_PER_PAGE * PIXEL_SIZE), y_cord))
         else:
+        # Starts new line of pixel rendering when max page cols are drawn
             turtle.goto((start_x), (y_cord - ROW_PER_PAGE * PIXEL_SIZE))
             x_cord = turtle.xcor()
             y_cord = turtle.ycor()
@@ -221,12 +226,12 @@ def main():
     compressed_img = compress(user_selection)
     decompressed_img = decompress(compressed_img)
 
-    # Setup turtle
+    # Setup turtle and screen
     screen = turtle.Screen()
     screen.tracer(0)
     draw = turtle.Turtle()
 
-    # Draw image
+    # Draw image, updating screen after drawing to quick rendering
     set_start_cord(draw, user_selection, PIXEL_SIZE, ROW_PER_PAGE,
                    COL_PER_PAGE)
     draw_image(draw, decompressed_img, page_per_row, page_per_col)

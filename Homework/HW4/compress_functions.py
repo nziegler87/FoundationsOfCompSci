@@ -96,7 +96,7 @@ def compile_pixels(uncompiled):
             # Set potential pixel or pixel streak to be added to temp string
             pixel = str(count) + " " + uncompiled[i][j]
 
-            # Compare each item to next adding streak or pixel to temp string
+            # Compare each item to next, adding streak or pixel to temp string
             if j < (list_length - 1):
                 if list_length == 1:
                     compiled_pixels.append(pixel)
