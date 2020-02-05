@@ -154,7 +154,7 @@ def draw_page(turtle, pixel_list):
         start_y = turtle.ycor()
         
         # Render pixel for each row using pixel_to_color and draw_pixel functions
-        while j < ((i * PIXELS_PER_LINE)):
+        while j < ((i * PIXEL_PER_LINE)):
             color = pixel_to_color(pixel_list[j])
             draw_pixel(turtle, color, PIXEL_SIZE)
             turtle.forward(10)
