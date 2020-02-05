@@ -1,9 +1,10 @@
 '''
-    CS 5001
     Nathanial Ziegler
+    CS 5001
     February 5, 2020
     HW 4
 '''
+
 Written #1
 1A - TypeError
 1B - IndexError
