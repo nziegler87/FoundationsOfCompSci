@@ -5,7 +5,8 @@
     HW 4
     Description:
         Ask user if they want to render a large or small image. Compresses the
-        string of pixels and then uses Turtle to render image on screen.        
+        string of pixels for corresponding image. Then decompress and
+        uses Turtle to render image on screen.        
 '''
 
 from render_images import *
@@ -24,9 +25,9 @@ RIGHT_TURN = 90
 
 def validate_input(user_input, option_list):
     ''' Name: validate_input
-        Inputs: user_input, list of options
+        Inputs: user_input, list of options both strings
         Returns: True if user_input is in list of options
-        Does: Compares user_input to options and returns True
+        Does: Compares user_input to option list and returns True
               if user_input matches one of the responses.
     '''
     if user_input in option_list:
