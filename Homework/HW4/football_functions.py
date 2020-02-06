@@ -80,18 +80,12 @@ def compile_streaks(result_list):
         # Set potential item or streak to be added to temp string
         streak = (str(count) + result_list[i])
 
-        # Iterate through every item in list, except last one
+        # Compare each item in lext to next, adding result or streak to new list
         if i < (list_length - 1):
-
-            # Account for chance that list has only one item
             if list_length == 1:
                 streak_list.append(streak)
-
-            # Update streak count if current item equals next
             elif result_list[i] == result_list[(i + 1)]:
                 count += 1
-
-            # If current item != next, append current streak or item
             else:
                 streak_list.append(streak)
                 count = 1
