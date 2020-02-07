@@ -48,6 +48,8 @@ def check_nested_list(word, nested_list):
     for i in range(len(nested_list)):
         if word in nested_list[i][0]:
             return True
+        else:
+            return False  # DO I NEED THIS?
 
 def search_nested_list(word, nested_list):
     ''' Name: search_nested_list
