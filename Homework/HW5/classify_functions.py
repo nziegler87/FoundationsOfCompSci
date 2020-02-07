@@ -6,6 +6,11 @@
     Description:
         UPDATE
 '''
+# debugging constants
+og_family = ["nate", "nick", "jim", "alison"]
+count_list = [["nate", 1],["jim", 2]]
+stop_words = ["buddy", "snoopy", "lindsey"]
+
 
 from classify_data import *
 
