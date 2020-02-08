@@ -28,10 +28,28 @@ CHAR_99 = [["Jake", JAKE], ["Rosa", ROSA], ["Holt", HOLT], ["Gina", GINA]]
 # RESEARCH GETTING RID OF APPEND FUNCTION
 # RESEARCH INCORPORATING COUNT FUNCTION
 
+def print_program_overview():
+    ''' Name: print_program_overview
+        Input: nothing
+        Returns: nothing
+    '''
+    print("Welcome to Brooklyn 99 AI. ")
+
+def name_person(match_results):
+    ''' Name: name_person
+        Input: match_results
+        Returns: name "string" of person in match_reults with highest match
+    '''
+    name = sort_nested_list(match_results)
+    name = trim_list(name, 1)
+    name = isolate_nested_list(name, 0)
+    name = name[0]
+    return name
+
 def check_inconclusive(match_results):
     ''' Name: check_tie
         Input: nested list of match results [["name", 0],["name", 0]]
-        Results: True if numbers in nested list are 0 or there is tie
+        Returns: True if numbers in nested list are 0 or there is tie
     '''
     if check_tie(match_results) or check_zero_sum(match_results):
         return True
@@ -298,7 +316,7 @@ def check_nested_list(word, nested_list):
     '''
     # iterate through nested list and checks if word is in nested list 
     for i in range(len(nested_list)):
-        if word in nested_list[i][0]:
+        if word == nested_list[i][0]:
             return True
 
 def search_nested_list(word, nested_list):
@@ -309,7 +327,7 @@ def search_nested_list(word, nested_list):
     '''
     # iterate over nested list, checking for word at n location in nested list
     for i in range(len(nested_list)):
-        if word in nested_list[i][0]:
+        if word == nested_list[i][0]:
             pos = i
             return pos
 

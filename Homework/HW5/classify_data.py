@@ -40,7 +40,7 @@ ROSA = ["I'm going to break those little fingers",
         "Friendship is crap",
         "I am beating the hell out of him"]
 
-HOLT = ["Wuntch time is over no regrets"
+HOLT = ["Wuntch time is over no regrets",
         "I've worked the better part of my years on earth overcoming "
         "every prejudice and fighting for the position I hold and now "
         "I feel it being ripped from my grasp and with it the very essence "
@@ -77,7 +77,7 @@ GINA = ["Hi Gina Linetti the human form of the 100 Emoji",
 
 STOPWORDS = ["i", "a", "an", "of", "and", "to", "the", "is", "in", "it", "do",
              "you", "your", "that", "me", "my", "i'd", "i'm", "by", "as",
-             "for", "but"]
+             "for", "but", "so"]
 
 ################################################
 #
@@ -96,4 +96,6 @@ TESTING = ["A place where everybody knows your name is hell",
            "I want all your paperwork in by tomorrow",
            "I'm so confused I don't know what's happening right now "
            "title of your sex tape",
-           "All smiling is horrible"]
+           "All smiling is horrible",
+           "Charles Would Be Great",
+           "Don't use that emoji"]
