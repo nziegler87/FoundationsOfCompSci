@@ -24,27 +24,52 @@ stop_words = ["buddy", "snoopy", "lindsey"]
 
 CHAR_99 = [["Jake", JAKE], ["Rosa", ROSA], ["Holt", HOLT], ["Gina", GINA]]
 
-def count_common_words(quote, quote_list):
-    # split quotes into list of words and make all words lower-case
+def return_top_match(word_list, quote, count_location, word_location):
+    ''' Name: calculate_top_match:
+        Inputs: list of words (strings), quote (string),
+                top_n..ex top 1..match to isolate (int), location of
+                count number (int), location of word (int)
+        Returns: name of character with most top words in quote (int)
+    '''
+    
+    # calculate frequency of each word, minus stop_words, saved in nested list
+    word_frequency = calculate_word_frequency(word_list, stop_words, word_location)
+    
+    # sorted_nested_list based on location of count in nested list
+    top_count = sort_nested_list(word_frequency, count_location)
+    
+    # trim sorted list to top n (5 in this case)
+    top_five = trim_list(top_count, top_n)
+    
+    # isolate words from nested list based on location of count
+    top_five = isolate_nested_list(top_five, word_location)
+    
+    return top_five
+
+def count_common_words(word_list, quote):
+    ''' Name: count_common_words
+        Input: quote (string) and word_list, list of words (strings)
+        Returns: number of times words in top five list appear in quote (int)
+    '''
+    # split quote into list of words and make all words lower-case
     quote_words = quote.split(" ")
     quote_words = convert_lower(quote_words)
-    quote_list = split_quotes(quote_list)
-    quote_list = convert_lower(quote_list)
+
+    # convert list of words to lower-case
+    word_list = convert_lower(quote_list)
 
     # iterate through words in quote and 
     count = 0
-    for word in quote_words:
+    for word in word_list:
         if word in quote_list:
             count += 1
-    return count
 
-## STOPPED HERE - THIS FUNCTION SHOULD WORK BUT NEED TO COMPARE AGAINST
-## TOP FIVE WORDS OF EACH CHARACTER, NOT THE ENTIRE THING
+    return count
             
 def compare_quotes(quote, character_list):
     ''' Name: compqre_quotes
-        Input: quote (string) and nested list of characters and variable
-               to list of their quotes (strings) formated like [["name", VAR]]
+        Input: quote (string) and nested list of character names and variable
+               where list of their quotes (strings) are saved -- [["name", VAR]]
         Returns: name {string) of character who said quote, False if no match
     '''
     compare_quote = quote
@@ -73,10 +98,11 @@ def select_test_quote(test_quotes):
 
     return random_quote
 
+# I DON'T KNOW WHY I MADE THIS...PROBABLY DON'T NEED
 def select_char_quote(character_list):
     ''' Name: select_char_quote
-        Input: character names (strings) and variables associated with
-               a list of quotes saved as global constants
+        Input: nested list of character names and variable where list of their
+               quotes (strings) are saved -- [["name", VAR]]s
         Returns: random quote (str) from random character quote list
     '''
     random_char = character_list[random.randint(0, (len(character_list) - 1))]
@@ -90,9 +116,38 @@ def select_char_quote(character_list):
     # pick random quote from character
     random_quote = char_quotes[random.randint(0, (len(char_quotes) - 1))]
 
-    print(random_quote, "-", char_name)
-##    return random_quote
-    
+    return(random_quote, "-", char_name)
+
+def link_top_words(character_list, stop_words, top_5, count_location,
+                   word_location):
+    ''' Name: link_top_words
+        Input: nested list of character names and variable where list of their
+               quotes (strings) are saved -- [["name", VAR]], and list of
+               top words (strings)
+        Returns: nested list of lists with character name, string (saved at
+                 index 0 followed by their top five words at index 1 - 5)
+    '''
+    char_words = []
+    # iterate throughlist of characters
+    for i in range(len(character_list)):
+
+        # isolate name from nested list
+        char_name = character_list[i][0]
+
+        # isolate character string of quotes from nested list
+        char_quotes = character_list[i][1]
+
+        # calculate top words for character
+        top_words = calculate_top_words(char_quotes, stop_words, top_5,
+                                        count_location, word_location)
+
+        # add character name to position 0 then append list to full list
+        char_combined = top_words
+        char_combined.insert(0, char_name)
+        char_words.append(char_combined)
+        
+    return char_words
+        
 
 def calculate_top_words(quote_list, stop_words, top_n,
                         count_location, word_location):
@@ -100,7 +155,7 @@ def calculate_top_words(quote_list, stop_words, top_n,
         Inputs: list of sentences (strings), list of stop words (strings),
                 top_n..ex top 5..words to isolate (int), location of
                 count number (int), location of word (int)
-        Returns: top five words in list minus stop_words
+        Returns: top n words in list minus stop_words
     '''
     # split quote list into words
     word_list = split_quotes(quote_list)
@@ -108,8 +163,9 @@ def calculate_top_words(quote_list, stop_words, top_n,
     # convert all words to lower case
     word_list = convert_lower(word_list)
     
-    # calculate frequency of each sord, minus stop_words, saved in nested list
-    word_frequency = calculate_word_frequency(word_list, stop_words, word_location)
+    # calculate frequency of each word, minus stop_words, saved in nested list
+    word_frequency = calculate_word_frequency(word_list, stop_words,
+                                              word_location)
     
     # sorted_nested_list based on location of count in nested list
     top_count = sort_nested_list(word_frequency, count_location)
@@ -187,6 +243,19 @@ def calculate_word_frequency(word_list, stop_words, word_location):
             count_list = append_to_nested(count_list, word)
 
     return count_list
+
+def scrub_list(word_list, stop_words):
+    ''' Name: scrub_list
+        Input: list of words (strings), list of stop_words (strings)
+        Returns: list of words (strings) with words in stop_list removed
+    '''
+    scrubbed_list = []
+    for i in range(len(word_list)):
+        if word_list[i] in stop_words:
+            continue
+        else:
+            scrubbed_list.append(word_list[i])
+    return scrubbed_list
 
 def append_to_nested(append_list, word):
     ''' Name: append_to_nested
