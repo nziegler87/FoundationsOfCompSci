@@ -19,7 +19,11 @@ CHAR_99 = [["Jake", JAKE], ["Rosa", ROSA], ["Holt", HOLT], ["Gina", GINA]]
 def main():
 
         test_quote = select_test_quote(TESTING)
-        character = compare_quotes(test_quote, CHAR_99)
+        if compare_quotes(test_quote, CHAR_99):
+            character = compare_quotes(test_quote, CHAR_99)
+            print("This was said by", character)
+        else:
+            print("quote not found in list")
         
 ##    for char in CHAR_99:
 ##        top_words = calculate_top_words(char[1], STOPWORDS, TOP_N,

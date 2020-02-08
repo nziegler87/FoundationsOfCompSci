@@ -24,6 +24,23 @@ stop_words = ["buddy", "snoopy", "lindsey"]
 
 CHAR_99 = [["Jake", JAKE], ["Rosa", ROSA], ["Holt", HOLT], ["Gina", GINA]]
 
+def count_common_words(quote, quote_list):
+    # split quotes into list of words and make all words lower-case
+    quote_words = quote.split(" ")
+    quote_words = convert_lower(quote_words)
+    quote_list = split_quotes(quote_list)
+    quote_list = convert_lower(quote_list)
+
+    # iterate through words in quote and 
+    count = 0
+    for word in quote_words:
+        if word in quote_list:
+            count += 1
+    return count
+
+## STOPPED HERE - THIS FUNCTION SHOULD WORK BUT NEED TO COMPARE AGAINST
+## TOP FIVE WORDS OF EACH CHARACTER, NOT THE ENTIRE THING
+            
 def compare_quotes(quote, character_list):
     ''' Name: compqre_quotes
         Input: quote (string) and nested list of characters and variable
