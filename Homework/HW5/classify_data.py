@@ -77,7 +77,7 @@ GINA = ["Hi Gina Linetti the human form of the 100 Emoji",
 
 STOPWORDS = ["i", "a", "an", "of", "and", "to", "the", "is", "in", "it", "do",
              "you", "your", "that", "me", "my", "i'd", "i'm", "by", "as",
-             "for", "but", "so"]
+             "for", "but"]
 
 ################################################
 #
@@ -96,6 +96,4 @@ TESTING = ["A place where everybody knows your name is hell",
            "I want all your paperwork in by tomorrow",
            "I'm so confused I don't know what's happening right now "
            "title of your sex tape",
-           "All smiling is horrible",
-           "Charles Would Be Great",
-           "Don't use that emoji"]
+           "All smiling is horrible",]

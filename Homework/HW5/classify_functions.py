@@ -28,6 +28,26 @@ CHAR_99 = [["Jake", JAKE], ["Rosa", ROSA], ["Holt", HOLT], ["Gina", GINA]]
 # RESEARCH GETTING RID OF APPEND FUNCTION
 # RESEARCH INCORPORATING COUNT FUNCTION
 
+def pick_random_character(match_results):
+    ''' Name: pick_random_character
+        Input: nested list of match results [["name", 0],["name", 0]]
+        Returns: randomly selected character
+    '''
+    if check_zero_sum(match_results):
+        characters = isolate_nested_list(match_results, 0)
+        character = characters[random.randint(0, len(characters) - 1)]
+    else:
+        characters = []
+        scores = isolate_nested_list(match_results, 1)
+        max_count = max(scores)
+        for character in match_results:
+            if character[1] == max_count:
+                character_name = character[0]
+                characters.append(character_name)
+        character = random.choice(characters)
+
+    return character
+
 def print_program_overview():
     ''' Name: print_program_overview
         Input: nothing
@@ -267,8 +287,8 @@ def calculate_word_frequency(word_list):
             count_list = append_to_nested(count_list, word)
             
         # if word in count_list, increase frequency count of word by one
-        elif check_nested_list(word, count_list):
-            pos = search_nested_list(word, count_list)
+        elif check_nested_list(word, count_list, 0):
+            pos = search_nested_list(word, count_list, 0)
             count_list[pos][1] += 1
             
         # if no previous conditions true, add word to list with count 1
@@ -308,26 +328,27 @@ def check_list(word, word_list):
     if word in word_list:
         return True
 
-def check_nested_list(word, nested_list):
+def check_nested_list(item, nested_list, index):
     ''' Name: check_nested_list
         Input: nested_list with structure - [["string", int],["string", int]],
-               word (string)
-        Returns: True if word is in list at 0 index
+               item whose format = search items (str = str)
+        Returns: True if word is in list at n index
     '''
-    # iterate through nested list and checks if word is in nested list 
+    # iterate through nested list; checks if word is in nested list at index n 
     for i in range(len(nested_list)):
-        if word == nested_list[i][0]:
+        if item == nested_list[i][index]:
             return True
 
-def search_nested_list(word, nested_list):
+def search_nested_list(item, nested_list, index):
     ''' Name: search_nested_list
         Input: nested_list with structure - [["string", int],["string", int]]..,
-               word (string)
+               item whose format = search items (str = str)
+        Returns: True if word is in list at n index
         Returns: index (int) of nested list in which item occurs
     '''
     # iterate over nested list, checking for word at n location in nested list
     for i in range(len(nested_list)):
-        if word == nested_list[i][0]:
+        if item == nested_list[i][index]:
             pos = i
             return pos
 
