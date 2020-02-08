@@ -17,17 +17,15 @@ WORD_LOCATION = 0
 CHAR_99 = [["Jake", JAKE], ["Rosa", ROSA], ["Holt", HOLT], ["Gina", GINA]]
 
 def main():
-        
         selection = input("Hit enter to select an random quote.\n")
         test_quote = select_test_quote(TESTING)
         if compare_quotes(test_quote, CHAR_99):
                 
-            character = compare_quotes(test_quote, CHAR_99))(
+            character = compare_quotes(test_quote, CHAR_99)
             print("This was said by", character)
-        else:
                 
-##    for char in CHAR_99:
-##        top_words = calculate_top_words(char[1], STOPWORDS, TOP_N,
-##                                        COUNT_LOCATION, WORD_LOCATION)
-##        print(char[0], "'s top words were: ", top_words, sep = "")
+    for char in CHAR_99:
+        top_words = calculate_top_words(char[1], STOPWORDS, TOP_N,
+                                        COUNT_LOCATION, WORD_LOCATION)
+        print(char[0], "'s top words were: ", top_words, sep = "")
 main()
