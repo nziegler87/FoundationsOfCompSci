@@ -42,7 +42,6 @@ def select_menu(show_name):
     while choice.upper() not in ABBREVS:
         choice = input("Invalid option. Enter your selection: ")
     return choice.upper()
-    
 
 def pick_random_character(match_results):
     ''' Name: pick_random_character
@@ -84,6 +83,22 @@ def name_person(match_results):
     
     return name
 
+def return_match_results(match_list):
+    ''' Name: return_match_results
+        Input: nested list of match results [["name", 0],["name", 0]]
+        Returns: UPDATE
+    '''
+    string = ""
+    for i in range(len(match_list)):
+        if i == len(match_list) - 1:
+            string += "and " + str(match_list[i][1]) + \
+                      " word(s) in common with " + match_list[i][0] + "."
+        else:
+            string += str(match_list[i][1]) + " word(s) in common with " + \
+                      match_list[i][0] + ", "
+    return string         
+
+
 def check_inconclusive(match_results):
     ''' Name: check_tie
         Input: nested list of match results [["name", 0],["name", 0]]
@@ -112,7 +127,6 @@ def check_tie(match_results):
     # return True of there any duplicats
     if count > 0:
         return True
-    
 
 def check_zero_sum(match_results):
     ''' Name: check_zero_sum

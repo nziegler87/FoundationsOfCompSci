@@ -24,7 +24,7 @@ def main():
         elif option == RANDOM_QUOTE:
             test_quote = select_test_quote(TESTING)
         elif option == OWN_QUOTE:
-            test_quote = input("Enter your own quote without any punctuation:")
+            test_quote = input("Enter your own quote, without any punctuation: ")
         print("\nI am trying to figure out who said:\n\n", test_quote, sep = "")
 
         # if there is an exact match print character name
@@ -36,14 +36,19 @@ def main():
         else:
             char_quotes = link_top_words(CHAR_99, STOPWORDS, TOP_5)
             match_results = return_top_count(char_quotes, test_quote, STOPWORDS, TOP_5)
+            results = return_match_results(match_results)
 
             # if zero match or tie between characters, pick at random
             if check_inconclusive(match_results):
                 semirandom_char = pick_random_character(match_results)
-                print("\nI think this was said by ", semirandom_char, ".\n", sep = "")
+                print("\nThere isn't an exact match. However, there were ",
+                      results, " Based on these results, I picked ",
+                      semirandom_char, ".\n", sep = "")
 
             # if one character has clear match based on count
             else:
                 top_match = name_person(match_results)
-                print("\nI think this was said by ", top_match, ".\n", sep = "")              
+                print("\nThere isn't an exact match. However, there were ",
+                      results, " Based on these results, I picked ",
+                     top_match, ".\n", sep = "")              
 main()
