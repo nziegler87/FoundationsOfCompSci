@@ -27,12 +27,14 @@ def main():
             print("Exact match not found. Let me investigate further.")
             char_quotes = link_top_words(CHAR_99, STOPWORDS, TOP_5)
             match_results = return_top_count(char_quotes, test_quote, STOPWORDS, TOP_5)
+            print(match_results)
             if check_inconclusive(match_results):
-                print("Inconclusive result.")
-                print(match_results)
+                random_char = pick_random_character(match_results)
+                print("I'm still unsure, but I've narrowed down my choices "
+                      "and I think this was said by", random_char)
             else:
                 name = name_person(match_results)
-                print("I think", name, "said this.")
+                print("Based on my word analysis, I think", name, "said this.")
 
     print("\n----FOR REFERENCE, TOP WORDS----")
     char_quotes = link_top_words(CHAR_99, STOPWORDS, TOP_5)

@@ -14,28 +14,47 @@
 from classify_data import *
 import random
 
-# DEBUGGING CONSTANTS
-up_family = ["Nate", "Nick", "Jim", "Alison"]
-og_family = ["nate", "nick", "jim", "alison"]
-extended_family = ["nate", "nick", "jim", "alison", "alison", "buddy",
-                   "charlie", "nate", "nick", "lindsey", "lindsey", "wilma",
-                   "wilma", "wilma", "wilma"]
-count_list = [["nate", 1],["jim", 2]]
-stop_words = ["buddy", "snoopy", "lindsey"]
 
 CHAR_99 = [["Jake", JAKE], ["Rosa", ROSA], ["Holt", HOLT], ["Gina", GINA]]
 
+OWN_QUOTE = "A"
+RANDOM_QUOTE = "B"
+QUIT = "C"
+
+ABBREVS = ["A", "B", "C"]
+OPTIONS = ["Type in my own quote", "Select a quote at random", "Quit"]
+
 # RESEARCH GETTING RID OF APPEND FUNCTION
 # RESEARCH INCORPORATING COUNT FUNCTION
+
+def select_menu(show_name):
+    ''' Name: select_menu
+        Inputs: show_name as string
+        Returns: A letter, a validated option
+    '''
+    print("Welcome to", show_name, "AI. I will use my wealth of knowledge to "
+          "guess which character from", show_name, "said a quote that either "
+          "you enter or that I select at random. You can select from the "
+          "following options:")
+    for i in range(len(ABBREVS)):
+        print("\t", ABBREVS[i], ": ", OPTIONS[i], sep = "")
+    choice = input("\nEnter your selection: ")
+    while choice.upper() not in ABBREVS:
+        choice = input("Invalid option. Enter your selection: ")
+    return choice.upper()
+    
 
 def pick_random_character(match_results):
     ''' Name: pick_random_character
         Input: nested list of match results [["name", 0],["name", 0]]
         Returns: randomly selected character
     '''
+    # if results are inconclusive because zero word match, pick any character
     if check_zero_sum(match_results):
         characters = isolate_nested_list(match_results, 0)
         character = characters[random.randint(0, len(characters) - 1)]
+
+    # determine characters with top word matches and randomly select one
     else:
         characters = []
         scores = isolate_nested_list(match_results, 1)
@@ -48,22 +67,21 @@ def pick_random_character(match_results):
 
     return character
 
-def print_program_overview():
-    ''' Name: print_program_overview
-        Input: nothing
-        Returns: nothing
-    '''
-    print("Welcome to Brooklyn 99 AI. ")
-
 def name_person(match_results):
     ''' Name: name_person
         Input: match_results
         Returns: name "string" of person in match_reults with highest match
     '''
+    # sort results from greatest to least
     name = sort_nested_list(match_results)
+
+    # trim results to top match
     name = trim_list(name, 1)
+
+    # isolate name from nested results list
     name = isolate_nested_list(name, 0)
     name = name[0]
+    
     return name
 
 def check_inconclusive(match_results):
@@ -81,6 +99,8 @@ def check_tie(match_results):
     '''
     numbers = isolate_nested_list(match_results, 1)
     count = 0
+
+    # check to see if each number is in result list, exclusive of number
     for i in range(len(numbers)):
         compare_list = numbers.copy()
         compare_list.pop(i)
@@ -88,6 +108,8 @@ def check_tie(match_results):
             continue
         if numbers[i] in compare_list:
             count += 1
+
+    # return True of there any duplicats
     if count > 0:
         return True
     
@@ -376,48 +398,3 @@ def split_quotes(quote_list):
         single_line = quote_list[i].split(" ")
         word_list += single_line
     return word_list 
-
-##########################
-
-# I DON'T KNOW WHY I MADE THIS...PROBABLY DON'T NEED
-def select_char_quote(character_list):
-    ''' Name: select_char_quote
-        Input: nested list of character names and variable where list of their
-               quotes (strings) are saved -- [["name", VAR]]s
-        Returns: random quote (str) from random character quote list
-    '''
-    random_char = character_list[random.randint(0, (len(character_list) - 1))]
-    # get character name from nested list
-    
-    char_name = random_char[0]
-
-    # get character variable associated with global variable
-    char_quotes = random_char[1]
-
-    # pick random quote from character
-    random_quote = char_quotes[random.randint(0, (len(char_quotes) - 1))]
-
-    return(random_quote, "-", char_name)
-
-## THIS MAY NOT WORK BECAUSE NEED TO ACCOUNT FOR 1, 1 or 0, 0
-def return_top_match(word_list, quote):
-    ''' Name: calculate_top_match:
-        Inputs: list of words (strings), quote (string),
-                top_n..ex top 1..match to isolate (int), location of
-                count number (int), location of word (int)
-        Returns: name of character with most top words in quote (int)
-    '''
-    
-    # calculate frequency of each word, minus stop_words, saved in nested list
-    word_frequency = calculate_word_frequency(word_list)
-    
-    # sorted_nested_list based on location of count in nested list
-    top_count = sort_nested_list(word_frequency)
-    
-    # trim sorted list to top n (5 in this case)
-    top_five = trim_list(top_count, top_n)
-    
-    # isolate words from nested list
-    top_five = isolate_nested_list(top_five, 1)
-    
-    return top_five
