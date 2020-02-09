@@ -30,8 +30,8 @@ def encrypt(message, shift):
             unencrypted_val = ord(unencrypted_list[i])
             encrypted_val = unencrypted_val + shift
             if encrypted_val > ord('z'):
-                remainder = encrypted_val % ord('z')    # Why?
-                encrypted_val = remainder + ord('a') - 1 # SHOULD MAKE CONSTANT
+                remainder = encrypted_val % ord('z')
+                encrypted_val = remainder + ord('a') - 1
             encrypted_list.append(encrypted_val)
     encrypted_string = ""
     for i in range(len(encrypted_list)):
@@ -43,6 +43,7 @@ def decrypt(message, shift):
         Inputs: message (str), shift amount (int)
         Returns: decrypted message (str)
     '''
+    shift = check_max_shift(shift)
     message = message.lower()
     encrypted_list = list(message)
     decrypted_list = []
@@ -82,25 +83,3 @@ def convert_to_ascii(char_list):
         value = ord(char_list[i])
         ascii_list.append(value)
     return ascii_list
-
-#### Just fiddling to get letters and number
-
-
-##punctuation = string.punctuation
-##alphabet = list(string.ascii_lowercase)
-##sentence = "i love lucy"
-##
-##for letter in alphabet:
-##    print(letter,"-",ord(letter))
-##
-##print(" ", "-", ord(" "))
-##
-##print()
-##
-##for letter in punctuation:
-##    print(letter,"-",ord(letter))
-##
-##print()
-##
-##for letter in sentence:
-##    print(letter,"-",ord(letter))

@@ -27,6 +27,26 @@ OPTIONS = ["Type in my own quote", "Select a quote at random", "Quit"]
 # RESEARCH GETTING RID OF APPEND FUNCTION
 # RESEARCH INCORPORATING COUNT FUNCTION
 
+def print_results(results, character):
+    ''' Name: print_results
+        Inputs: string of results and name of character (str)
+        Returns: nothing
+    '''
+    print("\nNo exact match. Words in common analysis:\n",
+          results, "Based on these results, I picked ",
+          character, ".\n", sep = "")
+
+def process_selection(option):
+    ''' Name: process_selection
+        Input: option
+        Returns: UPDATE UPDATE
+    '''
+    if option == RANDOM_QUOTE:
+        test_quote = select_test_quote(TESTING)
+    elif option == OWN_QUOTE:
+        test_quote = input("Enter your own quote, without any punctuation: ")
+    return test_quote
+ 
 def select_menu(show_name):
     ''' Name: select_menu
         Inputs: show_name as string
@@ -89,13 +109,13 @@ def return_match_results(match_list):
         Returns: UPDATE
     '''
     string = ""
+
+    # format nested list of results into indented list
     for i in range(len(match_list)):
-        if i == len(match_list) - 1:
-            string += "and " + str(match_list[i][1]) + \
-                      " word(s) in common with " + match_list[i][0] + "."
-        else:
-            string += str(match_list[i][1]) + " word(s) in common with " + \
-                      match_list[i][0] + ", "
+        result = "\t" + str(match_list[i][1]) + " - " + match_list[i][0] + \
+                 "\n"
+        string += result
+        
     return string         
 
 

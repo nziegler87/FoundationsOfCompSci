@@ -33,11 +33,14 @@ encrypted = ["xli qer als tewwiw xli wirxirgi wlsyph wamrk xli wasvh",
              "fqfx, n'r rtxy kfrnqnfw bnym otsfymfs afs sjxx' lfd tk ymwtsjx"]
 
 for i in range(len(encrypted)):
+    result_string = ""
     for count in range(1,8):
         decrypted_message = decrypt(encrypted[i], count)
-        print("Message ", i, " | Shift ", count, ": ",
-              decrypted_message, sep = "")
+        result_string += "Message " + str(i) + " | Shift " + str(count) + \
+                         ": " + decrypted_message + "\n"
         if count == 7:
-            print()
+            result_string += "\n"
+
+    print(result_string)
 
         

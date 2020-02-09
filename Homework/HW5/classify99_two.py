@@ -21,12 +21,10 @@ def main():
         option = select_menu(SHOW)
         if option == QUIT:
             break
-        elif option == RANDOM_QUOTE:
-            test_quote = select_test_quote(TESTING)
-        elif option == OWN_QUOTE:
-            test_quote = input("Enter your own quote, without any punctuation: ")
-        print("\nI am trying to figure out who said:\n\n", test_quote, sep = "")
+        test_quote = process_selection(option)
 
+        print("\nI am trying to figure out who said:\n\n", test_quote, sep = "")
+        
         # if there is an exact match print character name
         if compare_quotes(test_quote, CHAR_99):   
             character = compare_quotes(test_quote, CHAR_99)
@@ -41,14 +39,10 @@ def main():
             # if zero match or tie between characters, pick at random
             if check_inconclusive(match_results):
                 semirandom_char = pick_random_character(match_results)
-                print("\nThere isn't an exact match. However, there were ",
-                      results, " Based on these results, I picked ",
-                      semirandom_char, ".\n", sep = "")
+                print_results(results, semirandom_char)
 
             # if one character has clear match based on count
             else:
                 top_match = name_person(match_results)
-                print("\nThere isn't an exact match. However, there were ",
-                      results, " Based on these results, I picked ",
-                     top_match, ".\n", sep = "")              
+                print_results(results, top_match)
 main()

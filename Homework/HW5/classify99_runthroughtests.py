@@ -27,14 +27,17 @@ def main():
             print("Exact match not found. Let me investigate further.")
             char_quotes = link_top_words(CHAR_99, STOPWORDS, TOP_5)
             match_results = return_top_count(char_quotes, test_quote, STOPWORDS, TOP_5)
+            results = return_match_results(match_results)
             if check_inconclusive(match_results):
-                results = return_match_results(match_results)
-                random_char = pick_random_character(match_results)
-                print("There were", results, "Of the highest matches, "
-                      "I picked", random_char)
+                semirandom_char = pick_random_character(match_results)
+                print("\nNo exact match. Words in common analysis:\n",
+                      results, "Based on these results, I picked ",
+                      semirandom_char, ".\n", sep = "")
             else:
-                name = name_person(match_results)
-                print("Based on my word analysis, I think", name, "said this.")
+                top_match = name_person(match_results)
+                print("\nNo exact match. Words in comon analysis:\n",
+                      results, "Based on these results, I picked ",
+                     top_match, ".\n", sep = "") 
 
     print("\n----FOR REFERENCE, TOP WORDS----")
     char_quotes = link_top_words(CHAR_99, STOPWORDS, TOP_5)
