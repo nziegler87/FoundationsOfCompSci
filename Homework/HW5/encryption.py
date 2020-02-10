@@ -6,8 +6,18 @@
     Description:
         UPDATE
     Referenced:
-        https://www.geeksforgeeks.org/string-punctuation-in-python/
-        https://stackoverflow.com/questions/16060899/alphabet-range-in-python
+    https://www.geeksforgeeks.org/string-punctuation-in-python/
+    https://stackoverflow.com/questions/16060899/alphabet-range-in-python
+
+    Decrypted Messages:
+    Message 1 | Shift 4: the man who passes the sentence should swing the sword
+    Message 2 | Shift 7: everyone is mine to torment
+    Message 3 | Shift 1: you know nothing, jon snow
+    Message 4 | Shift 4: that's what i do: i drink and i know things
+
+    Encrypted Message:
+    fqfx, n'r rtxy kfrnqnfw bnym otsfymfs afs sjxx' lfd tk ymwtsjx
+
 '''
 
 import string
