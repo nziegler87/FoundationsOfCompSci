@@ -44,5 +44,5 @@ def main():
             else:
                 top_match = name_person(match_results)
 
-        print_results(results, top_match)
+            print_results(results, top_match)
 main()
