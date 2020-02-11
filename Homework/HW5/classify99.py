@@ -24,7 +24,7 @@ def main():
         test_quote = process_selection(option)
         print("\nI am trying to figure out who said:\n\n", test_quote, sep = "")
         
-        # if exact match, print character name
+        # if quote is exact match, print character name
         if compare_quotes(test_quote, CHAR_99):   
             character = compare_quotes(test_quote, CHAR_99)
             print("\nExact match found!", character, "said this.\n") 
