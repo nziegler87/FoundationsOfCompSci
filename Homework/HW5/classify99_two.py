@@ -16,33 +16,33 @@ CHAR_99 = [["Jake", JAKE], ["Rosa", ROSA], ["Holt", HOLT], ["Gina", GINA]]
 SHOW = "Brooklyn_99"
 
 def main():
-    # prompt user for selection
+    # prompt user for selection and display quote
     while True:
         option = select_menu(SHOW)
         if option == QUIT:
             break
         test_quote = process_selection(option)
-
         print("\nI am trying to figure out who said:\n\n", test_quote, sep = "")
         
-        # if there is an exact match print character name
+        # if exact match, print character name
         if compare_quotes(test_quote, CHAR_99):   
             character = compare_quotes(test_quote, CHAR_99)
             print("\nExact match found!", character, "said this.\n") 
 
-        # if not exact match, check frequeny of each user's top words in quote
+        # if no exact match, analyze quote similarity and print results
         else:
+            # generate nested list of each character name and top five words
             char_quotes = link_top_words(CHAR_99, STOPWORDS, TOP_5)
+
+            # compare each character's top five words to quote and return results
             match_results = return_top_count(char_quotes, test_quote, STOPWORDS, TOP_5)
             results = return_match_results(match_results)
 
-            # if zero match or tie between characters, pick at random
+            # print top match or if zero match or tie, select at random
             if check_inconclusive(match_results):
-                semirandom_char = pick_random_character(match_results)
-                print_results(results, semirandom_char)
-
-            # if one character has clear match based on count
+                top_match = pick_random_character(match_results)
             else:
                 top_match = name_person(match_results)
-                print_results(results, top_match)
+
+        print_results(results, top_match)
 main()
