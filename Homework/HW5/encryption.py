@@ -73,7 +73,6 @@ def decrypt(message, shift):
         decrypted_string += chr(decrypted_list[i])
     return decrypted_string
                 
-
 def check_max_shift(shift):
     ''' Name: check_max_shift
         Input: shift (int)
