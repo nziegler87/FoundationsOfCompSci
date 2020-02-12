@@ -4,7 +4,7 @@
     February 11, 2020
     HW 5
     Description:
-        UPDATE
+        Functions for "machine learning" program.
 
     Consulted:
         https://www.programiz.com/python-programming/methods/list/sort
@@ -24,11 +24,11 @@ QUIT = "C"
 ABBREVS = ["A", "B", "C"]
 OPTIONS = ["Type in my own quote", "Select a quote at random", "Quit"]
 
-# index positions of words and counts used in nested lists for program
-WORD_LOCATION = 0
-NUM_LOCATION = 1
+# index positions of words and counts used in nested lists throughout program
+WORD_LOC = 0
+NUM_LOC = 1
 
-# idnex positions of names and quotes in nested lists
+# index positions of names and quotes in nested lists throughout program
 NAME_LOC = 0
 QUOTE_LOC = 1
 
@@ -82,10 +82,10 @@ def pick_random_character(match_results):
     # if top word matches tie, randomly select from tie list
     else:
         characters = []
-        scores = isolate_nested_list(match_results, NUM_LOCATION)
+        scores = isolate_nested_list(match_results, NUM_LOC)
         max_count = max(scores)
         for character in match_results:
-            if character[NUM_LOCATION] == max_count:
+            if character[NUM_LOC] == max_count:
                 character_name = character[NAME_LOC]
                 characters.append(character_name)
         character = random.choice(characters)
@@ -118,7 +118,7 @@ def return_match_results(match_list):
 
     # format nested list of results into indented list
     for i in range(len(match_list)):
-        result = "\t" + str(match_list[i][NUM_LOCATION]) + " - " + \
+        result = "\t" + str(match_list[i][NUM_LOC]) + " - " + \
                  match_list[i][NAME_LOC] + "\n"
         string += result
         
@@ -139,7 +139,7 @@ def check_tie(match_results):
         Returns: True if there is a tie
     '''
     # isolate count results from nested list
-    count_results = isolate_nested_list(match_results, NUM_LOCATION)
+    count_results = isolate_nested_list(match_results, NUM_LOC)
     count = 0
 
     # check to see if each number is in result list, exclusive of number
@@ -295,7 +295,7 @@ def calculate_top_words(quote_list, stop_words, top_n):
     top_five = trim_list(top_count, top_n)
     
     # isolate words from nested list, which are saved at index 0
-    top_five = isolate_nested_list(top_five, WORD_LOCATION)
+    top_five = isolate_nested_list(top_five, WORD_LOC)
     
     return top_five
 
@@ -331,7 +331,7 @@ def sort_nested_list(words_counted_list):
         Does: sorts nested list based on item at index 1
     '''
     top_count = words_counted_list
-    top_count.sort(key = lambda item: item[NUM_LOCATION], reverse = True)
+    top_count.sort(key = lambda item: item[NUM_LOC], reverse = True)
 
     return top_count
 
@@ -351,7 +351,7 @@ def calculate_word_frequency(word_list):
         # if word in count_list, increase word count by one in nested list
         if check_nested_list(word, count_list, 0):
             index = search_nested_list(word, count_list, 0)
-            count_list[index][1] += 1
+            count_list[index][NUM_LOC] += 1
             
         # if not, add word to list with count 1
         else:

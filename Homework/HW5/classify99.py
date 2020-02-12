@@ -1,10 +1,15 @@
 '''
     Nathanial Ziegler
     CS 5001
-    February 11, 2020
+    February 12, 2020
     HW 5
     Description:
-        UPDATE
+        Program that either prompts user to entier a quote or selects a
+        random quote by a Brooklyn 99 character. The quote is then compared
+        to a list of preentered quotes by Jake, Rosa, Holt, and Gina.
+        Analysis is done, comparing top five words from each character to words
+        in quote. Character with highest match is announced. If no match or tie
+        best match character is selected at random.
 '''
 
 from classify_data import *
