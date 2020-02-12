@@ -1,7 +1,7 @@
 '''
     Nathanial Ziegler
     CS 5001
-    February 11, 2020
+    February 12, 2020
     HW 5
     Description:
         Functions for "machine learning" program.
@@ -13,9 +13,6 @@
 '''
 from classify_data import *
 import random
-
-# nested list of character names and variable names to their respective quotes
-CHAR_99 = [["Jake", JAKE], ["Rosa", ROSA], ["Holt", HOLT], ["Gina", GINA]]
 
 # variables for menu operations
 OWN_QUOTE = "A"
@@ -32,6 +29,8 @@ NUM_LOC = 1
 NAME_LOC = 0
 QUOTE_LOC = 1
 
+# variable to find top 5 used words in character quote list
+TOP_5 = 5
 
 def print_results(results, character):
     ''' Name: print_results
@@ -44,8 +43,8 @@ def print_results(results, character):
 
 def process_selection(option):
     ''' Name: process_selection
-        Input: option
-        Returns: UPDATE UPDATE
+        Input: option, a string
+        Returns: test quote, string, either entered by user or randomly selected
     '''
     if option == RANDOM_QUOTE:
         test_quote = select_test_quote(TESTING)
@@ -56,7 +55,7 @@ def process_selection(option):
 def select_menu(show_name):
     ''' Name: select_menu
         Inputs: show_name as string
-        Returns: A letter, a validated option
+        Returns: A letter (string), a validated option
     '''
     print("Welcome to", show_name, "AI. I will use my wealth of knowledge to "
           "guess which character from", show_name, "said a quote that either "

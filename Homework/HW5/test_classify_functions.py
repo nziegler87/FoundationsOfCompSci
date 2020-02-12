@@ -25,6 +25,12 @@ EXPECTED_4 = [["a1", 1], ["a2", 2],["a3", 3], ["a4", 4], ["a5", 5], ["a6", 6]]
 
 TEST_5 = ["123", "123", "123", "456", "456", "456", "789", "789", "789"]
 EXPECTED_5 = [["123", 3], ["456", 3], ["789", 3]]
+
+TEST_6 = ["abc"]
+EXPECTED_6 = [["abc", 1]]
+
+TEST_7 = []
+EXPECTED_7 = []
               
 def test_word_frequency(word_list, expected):
     ''' Name: test_word_frequency
@@ -56,14 +62,20 @@ def test_all_word_frequency():
     # Test 2: TEST_2 and EXPECTED_2
     if not test_word_frequency(TEST_2, EXPECTED_2):
         count += 1
-    # Test 1: TEST_3 and EXPECTED_3
+    # Test 3: TEST_3 and EXPECTED_3
     if not test_word_frequency(TEST_3, EXPECTED_3):
         count += 1
-    # Test 1: TEST_4 and EXPECTED_4
+    # Test 4: TEST_4 and EXPECTED_4
     if not test_word_frequency(TEST_4, EXPECTED_4):
         count += 1
-    # Test 1: TEST_5 and EXPECTED_5
+    # Test 5: TEST_5 and EXPECTED_5
     if not test_word_frequency(TEST_5, EXPECTED_5):
+        count += 1
+    # Test 6: TEST_6 and EXPECTED_6
+    if not test_word_frequency(TEST_6, EXPECTED_6):
+        count += 1
+    # Test 7: TEST_7 and EXPECTED_7
+    if not test_word_frequency(TEST_7, EXPECTED_7):
         count += 1
 
     return count

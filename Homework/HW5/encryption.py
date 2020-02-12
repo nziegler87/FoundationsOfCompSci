@@ -1,7 +1,7 @@
 '''
     Nathanial Ziegler
     CS 5001
-    INSERT DATE
+    February 12, 2020
     HW 5
     Description:
         Functions to encrypt and decrypt messages. Both work by
@@ -44,6 +44,7 @@ def encrypt(message, shift):
     
     # convert ascii list to string of characters
     encrypted_string = convert_to_character(encrypted_list)
+
     return encrypted_string
 
 def decrypt(message, shift):
@@ -63,6 +64,7 @@ def decrypt(message, shift):
 
     # convert ascii list to string of characters
     decrypted_string = convert_to_character(decrypted_list)
+
     return decrypted_string
                 
 def check_max_shift(shift):

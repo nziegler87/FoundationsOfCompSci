@@ -15,9 +15,10 @@
 from classify_data import *
 from classify_functions import *
 
-TOP_5 = 5
-
+# characters and associated variables where quotes are saved
 CHAR_99 = [["Jake", JAKE], ["Rosa", ROSA], ["Holt", HOLT], ["Gina", GINA]]
+
+# name of show
 SHOW = "Brooklyn_99"
 
 def main():

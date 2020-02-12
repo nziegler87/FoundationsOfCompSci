@@ -1,10 +1,10 @@
 '''
     Nathanial Ziegler
     CS 5001
-    February 11, 2020
+    February 12, 2020
     HW 5
     Description:
-        UPDATE
+        Data used for classify_functions and classify99 programs
 '''
 
 ################################################
