@@ -21,5 +21,11 @@ def shuffle(input_list):
         shuffled_list.append(temp_list[random_index])
         temp_list.pop(random_index)
     return shuffled_list
-        
+
+def getMin(input_list):
+    min_so_far = input_list[0]
+    for value in list:
+        if value < min_so_far:
+            min_so_far = value
+    return min_so_far
     
