@@ -8,13 +8,12 @@ def mean(num_list):
     return average
 
 def intersect(lista, listb):
-    combined_list = lista + listb
     common_list = []
     for i in range(len(lista)):
-        if lista[i] in lista and lista[i] in listb:
+        if lista[i] in listb and lista[i] not in common_list:
             common_list.append(lista[i])
     for i in range(len(listb)):
-        if listb[i] in lista and listb[i] in listb:
+        if listb[i] in lista and listb[i] not in common_list:
             common_list.append(lista[i])
     return common_list
 
