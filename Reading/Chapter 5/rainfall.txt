@@ -1,0 +1,6 @@
+Boston,2.4
+Harrisburg,3.0
+Port Royal,6.7
+Freiburg,2.3
+Indiana,8.0
+Pittsburgh,6.0
