@@ -11,18 +11,71 @@
 import random, string
 
 #Constants
-ZERO_SCORE = "0"
+ZERO_SCORE = 0
 EXCLUDE = list(string.digits + string.punctuation + string.whitespace)
 
-def read_file(filename):
-    ''' Name: read_file
+def collect_user_info():
+    ''' Name: collect_use_info
+        Paramters: none
+        Returns: first name of user, all lowercase, as string
+    '''
+    name = input("Enter your name to log in. No password needed!: ").lower()
+    return name
+
+def convert_to_filename(name, extension):
+    ''' Name: convert_to_filename
+        Parameters: two strings, filename and extension
+        Returns: string with filename and extension concatenated
+    '''
+    return (name + extension)
+
+def print_score(score):
+    ''' Name: print_score
+        Parameters: current score, an int
+        Returns: nothing
+    '''
+    if score == 1:
+        print("You have solved", score, "puzzle.")
+    else:
+        print("You have solved", score, "puzzles.")
+
+def display_menu(menu_letters, menu_options):
+    ''' Name: display_menu
+        Parameters: two lists of strings, identical in length -- one with
+                    single letters and other with descriptor for each menu item
+        Returns: user choice, a string, validated against menu_select
+    '''
+    while True:
+
+        # print menu using menu_letters and menu_options
+        for i in range(len(menu_letters)):
+            print("     ", menu_letters[i], " -- ", menu_options[i], sep = "")
+
+        # collect choice and validate against menu letters
+        choice = input("Enter your selection: ").upper()
+        if choice not in menu_letters:
+            print("\nInvalid selection. Try again.")
+            continue
+        else:
+            return choice
+
+def write_score(filename, value):
+    ''' Name: write_score
+        Parameters: .txt file name, string: "name.txt" and score to write, int
+        Returns: nothing
+    '''
+    with open(filename, "w") as outfile:
+        _ = outfile.write(str(value))
+
+def return_score(filename):
+    ''' Name: return_score
         Parameters: file name (string) of .txt file, "name.txt", containing number
-        Returns: contents of file
+        Returns: contents of file or 0 if file doesn't exist, both int
     '''
     try:
         # open and return entire contents of file as one string
         with open(filename, "r") as infile:
-            contents = infile.read()
+            contents = int(infile.read())
         return contents
 
         # if file doesn't exist, return ZERO_SCORE value
@@ -73,12 +126,12 @@ def print_puzzle(character_list):
     user_string = " ".join(character_list)
     print(user_string)
 
-def check_match(master_list, user_list):
+def check_match(master_string, user_string):
     ''' Name: check_match
-        Parameters: two lists of strings, identical in length
-        Returns: True if lists are identical
+        Parameters: two strings
+        Returns: True if strings are identical
     '''
-    if master_list == user_list:
+    if master_string == user_string:
         return True
 
 def remove_last_char(string):
@@ -105,6 +158,18 @@ def make_blank_puzzle(input_list):
             blank_puzzle.append(input_list[i])
     return blank_puzzle
 
+def print_remaining_turns(count):
+    ''' Name: print_remaining_turns
+        Parameters: number of turns remaining, an int
+        Returns: nothing
+    '''
+    if count > 1:
+        print("You have", count, "turns remaining.")
+    elif count > 0:
+        print("You have", count, "turn remaining.")
+    else:
+        print("You are out of turns.")
+
 def print_game_results(user_guess, computer_string):
     ''' Name: print_game_results
         Parameters: two strings
@@ -113,7 +178,8 @@ def print_game_results(user_guess, computer_string):
     if user_guess == computer_string:
         print("Congrats! You solved the puzzle.")
     else:
-        print(":( No such luck for you.")
+        print("I'm sorry, that wasn't correct. Your puzzle was:\n",
+              computer_string, sep = "")
         
 def collect_guess():
     ''' Name: collect_guess
