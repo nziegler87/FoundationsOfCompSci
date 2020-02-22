@@ -7,12 +7,26 @@
         Simplified Wheel of Fortune functions
     Consulted:
         https://www.geeksforgeeks.org/python-string-rstrip/
+        https://realpython.com/intro-to-python-threading/
 '''
 import random, string
 
 #Constants
 ZERO_SCORE = 0
 EXCLUDE = list(string.digits + string.punctuation + string.whitespace)
+
+def process_guess(puzzle, display_puzzle, turns):
+    ''' Name: process_guess
+        Parameters: current puzzle (str), display_puzzle (list of strings),
+                    and turns (int)
+        Returns: number of turns remaining (int)
+    '''
+    guess = collect_guess()
+    update_puzzle(guess, puzzle, display_puzzle)
+    print_puzzle(display_puzzle)
+    turns -= 1
+    print_remaining_turns(turns)
+    return turns
 
 def collect_user_info():
     ''' Name: collect_use_info
@@ -22,11 +36,12 @@ def collect_user_info():
     name = input("Enter your name to log in. No password needed!: ").lower()
     return name
 
-def convert_to_filename(name, extension):
+def collect_filename(extension):
     ''' Name: convert_to_filename
-        Parameters: two strings, filename and extension
-        Returns: string with filename and extension concatenated
+        Parameters: filename extension as string e.g. ".txt"
+        Returns: string with user's name and filename extension concatenated
     '''
+    name = input("Enter your name to log in. No password needed!: ").lower()
     return (name + extension)
 
 def print_score(score):
@@ -35,9 +50,9 @@ def print_score(score):
         Returns: nothing
     '''
     if score == 1:
-        print("You have solved", score, "puzzle.")
+        print("So far, you have solved", score, "puzzle.")
     else:
-        print("You have solved", score, "puzzles.")
+        print("So far, you have solved", score, "puzzles.")
 
 def display_menu(menu_letters, menu_options):
     ''' Name: display_menu
@@ -105,16 +120,16 @@ def choose_puzzle(text_file):
         print("File with gameplay options not found. Please save the wof.txt "
               "file in the same folder as this file and restart program.")
 
-def update_puzzle(character, master_list, user_list):
+def update_puzzle(character, master_string, user_list):
     ''' Name: update_puzzle
-        Paramters: a character (str) and two lists of strings, identical length
+        Paramters: a character (str), a string & list of strings of same length
         Returns: nothing...modifies user_list in place
     '''
     # iterate through each item in master list
-    for i in range(len(master_list)):
+    for i in range(len(master_string)):
 
         # if character is equal to master_list value, change user_list
-        if character == master_list[i]:
+        if character == master_string[i]:
             user_list[i] = character
 
 def print_puzzle(character_list):
@@ -141,21 +156,22 @@ def remove_last_char(string):
     '''
     return string[:-1]
 
-def make_blank_puzzle(input_list):
+def make_blank_puzzle(input_string):
     ''' Name: make_blank_puzzle
-        Parameters: list of characters
+        Parameters: string of characters
         Returns: list where every non-space character is converedted to "_"
     '''
     blank_puzzle = []
-    for i in  range(len(input_list)):
+    for i in  range(len(input_string)):
 
         # if value at position i is anything other than a space, insert "_"
-        if input_list[i] not in EXCLUDE:
+        if input_string[i] not in EXCLUDE:
             blank_puzzle.append("_")
 
         # otherwise, insert a " "
         else:
-            blank_puzzle.append(input_list[i])
+            blank_puzzle.append(input_string[i])
+            
     return blank_puzzle
 
 def print_remaining_turns(count):
@@ -170,13 +186,17 @@ def print_remaining_turns(count):
     else:
         print("You are out of turns.")
 
-def print_game_results(user_guess, computer_string):
+def print_game_results(user_guess, computer_string, score):
     ''' Name: print_game_results
-        Parameters: two strings
+        Parameters: user_guess and computer_string (strings), running score, int
         Returns: nothing
     '''
-    if user_guess == computer_string:
-        print("Congrats! You solved the puzzle.")
+    if user_guess == computer_string and score == 1:
+        print("Congrats! You you have now solved", score, "puzzle!\n"
+              "Your progress has been saved.")
+    elif user_guess == computer_string and score == 0 or score > 1:
+        print("Congrats! You have now solved", score, "puzzles!\n"
+              "Your progress has been saved.")
     else:
         print("I'm sorry, that wasn't correct. Your puzzle was:\n",
               computer_string, sep = "")
