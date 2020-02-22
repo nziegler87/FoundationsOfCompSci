@@ -17,9 +17,11 @@ from wof_functions import (choose_puzzle, make_blank_puzzle, print_puzzle,
 
 PUZZLE_OPTIONS = "wof.txt"
 TXT_EXT = ".txt"
-MAX_TURNS = 5
+REGULAR_TURNS = 5
+BONUS_TURNS = 3
 MENU_LETTERS = ["G", "S"]
 MENU_OPTIONS = ["Guess a Letter", "Solve"]
+BONUS_LETTERS = ["R", "S", "T", "L", "N", "E"]
 
 
 def main():
@@ -36,7 +38,7 @@ def main():
     print_puzzle(display_puzzle)
 
     # Gameplay where user has option to solve or guess with five turns
-    turns = MAX_TURNS
+    turns = REGULAR_TURNS
     while turns > 0:
         choice = display_menu(MENU_LETTERS, MENU_OPTIONS)
         if choice == "G":
@@ -48,7 +50,36 @@ def main():
     final_guess = input("Enter your final guess: ").upper()
     if check_match(final_guess, puzzle):
         score += 1
+        
+        print("BONUS ROUND!!")
+        
+        # pick puzzle at random and display category and blank puzzle
+        category, puzzle = choose_puzzle(PUZZLE_OPTIONS)
+        print("Your puzzle category is:", category, "\n")
+        display_puzzle = make_blank_puzzle(puzzle)
+        print(puzzle)
+
+        # fill in letters R, S, T, L, N, E
+        for letter in BONUS_LETTERS:
+            update_puzzle(letter, puzzle, display_puzzle)        
+        print_puzzle(display_puzzle)
+
+        # Gameplay where user has option to solve or guess with three turns
+        turns = BONUS_TURNS
+        while turns > 0:
+            choice = display_menu(MENU_LETTERS, MENU_OPTIONS)
+            if choice == "G":
+                turns = process_guess(puzzle, display_puzzle, turns)
+            else:
+                break
+
+        # if all turns used or solve selected, compare final guess and save reults
+        final_guess = input("Enter your final guess: ").upper()
+        if check_match(final_guess, puzzle):
+            score += 1
+        
         write_score(filename, score)
+        
     print_game_results(final_guess, puzzle, score)
 
 main()
