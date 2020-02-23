@@ -1,23 +1,27 @@
 import time, threading
- 
+
+BONUS_ROUND_TIME = 20
+
 def countdown():
     global my_timer
 
-    my_timer = 5
+    my_timer = BONUS_ROUND_TIME
 
-    for i in range(5):
+    for i in range(my_timer):
         my_timer -= 1
         time.sleep(1)
-
-    print("Out of time")
+    return my_timer
     
 def main():
-    countdown_thread = threading.Thread(target=countdown)
-    countdown_thread.start()
-    while my_timer > 0:
-        print(my_timer)
-        time.sleep(1)
+    print("You have", BONUS_ROUND_TIME, "seconds to enter "
+          "your guess...starting now.")
+    time = threading.Thread(target=countdown)
+    time.start()
+    guess = input("Enter your guess: ")
 
-    print("Time up")
+    if my_timer == 0:
+        print("I'm sorry. You ran out of time.")
+    else:
+        print("You entered:", guess, "\nYou had", my_timer, "seconds left.")
 
 main()

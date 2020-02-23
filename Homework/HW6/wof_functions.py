@@ -9,11 +9,12 @@
         https://www.geeksforgeeks.org/python-string-rstrip/
         https://realpython.com/intro-to-python-threading/
 '''
-import random, string
+import random, string, time
 
 #Constants
 ZERO_SCORE = 0
 EXCLUDE = list(string.digits + string.punctuation + string.whitespace)
+
 
 def process_guess(puzzle, display_puzzle, turns):
     ''' Name: process_guess
