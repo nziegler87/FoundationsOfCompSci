@@ -16,6 +16,19 @@ ZERO_SCORE = 0
 EXCLUDE = list(string.digits + string.punctuation + string.whitespace)
 
 
+def pre_solve(user_puzzle, master_string, letters_list):
+    ''' Name: pre_solve
+        Parameters: list of characters to presolve puzzle; a string & list
+                    of strings of the same length
+        Returns: Nothing...modifies list in place
+    '''
+    # iterate through each item in master string
+    for i in range(len(master_string)):
+
+        # if character is in letters_list, update user_list
+        if master_string[i] in letters_list:
+            user_puzzle[i] = master_string[i]
+
 def process_guess(puzzle, display_puzzle, turns):
     ''' Name: process_guess
         Parameters: current puzzle (str), display_puzzle (list of strings),
@@ -82,6 +95,7 @@ def write_score(filename, value):
     '''
     with open(filename, "w") as outfile:
         _ = outfile.write(str(value))
+    print("Your progress has been saved.")
 
 def return_score(filename):
     ''' Name: return_score
@@ -126,10 +140,10 @@ def update_puzzle(character, master_string, user_list):
         Paramters: a character (str), a string & list of strings of same length
         Returns: nothing...modifies user_list in place
     '''
-    # iterate through each item in master list
+    # iterate through each item in master string
     for i in range(len(master_string)):
 
-        # if character is equal to master_list value, change user_list
+        # if character is equal to master_string value, change user_list
         if character == master_string[i]:
             user_list[i] = character
 
@@ -193,11 +207,9 @@ def print_game_results(user_guess, computer_string, score):
         Returns: nothing
     '''
     if user_guess == computer_string and score == 1:
-        print("Congrats! You you have now solved", score, "puzzle!\n"
-              "Your progress has been saved.")
-    elif user_guess == computer_string and score == 0 or score > 1:
-        print("Congrats! You have now solved", score, "puzzles!\n"
-              "Your progress has been saved.")
+        print("Congrats! You you have now solved", score, "puzzle!")
+    elif user_guess == computer_string and score != 1:
+        print("Congrats! You have now solved", score, "puzzles!")
     else:
         print("I'm sorry, that wasn't correct. Your puzzle was:\n",
               computer_string, sep = "")
@@ -209,7 +221,7 @@ def collect_guess():
     '''
     guess = input("Enter your guess: ").upper()
     if len(guess) > 1:
-        guess = input("You can only guess one character at a time."
+        guess = input("You can only guess one character at a time. "
                       "Try again: ").upper()
     else:
         return guess
