@@ -4,8 +4,7 @@
     February, 26 2020
     HW 6
     Description:
-        Functions for Wheel of Fortune driver
-    Consulted:
+        Driver for simplified Wheel of Fortune game.
 '''
 
 import time

@@ -7,7 +7,6 @@
         Simplified Wheel of Fortune functions
     Consulted:
         https://www.geeksforgeeks.org/python-string-rstrip/
-        https://realpython.com/intro-to-python-threading/
         https://stackoverflow.com/questions/10166686/how-do-i-exit-program-in-try-except    
 '''
 import random, string, time, sys
@@ -19,9 +18,7 @@ REGULAR_TURNS = 5
 BONUS_TURNS = 3
 PUZZLE_OPTIONS = "wof.txt"
 BONUS_LETTERS = ["R", "S", "T", "L", "N", "E"]
-BONUS_TIME = 2
-
-#Constants
+BONUS_TIME = 20
 ZERO_SCORE = 0
 EXCLUDE = list(string.digits + string.punctuation + string.whitespace)
 CENTER_WIDTH = 60
