@@ -12,6 +12,10 @@
 '''
 import random, string, time, sys
 
+TXT_EXT = ".txt"
+MENU_LETTERS = ["G", "S"]
+MENU_OPTIONS = ["Guess a Letter", "Solve"]
+
 #Constants
 ZERO_SCORE = 0
 EXCLUDE = list(string.digits + string.punctuation + string.whitespace)
@@ -59,12 +63,20 @@ def join_list(input_list):
             output_string += input_list[i] + ", "
     return output_string
 
-def collect_filename(extension):
-    ''' Name: convert_to_filename
-        Parameters: filename extension as string e.g. ".txt"
-        Returns: string with user's name and filename extension concatenated
+def collect_player_name():
+    ''' Name: collect_player_name
+        Parameters: nothing
+        Returns: name of player as a lower-case string
     '''
     name = input("Enter your name to log in: ").lower()
+    return name
+
+def create_filename(extension):
+    ''' Name: convert_to_filename
+        Parameters: filename extension (ie ".txt") as string
+        Returns: string with user's name and filename extension concatenated
+    '''
+    name = collect_player_name()
     return (name + extension)
 
 def return_score(filename):
@@ -81,6 +93,16 @@ def return_score(filename):
         # if file doesn't exist, return ZERO_SCORE value
     except OSError:
         return ZERO_SCORE
+
+def get_user_info():
+    ''' Name: get_user_info
+        Parameters: nothing
+        Returns: tiple with filename of user (string) as first value
+                 and their current score (int) as second value
+    '''
+    filename = create_filename(TXT_EXT)
+    score = return_score(filename)
+    return (filename, score)
 
 def print_score(score):
     ''' Name: print_score
@@ -165,6 +187,14 @@ def pre_solve(bonus_status, user_puzzle, master_string, letters_list):
             if master_string[i] in letters_list:
                 user_puzzle[i] = master_string[i]
 
+def print_puzzle_info(category, puzzle_list):
+    ''' Name: print_puzzle_info
+        Parameters: puzzle category (string) list of puzzle characters
+        Returns: nothing
+    '''
+    print("Your puzzle category is:", category, "\n")
+    print_puzzle(puzzle_list)
+
 def display_menu(menu_letters, menu_options):
     ''' Name: display_menu
         Parameters: two lists of strings, identical in length -- one with
@@ -184,6 +214,19 @@ def display_menu(menu_letters, menu_options):
             continue
         else:
             return choice
+
+def let_player_guess(turns, puzzle, display_puzzle):
+    ''' Name: let_play_guess
+        Parameters: number of turns (int), correct puzzle (string),
+                    list of characters for display_puzzle
+        Returns: nothing
+    '''
+    while turns > 0:
+        choice = display_menu(MENU_LETTERS, MENU_OPTIONS)
+        if choice == "G":
+            turns = process_guess(puzzle, display_puzzle, turns)
+        else:
+            break
 
 def collect_guess():
     ''' Name: collect_guess
