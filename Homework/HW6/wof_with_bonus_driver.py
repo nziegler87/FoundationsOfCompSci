@@ -42,7 +42,6 @@ def main():
 
         # process final guess - update score, game play, and print results
         final_guess, total_time = collect_final_guess(bonus)
-
         score = update_score(bonus, score, final_guess, puzzle, total_time)
         print_game_results(bonus, total_time, final_guess, puzzle, score)
         bonus, another_round = update_continue_status(bonus, another_round,
