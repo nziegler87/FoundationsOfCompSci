@@ -88,8 +88,13 @@ def return_score(filename):
     try:
         # open and return entire contents of file as one string
         with open(filename, "r") as infile:
-            contents = int(infile.read())
-        return contents
+            contents = infile.read()
+
+        # if file has been corrupt with None, set score to 0
+        if contents == "None":
+            return ZERO_SCORE
+        else:
+            return int(contents)
 
         # if file doesn't exist, return ZERO_SCORE value
     except OSError:
