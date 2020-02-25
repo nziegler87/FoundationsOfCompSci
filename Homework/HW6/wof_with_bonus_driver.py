@@ -16,15 +16,9 @@ from wof_functions import (choose_puzzle, make_blank_puzzle, print_puzzle,
                            check_match, process_guess, pre_solve, set_turns,
                            print_game_instructions, join_list, get_user_info,
                            collect_player_name, print_puzzle_info,
-                           let_player_guess)
-
-PUZZLE_OPTIONS = "wof.txt"
-
-REGULAR_TURNS = 5
-BONUS_TURNS = 3
-
-BONUS_LETTERS = ["R", "S", "T", "L", "N", "E"]
-BONUS_TIME = 20
+                           let_player_guess, collect_final_guess,
+                           print_game_results, update_score, flip_boolean,
+                           update_continue_status)
 
 def main():
     # collect filename, display current score, start with no bonus round
@@ -34,48 +28,28 @@ def main():
     another_round = True
     
     while another_round is True:
-        # set up game play if in regular or bonus round
-        turns = set_turns(bonus, REGULAR_TURNS, BONUS_TURNS)
-        print_game_instructions(turns, bonus, BONUS_TIME, BONUS_LETTERS)
-        another_round = False
+        # set number of turns and display instructions based on bonus status
+        turns = set_turns(bonus)
+        print_game_instructions(turns, bonus)
 
         # pick random puzle, create blank puzzle, display to user
-        category, puzzle = choose_puzzle(PUZZLE_OPTIONS)
+        category, puzzle = choose_puzzle()
         display_puzzle = make_blank_puzzle(puzzle)
-        pre_solve(bonus, display_puzzle, puzzle, BONUS_LETTERS)
+        pre_solve(bonus, display_puzzle, puzzle)
         print_puzzle_info(category, display_puzzle)
 
         # game play where user guesses or solves
         let_player_guess(turns, puzzle, display_puzzle)
 
-        # if all turns used or solve selected, collect final guess
-        if bonus is True:
-            print("You have", BONUS_TIME, "seconds to enter "
-                  "your guess, starting now.")
-        start_time = time.time()
-        final_guess = input("Enter your final guess: ").upper()
-        end_time = time.time()
-        total_time = end_time - start_time
+        # process final guess - update score, game play, and print results
+        final_guess, total_time = collect_final_guess(bonus)
 
-        # check guess against puzzle and time to respond if in bonus round
-        if bonus is False:
-            if check_match(final_guess, puzzle):
-                score += 1
-                bonus = True
-                another_round = True
-            print_game_results(final_guess, puzzle, score)
-        else:
-            if check_match(final_guess, puzzle) and total_time <= BONUS_TIME:
-                score += 1
-                print_game_results(final_guess, puzzle, score)
-            elif check_match(final_guess, puzzle) and total_time > BONUS_TIME:
-                print("I'm sorry. That was correct but you ran out of time. "
-                      "It took you you", round(total_time), "seconds to "
-                      "respond.\n")
-            else:
-                print("I'm sorry that was not correct. Your puzzle was:\n",
-                      puzzle, "\n", sep = "")
-            
-    write_score(filename, score)
+        score = update_score(bonus, score, final_guess, puzzle, total_time)
+        print_game_results(bonus, total_time, final_guess, puzzle, score)
+        bonus, another_round = update_continue_status(bonus, another_round,
+                                                      final_guess, puzzle,
+                                                      total_time)
+        # write score after each round
+        write_score(filename, score)
 
 main()

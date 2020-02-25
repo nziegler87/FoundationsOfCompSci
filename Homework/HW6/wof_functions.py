@@ -15,27 +15,31 @@ import random, string, time, sys
 TXT_EXT = ".txt"
 MENU_LETTERS = ["G", "S"]
 MENU_OPTIONS = ["Guess a Letter", "Solve"]
+REGULAR_TURNS = 5
+BONUS_TURNS = 3
+PUZZLE_OPTIONS = "wof.txt"
+BONUS_LETTERS = ["R", "S", "T", "L", "N", "E"]
+BONUS_TIME = 2
 
 #Constants
 ZERO_SCORE = 0
 EXCLUDE = list(string.digits + string.punctuation + string.whitespace)
 CENTER_WIDTH = 60
 
-def print_game_instructions(turns, bonus_status, bonus_time, bonus_letters):
+def print_game_instructions(turns, bonus_status):
     ''' Name: print_game_instructions
         Parameters: number of turns and number of seconds in bonus
-                    round, both ints; list of characters; bonus status, boolean
-                    
+                    round, both ints
         Returns: nothing
     '''
-    bonus_string = join_list(bonus_letters)
+    bonus_string = join_list(BONUS_LETTERS)
     if bonus_status is True:
         print("BONUS ROUND".center(CENTER_WIDTH, "-"), "\nIn this round, we "
               "have again selected a random puzzle for you to solve. This "
               "time, however, we have pre-filled the letters ", bonus_string,
               ". You have ", turns, " tries to guess letters in the puzzle. "
               "For this round, when it is time to solve the puzzle, "
-              "you have only ", bonus_time, " seconds to guess the correct "
+              "you have only ", BONUS_TIME, " seconds to guess the correct "
               "answer. If you guess the correct phrase but take more than the "
               "allotted amount of time, you lose.\n", sep = "")
  
@@ -114,14 +118,14 @@ def print_score(score):
     else:
         print("\nSo far, you have solved", score, "puzzles.\n")
 
-def choose_puzzle(text_file):
+def choose_puzzle():
     ''' Name: choose_puzzle
-        Parameters: name of plain txt file as string - "filename.txt"
+        Parameters: none
         Returns: tuple with puzzle category and phrase line, both strings
     '''
     try:
         # open text file and create list of each line
-        with open(text_file, "r") as infile:
+        with open(PUZZLE_OPTIONS, "r") as infile:
             lines = infile.readlines()
 
             # return random line with \n character removed
@@ -162,18 +166,18 @@ def make_blank_puzzle(input_string):
             
     return blank_puzzle
 
-def set_turns(bonus_status, regular_turns, bonus_turns):
+def set_turns(bonus_status):
     ''' Name: set_turns
         Parameters: bonus, a boolean. True if activated, else false
         Returns: number of turns, an int
     '''
     if bonus_status is True:
-        turns = bonus_turns
+        turns = BONUS_TURNS
     else:
-        turns = regular_turns
+        turns = REGULAR_TURNS
     return turns
 
-def pre_solve(bonus_status, user_puzzle, master_string, letters_list):
+def pre_solve(bonus_status, user_puzzle, master_string):
     ''' Name: pre_solve
         Parameters: list of characters to presolve puzzle - a string & list
                     of strings of the same length and bonus status, boolean
@@ -184,7 +188,7 @@ def pre_solve(bonus_status, user_puzzle, master_string, letters_list):
         for i in range(len(master_string)):
 
             # if character is in letters_list, update user_list
-            if master_string[i] in letters_list:
+            if master_string[i] in BONUS_LETTERS:
                 user_puzzle[i] = master_string[i]
 
 def print_puzzle_info(category, puzzle_list):
@@ -192,7 +196,7 @@ def print_puzzle_info(category, puzzle_list):
         Parameters: puzzle category (string) list of puzzle characters
         Returns: nothing
     '''
-    print("Your puzzle category is:", category, "\n")
+    print("Your puzzle category is:", category)
     print_puzzle(puzzle_list)
 
 def display_menu(menu_letters, menu_options):
@@ -294,18 +298,104 @@ def check_match(master_string, user_string):
     if master_string == user_string:
         return True
 
-def print_game_results(user_guess, computer_string, score):
-    ''' Name: print_game_results
-        Parameters: user_guess and computer_string (strings), running score, int
+def calculate_time_elapsed(start_time, end_time):
+    ''' Name: calculate_time_elapsed
+        Parameters: start time and end time (floats)
+        Returns: time elapsed, float
+    '''
+    return end_time - start_time
+
+def collect_final_guess(bonus):
+    ''' Name: collect_final_guess
+        Parameters: a boolean indicating if bonus round is active
+        Returns: user guess and time it took to respond as tupil
+    '''
+    if bonus is True:
+        print("You have", BONUS_TIME, "seconds to enter "
+                  "your guess, starting now.")
+    start_time = time.time()
+    final_guess = input("Enter your final guess: ").upper()
+    end_time = time.time()
+    total_time = calculate_time_elapsed(start_time, end_time)
+    return (final_guess, total_time)
+
+def print_regular_results(user_guess, computer_string, score):
+    ''' Name: print_regular_results
+        Parameters: user_guess and computer_string (strs), running score (int)
         Returns: nothing
     '''
     if user_guess == computer_string and score == 1:
-        print("\nCongrats! You you have now solved", score, "puzzle!\n")
+            print("\nCongrats! You you have now solved", score, "puzzle!\n")
     elif user_guess == computer_string and score != 1:
         print("\nCongrats! You have now solved", score, "puzzles!\n")
     else:
         print("\nI'm sorry, that wasn't correct. Your puzzle was:\n",
               computer_string, "\n", sep = "")
+
+def print_bonus_results(bonus, total_time, user_guess, computer_string, score):
+    ''' Name: print_bonus_results
+        Parameters: bonus status, a boolean, response time (float),
+                    user_guess and computer_string (strs), running score (int)
+        Returns: nothing
+    '''
+    if check_match(user_guess, computer_string) and total_time <= BONUS_TIME:
+        if user_guess == computer_string and score == 1:
+            print("\nCongrats! You you have now solved", score, "puzzle!\n")
+        elif user_guess == computer_string and score != 1:
+            print("\nCongrats! You have now solved", score, "puzzles!\n")
+    elif check_match(user_guess, computer_string) and total_time > BONUS_TIME:
+        print("I'm sorry. That was correct but you ran out of time. "
+              "It took you you", round(total_time, 2), "seconds to "
+              "respond.\n")
+    else:
+        print("I'm sorry that was not correct. Your puzzle was:\n",
+                  computer_string, "\n", sep = "")
+
+def print_game_results(bonus, total_time, user_guess, computer_string, score):
+    ''' Name: print_game_results
+        Parameters: bonus status, a boolean, response time (float),
+                    user_guess and computer_string (strs), running score (int)
+        Returns: nothing
+    '''
+    if bonus is False:
+        print_regular_results(user_guess, computer_string, score)
+    else:
+        print_bonus_results(bonus, total_time, user_guess, computer_string,
+                            score)
+
+def flip_boolean(boolean_a):
+    ''' Name: flip_boolean
+        Parameter: a boolean
+        Returns: returns boolean with value flipped
+    '''
+    boolean_a = not boolean_a
+    return boolean_a
+
+def update_score(bonus, score, user_string, master_string, total_time):
+    ''' Name: update_score
+        Inputs: bonus status, a boolean, user_string and master_string,
+                and total time it took user to respond (float)
+        Returns: updated score (int)
+    '''
+    if bonus is False:
+        if check_match(user_string, master_string):
+            score += 1
+    else:
+        if check_match(user_string, master_string) and total_time <= BONUS_TIME:
+            score += 1
+
+    return score
+
+def update_continue_status(bonus, another_round, user_string, master_string,
+                           total_time):
+    if bonus is False and user_string == master_string:
+        bonus = True
+        another_round = True
+    else:
+        bonus = False
+        another_round = False
+
+    return bonus, another_round
 
 def write_score(filename, value):
     ''' Name: write_score
@@ -315,7 +405,7 @@ def write_score(filename, value):
     try:
         with open(filename, "w") as outfile:
             _ = outfile.write(str(value))
-        print("Your progress has been saved.")
+        print("Your progress has been saved.\n")
     except:
         print("I'm sorry, your progress cannot be saved at this time. "
-              "Please try again later.")
+              "Please try again later.\n")
