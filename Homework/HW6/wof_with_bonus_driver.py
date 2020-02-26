@@ -41,6 +41,7 @@ def main():
                                                       total_time)
         # write score after each round
         write_score(filename, score)
+
     print("Game Over. Thank you for playing")
 
 main()
