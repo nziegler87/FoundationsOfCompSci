@@ -4,29 +4,28 @@
     February 26, 2020
     HW 6
     Description:
-        Simplified Wheel of Fortune functions
+        Functions for simplified Wheel of Fortune game
     Consulted:
-        https://www.geeksforgeeks.org/python-string-rstrip/
         https://stackoverflow.com/questions/10166686/how-do-i-exit-program-in-try-except    
 '''
 import random, string, time, sys
 
-# CONSTANT FOR TXT FILE EXTENSION AND PUZZLE TEXT FILE
+# constants for file operations
 TXT_EXT = ".txt"
 PUZZLE_OPTIONS = "wof.txt"
 
-# CONSTANTS FOR MENU SELECTION
+# constants for menu selection
 MENU_LETTERS = ["G", "S"]
 GUESS = "G"
 MENU_OPTIONS = ["Guess a Letter", "Solve"]
 
-# CONSTANTS 
+# constants for bonus vs regular round settings 
 REGULAR_TURNS = 5
 BONUS_TURNS = 3
 BONUS_TIME = 20
-
 BONUS_LETTERS = ["R", "S", "T", "L", "N", "E"]
 
+# additional constants for game
 ZERO_SCORE = 0
 EXCLUDE = list(string.digits + string.punctuation + string.whitespace)
 CENTER_WIDTH = 60
@@ -55,7 +54,7 @@ def print_game_instructions(turns, bonus_status):
         print("Welcome to the Wheel of Fortune! We have selected a random "
               "puzzle for you to solve. You have", turns, "tries "
               "to guess letters that you think may be in the puzzle. "
-              "Correct guess will be reflected on the screen. "
+              "Any correct guess will be reflected on the screen. "
               "At any point, you may attempt to solve the puzzle. You "
               "only have one attempt to guess the full puzzle. If you "
               "run out of turns, you will have one try to solve the puzzle.\n")
@@ -277,7 +276,7 @@ def collect_guess():
         Parameters: none
         Returns: a single character, a string
     '''
-    guess = input("Enter your guess: ").upper()
+    guess = input("Enter a letter: ").upper()
 
     # validate so they only enter one character
     while True:
@@ -469,7 +468,7 @@ def update_continue_status(bonus, another_round, user_string, master_string,
         Returns: status of bonus and another_round booleans as a tuple
     '''
     # if not a bonus round and guess is correct, allow next turn as bonus round
-    if bonus is False and user_string == master_string:
+    if bonus is False and check_match(user_string, master_string):
         bonus = True
         another_round = True
 

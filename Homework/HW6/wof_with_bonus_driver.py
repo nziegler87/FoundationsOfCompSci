@@ -23,7 +23,7 @@ def main():
         print_game_instructions(turns, bonus)
 
         # pick random puzzle, create blank puzzle for guessing,
-        # presolve if in bonus round, and display to user
+        # presolve if in bonus round, and display blank puzzle to user
         category, puzzle = choose_puzzle()
         display_puzzle = make_blank_puzzle(puzzle)
         pre_solve(bonus, display_puzzle, puzzle)
@@ -32,7 +32,7 @@ def main():
         # game play where user selects guess or solve or runs out of turns
         let_player_guess(turns, puzzle, display_puzzle)
 
-        # get final guess, update score, print results, update next round/bonus 
+        # ask final guess, update score, print results, update next round/bonus 
         final_guess, total_time = collect_final_guess(bonus)
         score = update_score(bonus, score, final_guess, puzzle, total_time)
         print_game_results(bonus, total_time, final_guess, puzzle, score)
@@ -41,5 +41,6 @@ def main():
                                                       total_time)
         # write score after each round
         write_score(filename, score)
+    print("Game Over. Thank you for playing")
 
 main()
