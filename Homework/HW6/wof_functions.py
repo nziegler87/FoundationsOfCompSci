@@ -280,9 +280,13 @@ def collect_guess():
 
     # validate so they only enter one character
     while True:
-        if len(guess) > 1:
-            guess = input("You can only guess one character at a time. "
-                          "Try again: ").upper()
+        if len(guess) > 1 or len(guess) == 0:
+            guess = input("You must enter at least one, but no more than one, "
+                          "letter at a time.\nTry again: ").upper()
+        # validate so they only enter a letter, not puncutation or space
+        elif guess in EXCLUDE:
+            guess = input("Only guess a letter: ").upper()
+
         else:
             return guess
 

@@ -11,7 +11,7 @@ import time
 from wof_functions import *
 
 def main():
-    # collect user info, display their stats, and start with no bonus round
+    # collect user info, display their stats, start with no bonus or next round
     filename, score = get_user_info()
     print_score(score)
     bonus = False
@@ -22,8 +22,8 @@ def main():
         turns = set_turns(bonus)
         print_game_instructions(turns, bonus)
 
-        # pick random puzzle, create blank puzzle for guessing,
-        # presolve if in bonus round, and display blank puzzle to user
+        # pick random puzzle, create blank puzzle for guessing
+        # presolve if in bonus round, display blank puzzle to user
         category, puzzle = choose_puzzle()
         display_puzzle = make_blank_puzzle(puzzle)
         pre_solve(bonus, display_puzzle, puzzle)
@@ -42,6 +42,6 @@ def main():
         # write score after each round
         write_score(filename, score)
 
-    print("Game Over. Thank you for playing")
+    print("Game Over. Thank you for playing.")
 
 main()
