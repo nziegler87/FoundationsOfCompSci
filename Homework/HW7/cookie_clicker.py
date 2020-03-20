@@ -8,11 +8,11 @@
 '''
 
 import turtle
-
-COOKIE = "cc_cookie.gif"
-
+from cookie_functions import(setup_turtle)
 
 def main():
-    
+    screen = turtle.Screen()
+    cookie = turtle.Turtle()
+    setup_turtle(cookie, screen)
 
 main()
