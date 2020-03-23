@@ -44,6 +44,7 @@ class Cookie:
         Parameters:
             self -- the current object
             filename -- name of file containing current score (string)
+        Returns: nothing
         '''
         try:
             with open(filename, "r") as infile:
@@ -64,6 +65,7 @@ class Cookie:
         Parameters:
             self -- the current object
             filename -- name of file containing achievements (string)
+        Returns: nothing
         '''
         try:
             with open(filename, "r") as infile:

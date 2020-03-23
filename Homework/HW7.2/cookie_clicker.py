@@ -15,8 +15,6 @@ SCORE_FILE = "scores.txt"
 import turtle
 from game import *
 from screen import *
-import time
-
 
 def main():
     # create game and cookie objects
@@ -25,13 +23,11 @@ def main():
     game.cookie.initialize_achievements(game.achievefile)
 
     # set up screen for gameplay
-    game.display = Screen()
-    game.display.setup_screen(game.cookie.score, COOKIE)
-    game.display.display_score(game.cookie.score)
+    game.display.initialize_graphics(game.cookie.score, COOKIE)
+    game.display.display_text(game.cookie.score)
 
     # gameplay
     game.display.cookie.onclick(game.click_play)
     game.display.screen.onclick(game.exit)
       
-    
 main()
