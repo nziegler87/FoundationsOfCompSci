@@ -37,6 +37,8 @@ def main():
     setup_screen(cookie_turtle, screen_turtle, score_turtle, game.cookie.score,
                  COOKIE, BG_COLOR)
 
+##    cookie_turtle.onclick(game.click_play())
+
     # simulated gameplay
     time.sleep(1)
     n = 0

@@ -1,0 +1,6 @@
+wake 10 1
+dough 25 3
+bake 35 5
+fledgling 50 10
+affluent 75 13
+cosmic 95 15

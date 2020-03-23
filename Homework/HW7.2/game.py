@@ -9,39 +9,7 @@
 
 import turtle
 from cookie import Cookie
-
-FONT = "arial"
-SIZE = 14
-TYPE = "bold"
-
-SCORE_POS = (-50, 150)
-
-def setup_screen(cookie_turtle, screen_turtle, score_turtle,
-                 score, cookie_file, bg_color):
-    ''' Name: setup_screen
-        Parameters: cookie, screen, and score turtle variables, score (int),
-                    filename for cookie image and background color (both strs)
-        Returns: nothing
-        Does: initializes screen
-    '''
-    # create turtles
-    screen_turtle.addshape(cookie_file)
-    screen_turtle.bgcolor(bg_color)
-    cookie_turtle.shape(cookie_file)
-
-    # set up score turtle
-    score_turtle.hideturtle()
-    score_turtle.up()
-    score_turtle.setpos(SCORE_POS)
-    display_score(score_turtle, score)
-
-def display_score(score_turtle, score):
-    ''' Name: display_score
-        Parameters: score turtle variable, score to display (int)
-        Returns: nothing
-    '''
-    score_turtle.clear()
-    score_turtle.write("Your score:\n" + str(score), font = (FONT, SIZE, TYPE))
+from screen import Screen
 
 class Game:
     ''' class: Game
@@ -63,11 +31,22 @@ class Game:
  >>>>>      # UPDATEEE
         '''
         self.cookie = Cookie()
+        self.display = Screen()
         self.scorefile = scorefile
         self.achievefile = achievefile
-        self.message_key = 0     # THIS IS NOT DOCUMENTED
+        self.messages = {1: "Congrats, you made one cookie. " + \
+                         "Do you want a trophy?",
+                         13: "You made a baker's dozen. " + \
+                         "Still, don't quit your day job!",
+                         24: "Two dozen cookies - nice! " + \
+                         "However, it took you long enough...",
+                         49: "Almost 50 cookies! I underestimated you!",
+                         100: "You are really rocking this!",
+                         115: "Wow, keep up the good work!",
+                         150: "Look at you go!",
+                         314: "3.14 cookies for Pi Day",}
 
-    def click_play(self):
+    def click_play(self, x, y):
         '''
         Method - NOT SURE HOW TO DESCRIBE
         Parameters:
@@ -75,9 +54,15 @@ class Game:
             x -- x_cord
             y -- y_cord
         '''
-##        self.add_achievement(self.cookie.achievements)
-##        display_score(score_turtle, self.cookie.score)
-##        self.display_message(MESSAGES)
+        self.cookie.add_point()
+        self.add_achievement(self.cookie.achievements)
+        self.display.display_score(self.cookie.score)
+        self.display_message(self.cookie.score)
+
+    def exit(self, x, y):
+        if x < -100:
+            self.save_score(self.cookie.score)
+            self.display.screen.bye()
 
     def add_achievement(self, achievement_dict):
         '''
@@ -92,16 +77,17 @@ class Game:
             print("Achievement unlocked! Add " + \
                   str(points) + " points!")
 
-    def display_message(self, message_dict):
+    def display_message(self, current_score):
         '''
         Method: displays a message in the terminal based on current score
         Parameters:
             self -- the current object
+            score -- score value (int)
             message_dict -- dictionary with score keys and message values
         '''
-        if self.cookie.score in message_dict.keys():
-            print(message_dict[self.cookie.score])
-        
+        if current_score in self.messages.keys():
+            print(self.messages[current_score])
+
     def save_score(self, current_score):
         '''
         Method: writes current score to file
