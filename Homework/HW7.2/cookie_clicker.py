@@ -8,7 +8,6 @@
 '''
 
 COOKIE = "cc_cookie.gif"
-
 ACHIEVEMENT_FILE = "achievements.txt"
 SCORE_FILE = "scores.txt"
 
