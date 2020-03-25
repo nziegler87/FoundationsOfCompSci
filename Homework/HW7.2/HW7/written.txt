@@ -1,0 +1,15 @@
+'''
+CS 50001
+Nathanial Ziegler
+March 2020
+HW 7
+'''
+
+Written 1
+[1, 2, 3]
+[1, 2]
+[1]
+Done!
+
+Written 2
+21
