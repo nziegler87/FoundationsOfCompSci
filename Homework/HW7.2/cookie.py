@@ -6,7 +6,6 @@
     Description:
         Cookie Class file
 '''
-import turtle
 
 class Cookie:
     ''' class: Cookie
@@ -52,7 +51,7 @@ class Cookie:
         except OSError:
             score = 0
 
-        # if file exists but unreadable
+        # if file exists but contains more than just an int
         try:
             self.score = int(score)
         except ValueError:

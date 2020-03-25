@@ -14,7 +14,8 @@ class Screen:
         Attributes: screen, score, and cookie turtles, font, font size,
                     font type, font alignment, background color,
                     score position, screen x dimension and screen y dimension
-        Methods: initialize_graphics -- sets screen, text, and image inital settings
+        Methods: initialize_graphics -- sets screen, text, and image inital
+                                        settings
                  display_text -- displays score on screen
 
     '''
@@ -27,14 +28,15 @@ class Screen:
             screen_turtle -- turtle for screen setup (add img and background)
             score_turtle -- turtle to display text (ie score)
             cookie_turtle -- turtle to display cookie_image
-            font (optional) = font for displaying text on turtle screen
-            size (optional) = font size for displaying text on turtle screen
-            type (optional) = font type (bold, italic, regular) for displaying text
-            align = font alignment for score
-            bg_color (optional) = color of background screen
-            score_pos = position of score on screen
-            screen_x = x dimension of screen
-            screen_y = y dimension of screen
+            font (optional) -- font for displaying text on turtle screen
+            size (optional) -- font size for displaying text on turtle screen
+            type (optional) -- font type (bold, italic, regular) for
+                               displaying text
+            align -- font alignment for score
+            bg_color (optional) -- color of background screen
+            score_pos -- position of score on screen
+            screen_x -- x dimension of screen
+            screen_y -- y dimension of screen
         '''
         self.screen = turtle.Screen()
         self.score = turtle.Turtle()
@@ -47,7 +49,8 @@ class Screen:
         self.align = "center"
         self.bg_color = bg_color
         self.score_pos = (0, 125)
-        
+
+        # screen size settings
         self.screen_x = 400
         self.screen_y = 600
 
@@ -59,11 +62,15 @@ class Screen:
                 cookie_file -- file name of cookie image (str)
             Returns: nothing
         '''
+        # set up screen size and color
         self.screen.setup(self.screen_x, self.screen_y)
-        self.screen.addshape(cookie_file)
         self.screen.bgcolor(self.bg_color)
+
+        # add cookie image
+        self.screen.addshape(cookie_file)
         self.cookie.shape(cookie_file)
 
+        # set up score turtle
         self.score.hideturtle()
         self.score.up()
         self.score.setpos(self.score_pos)

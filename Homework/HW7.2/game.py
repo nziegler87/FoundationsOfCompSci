@@ -16,7 +16,6 @@ MESSAGES = {1: "Congrats, you made one cookie. Do you want a trophy?",
             115: "Wow, keep up the good work!", 150: "Look at you go!",
             314: "3.14 points for Pi Day",}
 
-import turtle
 from cookie import Cookie
 from screen import Screen
 
@@ -61,6 +60,14 @@ class Game:
         self.display_message(self.cookie.score)
 
     def exit(self, x, y):
+        '''
+        Method - calls method to save score and then exit gameplay
+        Paramters:
+            self -- the current object
+            x -- x_cord
+            y -- y_cord
+        Returns: nothing
+        '''
         if x < -100:
             self.save_score(self.cookie.score)
             self.display.screen.bye()
