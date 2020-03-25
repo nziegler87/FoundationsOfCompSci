@@ -4,7 +4,10 @@
     March 2020
     HW 7
     Description:
-        NEED TO UPDATE
+        Program that displays a cookie using Turtle. When the cookie is
+        clicked, score is incremented by one. At certain score values,
+        achievements are added to score. As user plays game, messages are
+        displayed progressing from mean/nice to just nice.
 '''
 
 COOKIE = "cc_cookie.gif"

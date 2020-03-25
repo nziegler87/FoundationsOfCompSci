@@ -8,12 +8,13 @@
 '''
 
 MESSAGES = {1: "Congrats, you made one cookie. Do you want a trophy?",
-            13: "You made a baker's dozen. Still, don't quit your day job!",
-            24: "Two dozen cookies - nice! However, it took you long enough...",
-            49: "Almost 50 cookies! I underestimated you!",
+            13: "13 Points! A Baker's dozen. Keep up the work...but" + \
+            " don't quit your day job.",
+            24: "Two dozen points - nice! However, it took you long enough...",
+            49: "Almost 50 points! I underestimated you!",
             100: "You are really rocking this!",
             115: "Wow, keep up the good work!", 150: "Look at you go!",
-            314: "3.14 cookies for Pi Day",}
+            314: "3.14 points for Pi Day",}
 
 import turtle
 from cookie import Cookie
