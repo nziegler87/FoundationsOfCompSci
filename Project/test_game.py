@@ -16,31 +16,37 @@ graphics.add_shape(YELLOW)
 
 count = 0
 
-for i in range(200, -201, -100):
-    for j in range(-200, 201, 100):
+for i in range(-200, 201, 100):
+    for j in range(200, -201, -100):
+        piece = Game_Piece(count, i, j, WHITE)
         game.add_piece(count, WHITE, i, j)
-        piece = Game_Piece(j, i)
-        graphics.draw_piece(piece.x, piece.y, piece.image, piece.size, piece.color)
+        graphics.draw_piece(piece.identifier, piece.x, piece.y, piece.image, piece.size, piece.color)
         count += 1
 
 pieces = game.return_dict()
 
 print(pieces)
 
-for i in range(0, 4, 1):
-    graphics.update_piece(pieces[i][1], pieces[i][2], RED)
+
+
+for i in range(4):
+    graphics.update_piece(pieces[i][0], pieces[i][1], pieces[i][2], RED)
     time.sleep(.1)
-    graphics.update_piece(pieces[i][1], pieces[i][2], WHITE)
-graphics.update_piece(pieces[4][1], pieces[4][2], RED)
+    graphics.update_piece(pieces[i][0], pieces[i][1], pieces[i][2], WHITE)
+graphics.update_piece(pieces[4][i], pieces[4][1], pieces[4][2], RED)
+
+time.sleep(1)
 
 for i in range(0, 3, 1):
-    graphics.update_piece(pieces[i][1], pieces[i][2], YELLOW)
+    graphics.update_piece(pieces[i][0], pieces[i][1], pieces[i][2], YELLOW)
     time.sleep(.1)
-    graphics.update_piece(pieces[i][1], pieces[i][2], WHITE)
-graphics.update_piece(pieces[3][1], pieces[3][2], YELLOW)
+    graphics.update_piece(pieces[i][0], pieces[i][1], pieces[i][2], WHITE)
+graphics.update_piece(pieces[3][i], pieces[3][1], pieces[3][2], YELLOW)
+
+time.sleep(1)
 
 for i in range(5, 9, 1):
-    graphics.update_piece(pieces[i][1], pieces[i][2], RED)
+    graphics.update_piece(pieces[i][0], pieces[i][1], pieces[i][2], RED)
     time.sleep(.1)
-    graphics.update_piece(pieces[i][1], pieces[i][2], WHITE)
-graphics.update_piece(pieces[9][1], pieces[9][2], RED)
+    graphics.update_piece(pieces[i][0], pieces[i][1], pieces[i][2], WHITE)
+graphics.update_piece(pieces[9][i], pieces[9][1], pieces[9][2], RED)

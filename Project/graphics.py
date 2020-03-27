@@ -9,11 +9,10 @@ class Graphics:
         self.screen.tracer(0)
         self.game_square.up()
 
-
     def add_shape(self, image):
         self.screen.addshape(image)
-
-    def draw_piece(self, x, y, image, size, color):
+     
+    def draw_piece(self, identifier, x, y, image, size, color):
         self.game_square.color(color, color)
         
         self.game_square.goto(x - (size / 2), y + (size / 2))
@@ -28,10 +27,12 @@ class Graphics:
         self.game_square.goto(x, y)
         self.game_square.shape(image)
         self.game_square.stamp()
+        self.game_square.write(identifier, align = "center")
         self.screen.update()
 
-    def update_piece(self, x, y, image):
+    def update_piece(self, identifier, x, y, image):
         self.game_square.goto(x, y)
         self.game_square.shape(image)
         self.game_square.stamp()
+        self.game_square.write(identifier, align = "center")
         self.screen.update()        
