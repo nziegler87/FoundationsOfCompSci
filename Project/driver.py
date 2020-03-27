@@ -1,6 +1,6 @@
 from graphics import Graphics
 from game_piece import Game_Piece
-from game_test import Game
+from game import Game
 import time
 
 WHITE = "./images/white_piece_90.gif"
@@ -30,23 +30,23 @@ print(pieces)
 
 
 for i in range(4):
-    graphics.update_piece(pieces[i][0], pieces[i][1], pieces[i][2], RED)
+    graphics.update_piece(i, pieces[i][1], pieces[i][2], RED)
     time.sleep(.1)
-    graphics.update_piece(pieces[i][0], pieces[i][1], pieces[i][2], WHITE)
-graphics.update_piece(pieces[4][i], pieces[4][1], pieces[4][2], RED)
+    graphics.update_piece(i, pieces[i][1], pieces[i][2], WHITE)
+graphics.update_piece(i, pieces[4][1], pieces[4][2], RED)
 
 time.sleep(1)
 
 for i in range(0, 3, 1):
-    graphics.update_piece(pieces[i][0], pieces[i][1], pieces[i][2], YELLOW)
+    graphics.update_piece(i, pieces[i][1], pieces[i][2], YELLOW)
     time.sleep(.1)
-    graphics.update_piece(pieces[i][0], pieces[i][1], pieces[i][2], WHITE)
-graphics.update_piece(pieces[3][i], pieces[3][1], pieces[3][2], YELLOW)
+    graphics.update_piece(i, pieces[i][1], pieces[i][2], WHITE)
+graphics.update_piece(i, pieces[3][1], pieces[3][2], YELLOW)
 
 time.sleep(1)
 
 for i in range(5, 9, 1):
-    graphics.update_piece(pieces[i][0], pieces[i][1], pieces[i][2], RED)
+    graphics.update_piece(i, pieces[i][1], pieces[i][2], RED)
     time.sleep(.1)
-    graphics.update_piece(pieces[i][0], pieces[i][1], pieces[i][2], WHITE)
-graphics.update_piece(pieces[9][i], pieces[9][1], pieces[9][2], RED)
+    graphics.update_piece(i, pieces[i][1], pieces[i][2], WHITE)
+graphics.update_piece(i, pieces[9][1], pieces[9][2], RED)
