@@ -20,13 +20,13 @@ graphics.add_shape(YELLOW)
 
 
 count = 0
-num_row = 2
-num_col = 2
+num_row = 6
+num_col = 7
 x_start = -250
 y_start = 250
 
-x_end = x_start + SIZE * num_row
-y_end = y_start - SIZE * num_col
+x_end = x_start + SIZE * game.rows
+y_end = y_start - SIZE * game.columns
 
 
 
@@ -44,18 +44,15 @@ for col in range(y_start, y_end, -SIZE):
 turn = input("Red or Yellow?\n").lower()
 
 while True:
-    place_col = int(input("What column?\n")) - 1
+    place_col = int(input(str(turn.capitalize()) + ", what column?\n")) - 1
     if turn == "red":
         color = RED
     else:
         color = YELLOW
     piece = game.drop_piece(place_col, color, turn)
     graphics.update_piece(piece.identifier, piece.x, piece.y, color)
-    print("Row Streaks")
     game.check_horizontal_streak()
-    print("Column Streaks")
     game.check_vertical_streak()
-    print("Full Board Check")
     game.check_full()
 
     if turn == "red":

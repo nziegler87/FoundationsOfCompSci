@@ -3,7 +3,7 @@ from stack import Stack
 
 def check_winner(lst):
     tuples = create_streak(lst)
-    print(tuples)
+##    print(tuples)
     check_four(tuples)
     
 def check_four(lst_of_tuples):
@@ -37,8 +37,8 @@ class Game:
     def __init__(self):
         self.pieces = {}
         self.board = []
-        self.rows = 2 ## NEED TO WORK ON...should be when initialized
-        self.columns = 2 ## NEED TO WORK ON
+        self.rows = 6 ## NEED TO WORK ON...should be when initialized
+        self.columns = 6 ## NEED TO WORK ON
         self.total_pieces = self.rows * self.columns
 
     def add_piece(self, ident, image, x, y):
@@ -60,9 +60,7 @@ class Game:
                 if self.board[i][j].filled != "":
                     total_filled += 1
         if self.total_pieces == total_filled:
-            print(True)
-        else:
-            print(False)
+            print("Board is Full")      # SHOULD RETURN BOOL
 
     def check_horizontal_streak(self):
         for i in range(len(self.board)):
