@@ -49,7 +49,6 @@ def diagonal(matrix):
     for i in range(1, (len(matrix) + len(matrix[0]))):
         start_col = max(0, i - len(matrix))
         count = min(i, (len(matrix[0]) - start_col), len(matrix))
-
         for j in range(0, count):
             print(matrix[min(len(matrix), i) - j - 1][start_col + j], end = " ")
         print()
