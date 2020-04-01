@@ -1,22 +1,86 @@
-from game_piece import Game_Piece
+'''
+    Nathanial Ziegler
+    CS 5001
+    April 2020
+    Consulted:
+        https://www.fgbradleys.com/rules/Connect%20Four.pdf
+'''
+
 from stack import Stack
 
+# constants for printing instructions
+CENTER_SPACING = 20
+INSTRUCTIONS = "OVERVIEW".center(CENTER_SPACING, "-") + \
+               "\nThe rules are simple. Try to build a streak of four " + \
+               "checkers while keeping your opponent from doing " + \
+               "the same.\n\n" + \
+               "OBJECTIVE".center(CENTER_SPACING, "-") + \
+               "\nBe the first player to get four of your colored checkers " + \
+               "in a row -- horizontally, vertically, or diagonally.\n\n" + \
+               "SETUP".center(CENTER_SPACING, "-") + \
+               "\n1. Select the number of rows and columns, min 4 x 4\n" + \
+               "2. Choose if you want to play human:human or " + \
+               "human:computer\n" + \
+               "3. Decide who goes first\n\n" + \
+               "GAMEPLAY".center(CENTER_SPACING, "-") + \
+               "\n1. First player drops one of their checkers on ANY " + \
+               "of the columns.\n" + \
+               "2. Players alternate until one player gets FOUR checkers " + \
+               "in a row. The four in a row can be horizontal, vertical, " + \
+               "or diagonal\n3. A draw is declared if the entire board " + \
+               "is full and neither player earned four in a row."
+
+# constants for game setup
+DEFAULT_ROWS = 6
+DEFAULT_COLS = 7
+
+def validate_option(string, options_list):
+    ''' Name: validate_option
+        Parameters: a string asking user for input, list of options
+        Returns: user input, validated against option list
+    '''
+    value = input(string).lower
+    while value not in options_list:
+        value = input("I'm sorry that is not a valid option. Please retry: ")
+    if value == "yes":
+        return True
+    else:
+        return False
+    
+    
+
 def check_winner(lst):
+    ''' Name: check_winner
+        Parameter: a list of items
+        Returns: if there is a streak of items four or great in the list,
+                 a tuple with (True, item)
+    '''
     tuples = create_streak(lst)
-##    print(tuples)
     check_four(tuples)
     
-def check_four(lst_of_tuples):
-    for i in range(len(lst_of_tuples)):
-        if lst_of_tuples[i][0] >= 4 and lst_of_tuples[i][1] != "":
-                winner = lst_of_tuples[i][1]
-                print("The winner is", winner)
+def check_four(tuples_list):
+    ''' Name: check_four
+        Parameters: list of tuples -- [("count (an int)", item)]
+        Returns: True if an item has streak of four or more and the
+                 item with the streak as a tuple -- {TRUE, item)
+    '''
+    for i in range(len(tuples_list)):
+        # looks for streak of four or greater, ignoring any blanks
+        if tuples_list[i][0] >= 4 and tuples_list[i][1] != "":
+                winner = tuples_list[i][1]
+                return (True, winner)
 
 def create_streak(lst):
+    ''' Name: create_streak
+        Parameters: a list
+        Returns: a list of tuples with list items reported as streaks --
+                    [("count (an int)", item),( "count (an int)", item)]
+    '''
     stack = Stack()
     streak = []
     count = 1
 
+    # iterate through list in reverse
     for i in range(len(lst) - 1, -1, -1):
         stack.push(lst[i])
 
@@ -25,53 +89,55 @@ def create_streak(lst):
         item = stack.top()
         stack.pop()
 
+        # if next item on stack matches first, increase count, else append
         if stack.top() == item:
             count += 1
         else:
-            streak.append((count,item))
+            streak.append((count, item))
             count = 1
 
     return streak
 
 class Game:
-    def __init__(self):
-        self.pieces = {}
-        self.board = []
-        self.rows = 6 ## NEED TO WORK ON...should be when initialized
-        self.columns = 6 ## NEED TO WORK ON
-        self.total_pieces = self.rows * self.columns
+    ''' class: Game
+        Attributes: play_computer, first_move, rows, columns
+        Methods: setup_game
+    '''
+            
+    def __init__(self, scorefile):
+        '''
+        Constructor -- creates a new instance of game
+        Parameters:
+            self -- the current object
+            play_computer -- "", to be replaced with boolean
+            first_move -- "", to be replaced with player one color (string)
+            rows -- "", to be replaced with an int
+            columns -- "", to be replaced with an int
+        '''
+        self.play_computer = ""
+        self.first_move = ""
+        self.rows = "" 
+        self.columns = ""
+    
+    def setup_game(self):
+        '''
+        Method: collect default game values from user
+        Parameters:
+            self -- the current object
+        '''
+        print(INSTRUCTIONS)
+        
+        print("Specify game board dimensions.")
+        
+        value = input("Rows, min 4: ")
+        while not value.isdigit() or int(value) < 4:
+            value = input("That was not a valid input. Try again: ")
+        self.rows = int(value)
+        
+        value = input("Columns, min 4: ")
+        while not value.isdigit() or int(value) < 4:
+            self.columns = input("That was not a valid input. Try again: ")
+        self.columns = int(value)
 
-    def add_piece(self, ident, image, x, y):
-        self.pieces[ident] = [image, x, y]
-
-    def return_dict(self):
-        return self.pieces
-
-    def drop_piece(self, column, color, turn):
-        for i in range(len(self.board) - 1, -1, -1):
-            if not self.board[i][column].filled:
-                self.board[i][column].fill_piece(color, turn)
-                return self.board[i][column]
-
-    def check_full(self):
-        total_filled = 0
-        for i in range(len(self.board)):
-            for j in range(len(self.board[i])):
-                if self.board[i][j].filled != "":
-                    total_filled += 1
-        if self.total_pieces == total_filled:
-            print("Board is Full")      # SHOULD RETURN BOOL
-
-    def check_horizontal_streak(self):
-        for i in range(len(self.board)):
-            row_streak = []
-            for j in range(len(self.board[i])):
-                row_streak.append(self.board[i][j].filled)
-            check_winner(row_streak)
-
-    def check_vertical_streak(self):
-        for i in range(len(self.board)):
-            col_streak = []
-            for j in range(len(self.board[i])):
-                col_streak.append(self.board[j][i].filled)
-            check_winner(col_streak)
+        boolean = validate_option("Do you want to play against the computer?", ["yes", "no"])
+        
