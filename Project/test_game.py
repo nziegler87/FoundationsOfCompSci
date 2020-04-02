@@ -1,5 +1,5 @@
 import unittest
-from game import create_streak, check_four, check_winner
+from game import *
 
 class Game_Board_Test(unittest.TestCase):
     def test_create_streak(self):
@@ -35,6 +35,14 @@ class Game_Board_Test(unittest.TestCase):
                          (True, "a"))
         self.assertEqual(check_winner(["a", "b", "b", "b", "b", "c"]),
                          (True, "b"))
+
+    def test_init(self):
+        game = Game()
+        self.assertEqual(game.play_computer, "")
+        self.assertEqual(game.first_move, "")
+        self.assertEqual(game.rows, "")
+        self.assertEqual(game.cols, "")
+        self.assertEqual(game.score, {})
 
 def main():
     unittest.main(verbosity = 3)
