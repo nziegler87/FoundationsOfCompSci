@@ -158,16 +158,20 @@ class Game:
         '''
         for arrow in self.board.arrows:
             if x > (arrow[1] - 10) and x < (arrow[1] + 10):
-                print(arrow[0])
+                column = arrow[0] - 1
+
+        x, y = self.drop_piece(column, "red")
+        self.graphics.update_piece(column + 1, x, y, "./images/red_piece_90.gif")
+        print(self.board)
     
 # THESE I PULLED FROM GAME_BOARD AND PUT HERE BECAUSE THEY RELATE TO GAME PLAY
 # NEED TO INTEGRATE
 
-    def drop_piece(self, column, color, turn):
-        for i in range(len(self.board) - 1, -1, -1):
-            if not self.board[i][column].filled:
-                self.board[i][column].fill_piece(color, turn)
-                return self.board[i][column]
+    def drop_piece(self, column, color):
+        for i in range(len(self.board.board) - 1, -1, -1):
+            if not self.board.board[i][column].filled:
+                self.board.board[i][column].fill_piece(color)
+                return (self.board.board[i][column].x, self.board.board[i][column].y)
 
     def check_full(self):
         total_filled = 0

@@ -70,6 +70,7 @@ class Game_Board:
         for i in range(len(self.board)):
             for j in range(len(self.board[0])):
                 piece = self.board[i][j]
-                board += "(" + str(piece.x) + ", " + str(piece.y) + ")"
+                board += "(" + str(piece.x) + ", " + str(piece.y) + \
+                         ", " + str(piece.filled) + ")"
             board += "\n"
         return board
