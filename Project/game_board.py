@@ -5,7 +5,7 @@ ROWS = "rows"
 COLS = "cols"
 MIN_DIMENSION = 4
 X_START = -250
-Y_START = 300
+Y_START = 250
 PIECE_SIZE = 100
 
 def get_dimensions(string):
@@ -34,6 +34,7 @@ class Game_Board:
         self.cols = MIN_DIMENSION
         self.total_pieces = self.rows * self.cols
         self.board = []
+        self.arrows = []
 
     def setup_board(self):
         '''
@@ -57,6 +58,12 @@ class Game_Board:
                 column += 1       # REMOVE AT SOME POINT
             self.board.append(temp_row)
             y -= PIECE_SIZE
+
+        for j in range(len(self.board[0])):
+            piece = self.board[0][j]
+            self.arrows.append([piece.identifier, piece.x, piece.y])
+
+        print(self.arrows)
 
     def __str__(self):
         board = ""

@@ -1,12 +1,10 @@
 import turtle
-from game_board import *
-from game import *
 
 # image constants
 WHITE = "./images/white_piece_90.gif"
 RED = "./images/red_piece_90.gif"
 YELLOW = "./images/yellow_piece_90.gif"
-ARROW = "./images/down_arrow.gif"
+ARROW = "./images/down_arrow2.gif"
 
 # window constants
 X_PERCENT = .75
@@ -25,7 +23,7 @@ COLOR = "blue"
 
 class Graphics:
 
-    def __init__(self, board):
+    def __init__(self, board, arrows):
         '''
         Constructor -- creates an instance of graphics
         Attributes:
@@ -66,6 +64,8 @@ class Graphics:
         self.board = board
         self.start_x = self.board[0][0].x
         self.start_y = self.board[0][0].y
+
+        self.arrows = arrows
         
     def add_shape(self, image):
         self.screen.addshape(image)
@@ -118,9 +118,9 @@ class Graphics:
                 piece = self.board[i][j]
                 self.draw_piece(piece.identifier, piece.x, piece.y)
 
-        for j in range(len(self.board[0])):
-            piece = self.board[0][j]
-            self.draw_arrow(ARROW, piece.x, piece.y + ARROW_OFFSET)
+        for i in range(len(self.arrows)):
+            arrow = self.arrows[i]
+            self.draw_arrow(ARROW, arrow[1], arrow[2] + ARROW_OFFSET)
  
 
     def draw_arrow(self, image, x, y):
@@ -153,4 +153,6 @@ class Graphics:
         self.game_square.write(identifier, align = "center")
         self.screen.update()
 
+    def handle_click(self, x, y):
+        print(x, y)
     

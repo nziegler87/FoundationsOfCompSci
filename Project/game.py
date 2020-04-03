@@ -9,6 +9,7 @@
 from stack import Stack
 from player import Player
 from game_board import Game_Board
+from graphics import *
 
 # constants for player types
 PLAYERS = {"C": "Computer", "H": "Another Human"}
@@ -132,6 +133,8 @@ class Game:
         self.rows = "" 
         self.cols = ""
         self.score = {}
+        self.board = Game_Board()
+        self.graphics = ""
     
     def collect_settings(self):           # I DON'T SEE HOW TO TEST THIS
         '''
@@ -141,10 +144,22 @@ class Game:
         Does: 
         '''
         print(INSTRUCTIONS)
-        self.play_computer = ask_player_type() 
+        self.play_computer = ask_player_type()
+        self.board.setup_board()
+        self.graphics = Graphics(self.board.board, self.board.arrows)
+        self.graphics.draw_blank_board()
 
+    def play_game(self):
+        self.graphics.screen.onclick(self.get_column)
 
-
+    def get_column(self, x, y):
+        '''
+        returns column number, an int
+        '''
+        for arrow in self.board.arrows:
+            if x > (arrow[1] - 10) and x < (arrow[1] + 10):
+                print(arrow[0])
+    
 # THESE I PULLED FROM GAME_BOARD AND PUT HERE BECAUSE THEY RELATE TO GAME PLAY
 # NEED TO INTEGRATE
 
