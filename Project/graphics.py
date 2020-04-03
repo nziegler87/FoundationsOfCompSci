@@ -16,6 +16,7 @@ Y_POS = 0
 # starting coordinates for drawing board
 X_START = -250
 Y_START = 250
+ARROW_OFFSET = 100
 
 # game piece constants
 BLANK_PIECE = "./images/white.gif"
@@ -117,7 +118,9 @@ class Graphics:
                 piece = self.board[i][j]
                 self.draw_piece(piece.identifier, piece.x, piece.y)
 
-        for j in range(len(self.board
+        for j in range(len(self.board[0])):
+            piece = self.board[0][j]
+            self.draw_arrow(ARROW, piece.x, piece.y + ARROW_OFFSET)
  
 
     def draw_arrow(self, image, x, y):

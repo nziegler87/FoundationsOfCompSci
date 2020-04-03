@@ -58,12 +58,6 @@ class Game_Board:
             self.board.append(temp_row)
             y -= PIECE_SIZE
 
-    def drop_piece(self, column, color, turn):
-        for i in range(len(self.board) - 1, -1, -1):
-            if not self.board[i][column].filled:
-                self.board[i][column].fill_piece(color, turn)
-                return self.board[i][column]
-
     def __str__(self):
         board = ""
         for i in range(len(self.board)):
