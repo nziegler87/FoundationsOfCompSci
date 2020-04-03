@@ -8,11 +8,7 @@
 
 from stack import Stack
 from player import Player
-
-# constants for game setup
-ROWS = "rows"
-COLS = "cols"
-MIN_DIMENSION = 4
+from game_board import Game_Board
 
 # constants for player types
 PLAYERS = {"C": "Computer", "H": "Another Human"}
@@ -31,13 +27,6 @@ INSTRUCTIONS = "OVERVIEW".center(CENTER_SPACING, "-") + \
                "OBJECTIVE".center(CENTER_SPACING, "-") + \
                "\nBe the first player to get four of your colored checkers " + \
                "in a row -- horizontally, vertically, or diagonally.\n\n" + \
-               "SETUP".center(CENTER_SPACING, "-") + \
-               "\n1. Select the number of rows and columns, ," + \
-               "min " + str(MIN_DIMENSION) + " x " + \
-               str(MIN_DIMENSION) + "\n" + \
-               "2. Choose if you want to play human:human or " + \
-               "human:computer\n" + \
-               "3. Decide who goes first\n\n" + \
                "GAMEPLAY".center(CENTER_SPACING, "-") + \
                "\n1. First player drops one of their checkers on ANY " + \
                "of the columns.\n" + \
@@ -45,6 +34,15 @@ INSTRUCTIONS = "OVERVIEW".center(CENTER_SPACING, "-") + \
                "in a row. The four in a row can be horizontal, vertical, " + \
                "or diagonal\n3. A draw is declared if the entire board " + \
                "is full and neither player earned four in a row.\n"
+
+##               "SETUP".center(CENTER_SPACING, "-") + \
+##               "\n1. Select the number of rows and columns, ," + \
+##               "min " + str(MIN_DIMENSION) + " x " + \
+##               str(MIN_DIMENSION) + "\n" + \
+##               "2. Choose if you want to play human:human or " + \
+##               "human:computer\n" + \
+##               "3. Decide who goes first\n\n" + \
+
 
 # functions for collecting and validating user game settings
 def ask_player_type():
@@ -64,15 +62,6 @@ def ask_player_type():
     else:
         return False
 
-def get_dimensions(string):
-    ''' Name: get_dimensions
-        Parameters: a string
-        Returns: an int
-    '''
-    value = input("Number of " + string + " (min " + str(MIN_DIMENSION) + "): ")
-    while not value.isdigit() or int(value) < MIN_DIMENSION:
-        value = input("That was not a valid input. Try again: ")
-    return int(value)
 
 # functions for checking winner
 def check_winner(lst):
@@ -137,8 +126,6 @@ class Game:
             self -- the current object
             play_computer -- "", to be replaced with boolean
             first_move -- "", to be replaced with player one color (string)
-            rows -- "", to be replaced with an int
-            cols -- "", to be replaced with an int
             score -- a blank dictionary to hold score
         '''
         self.play_computer = ""
@@ -155,8 +142,32 @@ class Game:
         Does: 
         '''
         print(INSTRUCTIONS)
-        
-        print("Specify game board dimensions.")
-        self.rows = get_dimensions(ROWS)
-        self.cols = get_dimensions(COLS)
         self.play_computer = ask_player_type() 
+
+
+
+# THESE I PULLED FROM GAME_BOARD AND PUT HERE BECAUSE THEY RELATE TO GAME PLAY
+# NEED TO INTEGRATE
+
+    def check_full(self):
+        total_filled = 0
+        for i in range(len(self.board)):
+            for j in range(len(self.board[i])):
+                if self.board[i][j].filled != "":
+                    total_filled += 1
+        if self.total_pieces == total_filled:
+            print("Board is Full")      # SHOULD RETURN BOOL
+
+    def check_horizontal_streak(self):
+        for i in range(len(self.board)):
+            row_streak = []
+            for j in range(len(self.board[i])):
+                row_streak.append(self.board[i][j].filled)
+            check_winner(row_streak)
+
+    def check_vertical_streak(self):
+        for i in range(len(self.board)):
+            col_streak = []
+            for j in range(len(self.board[i])):
+                col_streak.append(self.board[j][i].filled)
+            check_winner(col_streak)

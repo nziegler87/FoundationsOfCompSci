@@ -1,20 +1,62 @@
 from game_piece import Game_Piece
-from game import check_winner, check_four, create_streak
 
+# constants for game setup
+ROWS = "rows"
+COLS = "cols"
+MIN_DIMENSION = 4
+X_START = -250
+Y_START = 300
+PIECE_SIZE = 100
 
+def get_dimensions(string):
+    ''' Name: get_dimensions
+        Parameters: a string
+        Returns: an int
+    '''
+    value = input("Number of " + string + " (min " + str(MIN_DIMENSION) + "): ")
+    while not value.isdigit() or int(value) < MIN_DIMENSION:
+        value = input("That was not a valid input. Try again: ")
+    return int(value)
 
 class Game_Board:
     def __init__(self):
-        self.pieces = {}
+        '''
+        Constructor -- creates an instance of the game board
+        Attributes:
+            self -- the current object
+            rows -- 4, to be replaced with an int specified by user
+            cols -- 4, to be replaced with an int specified by user
+            total_pieces -- the number of total pieces on board
+            board -- an empty list, to eventually be filled with a nested list
+                     of game piece objects
+        '''
+        self.rows = MIN_DIMENSION
+        self.cols = MIN_DIMENSION
+        self.total_pieces = self.rows * self.cols
         self.board = []
 
-        self.total_pieces = self.rows * self.columns
-
-    def add_piece(self, ident, image, x, y):
-        self.pieces[ident] = [image, x, y]
-
-    def return_dict(self):
-        return self.pieces
+    def setup_board(self):
+        '''
+        Method: collect settings needed to set up board
+        Parameters:
+            self -- the current object
+        '''
+        print("Specify game board dimensions.")
+        self.rows = get_dimensions(ROWS)
+        self.cols = get_dimensions(COLS)
+        self.total_pieces = self.rows * self.cols
+        y = Y_START
+        for i in range(self.rows):
+            x = X_START
+            temp_row = []
+            column = 1             # THIS IS AN IDENTIFIER THAT CAN BE REMOVED
+            for j in range(self.cols):
+                piece = Game_Piece(column, x, y)
+                temp_row.append(piece)
+                x += PIECE_SIZE
+                column += 1       # REMOVE AT SOME POINT
+            self.board.append(temp_row)
+            y -= PIECE_SIZE
 
     def drop_piece(self, column, color, turn):
         for i in range(len(self.board) - 1, -1, -1):
@@ -22,25 +64,11 @@ class Game_Board:
                 self.board[i][column].fill_piece(color, turn)
                 return self.board[i][column]
 
-    def check_full(self):
-        total_filled = 0
+    def __str__(self):
+        board = ""
         for i in range(len(self.board)):
-            for j in range(len(self.board[i])):
-                if self.board[i][j].filled != "":
-                    total_filled += 1
-        if self.total_pieces == total_filled:
-            print("Board is Full")      # SHOULD RETURN BOOL
-
-    def check_horizontal_streak(self):
-        for i in range(len(self.board)):
-            row_streak = []
-            for j in range(len(self.board[i])):
-                row_streak.append(self.board[i][j].filled)
-            check_winner(row_streak)
-
-    def check_vertical_streak(self):
-        for i in range(len(self.board)):
-            col_streak = []
-            for j in range(len(self.board[i])):
-                col_streak.append(self.board[j][i].filled)
-            check_winner(col_streak)
+            for j in range(len(self.board[0])):
+                piece = self.board[i][j]
+                board += "(" + str(piece.x) + ", " + str(piece.y) + ")"
+            board += "\n"
+        return board

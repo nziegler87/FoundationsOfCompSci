@@ -1,14 +1,30 @@
 import turtle
+from game_board import *
+from game import *
 
+# image constants
+WHITE = "./images/white_piece_90.gif"
+RED = "./images/red_piece_90.gif"
+YELLOW = "./images/yellow_piece_90.gif"
+ARROW = "./images/down_arrow.gif"
+
+# window constants
 X_PERCENT = .75
 Y_PERCENT = 1.0
 Y_POS = 0
 
+# starting coordinates for drawing board
+X_START = -250
+Y_START = 250
+
+# game piece constants
 BLANK_PIECE = "./images/white.gif"
+SIZE = 100
+COLOR = "blue"
 
 class Graphics:
 
-    def __init__(self):
+    def __init__(self, board):
         '''
         Constructor -- creates an instance of graphics
         Attributes:
@@ -23,13 +39,19 @@ class Graphics:
             arrow -- creates a turtle to draw click arrows on screen
             arrow.hideturtle() -- hides turtle arrow
             arrow.up() -- so lines aren't drawn on screen while moving
+
+            board -- nested list of game_pieces objects from game_board object
         '''
         # set up screen turtle
         self.screen = turtle.Screen()
         self.screen.tracer(0)
         self.screen.setup(width = X_PERCENT, height = Y_PERCENT,
                           starty = Y_POS)
-
+        self.screen.addshape(WHITE)
+        self.screen.addshape(RED)
+        self.screen.addshape(YELLOW)
+        self.screen.addshape(ARROW)
+        
         # set up game_square turtle
         self.game_square = turtle.Turtle()
         self.game_square.hideturtle()
@@ -39,12 +61,17 @@ class Graphics:
         self.arrow = turtle.Turtle()
         self.arrow.hideturtle()
         self.arrow.up()
+
+        self.board = board
+        self.start_x = self.board[0][0].x
+        self.start_y = self.board[0][0].y
         
     def add_shape(self, image):
         self.screen.addshape(image)
 
     # DO I EVEN NEED TO SAVE X, Y...ARE THEY ABRITRARY ONCE DRAWN?
-    def draw_piece(self, identifier, x, y, size, color, image = BLANK_PIECE):
+    def draw_piece(self, identifier, x, y, size = SIZE, color = COLOR,
+                   image = WHITE):
         '''
         Method: draw_piece
         Paramters:
@@ -75,6 +102,23 @@ class Graphics:
         self.game_square.stamp()
         self.game_square.write(identifier, align = "center")
         self.screen.update()
+
+    def draw_blank_board(self):
+        '''
+        Method: draw_board
+        Parameters:
+            self -- the current objects
+            rows -- number of rows in game board (int)
+            cols -- number of cols in game board (int)
+            size -- size of each game piece (assumes pieces are squar), int
+        '''
+        for i in range(len(self.board)):
+            for j in range(len(self.board[0])):
+                piece = self.board[i][j]
+                self.draw_piece(piece.identifier, piece.x, piece.y)
+
+        for j in range(len(self.board
+ 
 
     def draw_arrow(self, image, x, y):
         '''
