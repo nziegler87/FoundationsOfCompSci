@@ -10,6 +10,7 @@ from stack import Stack
 from player import Player           # STILL NEED TO DO THIS
 from game_board import Game_Board
 from graphics import *
+import random
 
 # constants for player types
 PLAYERS = {"C": "Computer", "H": "Another Human"}
@@ -23,9 +24,12 @@ YELLOW = "yellow"
 
 CLICK_BUFFER = 30
 
-COMPUTER_NAME = "computer"
+COMPUTER_NAME = "Computer"
 PLAYER_ONE = "player 1"
 PLAYER_TWO = "player 2"
+
+RED_PIECE = "./images/red_piece_90.gif"
+YELLOW_PIECE = "./images/yellow_piece_90.gif"
 
 # constants for printing instructions
 CENTER_SPACING = 20
@@ -111,13 +115,13 @@ class Game:
             score -- a blank dictionary to hold score
         '''
         self.play_computer = ""
-        self.current_move = ""
         self.default_board = ""
         self.game_over = False
         self.score = {}
         self.board = Game_Board()
-        self.player_1 = Player(PLAYER_ONE)
-        self.player_2 = Player(PLAYER_TWO)
+
+        self.current_move = ""
+        self.players = []
 
     def ask_player_type(self):
         ''' Method: ask_player_type
@@ -167,7 +171,8 @@ class Game:
         print(INSTRUCTIONS)
         
         self.ask_player_type()
-        self.initialize_players()
+        self.collect_player_info()
+        self.pick_starting_player()
         
         self.ask_board_size()
         if self.default_board is False:
@@ -176,27 +181,42 @@ class Game:
 
         self.setup_graphics()
 
-    def initialize_players(self):
-        print(self.player_1.name.capitalize(), "information:")
-        self.player_1.collect_name()
-        self.player_1.collect_color()
-        
-        if self.player_1.color == RED:
-            self.player_2.color = YELLOW
-        else:
-            self.player_2.color = RED
-            
-        if self.play_computer == True:
-            self.player_2.name = COMPUTER_NAME
-        else:
-            print(self.player_2.name.capitalize(), "information:")
-            self.player_2.collect_name()
-            print(self.player_2.name, " your color is ",
-                  self.player_2.color, ".", sep = "")
+    def collect_player_info(self):
+        ''' Method: collect_player_info
+            Parameters:
+                self -- the current object
+            Returns: nothing
+            Does: calls player class two create two player objects
+                  and saves instances in self.players list
+        '''
+        # collect player 1 info
+        player_1 = Player(PLAYER_ONE)
+        print(player_1.name.capitalize(), "information:")
+        player_1.collect_name()
+        player_1.collect_color()
+        self.players.append(player_1)
 
-        self.player_1.initialize_score()
-        self.player_2.initialize_score()
-            
+        # collect player 2 info
+        if self.play_computer == True:
+            player_2 = Player(COMPUTER_NAME)
+        else:
+            player_2 = Player(PLAYER_TWO)
+            print(player_2.name.capitalize(), "information:")
+            player_2.collect_name()
+        self.players.append(player_2)
+
+        # set play 2 color, based on player 1 selection
+        if self.players[0].color == RED:
+            self.players[1].color = YELLOW
+        else:
+            self.players[1].color = RED         
+        print(self.players[1].name, " your color is ",
+              self.players[1].color, ".", sep = "")
+
+    def pick_starting_player(self):
+        self.current_move = self.players[random.randint(0, 1)]
+        print(self.current_move.name, "goest first!")
+        
 
     def setup_graphics(self):
         # initialize turtle objects, each as global
@@ -218,8 +238,6 @@ class Game:
 
     def handle_click(self, x, y):
         if self.game_over is True:
-            self.player_1.save_score()
-            self.player_2.save_score()
             print("Game is over")
         else:
             self.process_turn(x, y)
@@ -283,3 +301,25 @@ class Game:
             for j in range(len(self.board.board[i])):
                 col_streak.append(self.board.board[j][i].filled)
             check_winner(col_streak)
+
+    # CAN DELETE THIS AT SOMEPOINT
+    def initialize_players2(self):
+        print(self.player_1.name.capitalize(), "information:")
+        self.player_1.collect_name()
+        self.player_1.collect_color()
+        
+        if self.player_1.color == RED:
+            self.player_2.color = YELLOW
+        else:
+            self.player_2.color = RED
+            
+        if self.play_computer == True:
+            self.player_2.name = COMPUTER_NAME
+        else:
+            print(self.player_2.name.capitalize(), "information:")
+            self.player_2.collect_name()
+            print(self.player_2.name, " your color is ",
+                  self.player_2.color, ".", sep = "")
+
+        self.player_1.initialize_score()
+        self.player_2.initialize_score()
