@@ -15,9 +15,13 @@ from graphics import *
 PLAYERS = {"C": "Computer", "H": "Another Human"}
 COMPUTER = "C"
 
+OPTIONS = {"yes": True, "no": False}
+
 # game piece colors
 RED = "red"
 YELLOW = "yellow"
+
+CLICK_BUFFER = 30
 
 # constants for printing instructions
 CENTER_SPACING = 20
@@ -108,10 +112,12 @@ class Game:
             self -- the current object
             play_computer -- "", to be replaced with boolean
             current_move -- "", to be replaced with player one color (string)
+            default_board -- "", to be replaced with a boolean
             score -- a blank dictionary to hold score
         '''
         self.play_computer = ""
         self.current_move = ""
+        self.default_board = ""
         self.score = {}
         self.board = Game_Board()
 
@@ -133,6 +139,26 @@ class Game:
         else:
             self.play_computer = False
 
+    def ask_board_size(self):
+        ''' Method: ask_board_size
+            Parameters:
+                self -- the current object
+            Returns: nothing
+        '''
+        print("\nDo you want to use the default board size of ",
+              str(self.board.rows), " rows and ",
+              str(self.board.cols), " columns? ", sep = "")
+        
+        for k in OPTIONS.keys():
+            print("  ", k.capitalize())
+
+        response = input("Enter your selection: ").lower()
+
+        while response not in OPTIONS.keys():
+            response = input("Invalid entry. Try again: ").lower()
+
+        self.default_board = OPTIONS[response]
+
     def initialize_game(self):           # I DON'T SEE HOW TO TEST THIS
         '''
         Method: collect default game values from user
@@ -141,8 +167,14 @@ class Game:
         Does: 
         '''
         print(INSTRUCTIONS)
+        
         self.ask_player_type()
+        
+        self.ask_board_size()
+        if self.default_board is False:
+            self.board.get_dimensions()
         self.board.setup_board()
+
         self.setup_graphics()
 
     def setup_graphics(self):
@@ -153,12 +185,12 @@ class Game:
         global piece
         piece = setup_piece()
         
-        global arrow
-        arrow = setup_arrow()
+        global arrows
+        arrows = setup_arrow()
 
         # draw gameboard
         draw_board(self.board.board, piece, screen, WHITE)
-        draw_arrows(self.board.arrows, arrow, screen, ARROW)
+        draw_arrows(self.board.arrows, arrows, screen, ARROW)
 
     def play_game(self):
         screen.onclick(self.get_column)
@@ -167,13 +199,16 @@ class Game:
         '''
         returns column number, an int
         '''
-        for arrow in self.board.arrows:
-            if x > (arrow[1] - 10) and x < (arrow[1] + 10):
-                column = arrow[0] - 1
+        arrow_y = self.board.arrows[0].y
+        if y > arrow_y - CLICK_BUFFER and y < arrow_y + CLICK_BUFFER:
+            for arrow in self.board.arrows:
+                if x > (arrow.x - CLICK_BUFFER) and x < (arrow.x + CLICK_BUFFER):
+                    column = arrow.identifier
 
-        x, y = self.drop_piece(column, "red")
-        self.graphics.update_piece(column + 1, x, y, "./images/red_piece_90.gif")
-        print(self.board)
+            x, y = self.drop_piece(column - 1, "red")
+            print(self.board)
+            update_piece(arrows, screen, column, x, y, "./images/red_piece_90.gif")
+
     
 # THESE I PULLED FROM GAME_BOARD AND PUT HERE BECAUSE THEY RELATE TO GAME PLAY
 # NEED TO INTEGRATE

@@ -4,6 +4,7 @@ import copy
 # constants for game setup
 ROWS = "rows"
 COLS = "cols"
+DIMENSIONS = ["rows", "columns"]
 MIN_DIMENSION = 4
 DEFAULT_ROWS = 6
 DEFAULT_COLS = 7
@@ -11,16 +12,6 @@ X_START = -250
 Y_START = 250
 PIECE_SIZE = 100
 ARROW_OFFSET = 100
-
-def get_dimensions(string):
-    ''' Name: get_dimensions
-        Parameters: a string
-        Returns: an int
-    '''
-    value = input("Number of " + string + " (min " + str(MIN_DIMENSION) + "): ")
-    while not value.isdigit() or int(value) < MIN_DIMENSION:
-        value = input("That was not a valid input. Try again: ")
-    return int(value)
 
 class Game_Board:
     def __init__(self):
@@ -41,6 +32,22 @@ class Game_Board:
         self.board = []
         self.arrows = []
 
+    def get_dimensions(self):
+        ''' Name: get_dimensions
+            Parameters:
+                self -- the current object
+            Returns: nothing
+        '''
+        dimensions = []
+        for dimension in DIMENSIONS:
+            value = input("Number of " + dimension + " (min " + str(MIN_DIMENSION) + "): ")
+            while not value.isdigit() or int(value) < MIN_DIMENSION:
+                value = input("That was not a valid input. Try again: ")
+            dimensions.append(int(value))
+
+        self.rows, self.cols = dimensions
+        self.total_pieces = self.rows * self.cols
+
     def setup_board(self):
         '''
         Method: collect settings needed to set up board
@@ -50,12 +57,6 @@ class Game_Board:
         Does: creates nested list of game pieces based on # rows and cols as well as
               list of arrow objects
         '''
-        # collect game board information
-        print("Specify game board dimensions.")
-        self.rows = get_dimensions(ROWS)
-        self.cols = get_dimensions(COLS)
-        self.total_pieces = self.rows * self.cols
-
         # make nested list of game piece objects and save to self.board
         y = Y_START
         for i in range(self.rows):
@@ -79,6 +80,8 @@ class Game_Board:
             piece.identifier = col
             self.arrows.append(piece)
             col += 1
+
+
 
     def __str__(self):
         board = ""
