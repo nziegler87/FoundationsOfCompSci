@@ -23,6 +23,10 @@ YELLOW = "yellow"
 
 CLICK_BUFFER = 30
 
+COMPUTER_NAME = "computer"
+PLAYER_ONE = "player 1"
+PLAYER_TWO = "player 2"
+
 # constants for printing instructions
 CENTER_SPACING = 20
 INSTRUCTIONS = "OVERVIEW".center(CENTER_SPACING, "-") + \
@@ -39,15 +43,6 @@ INSTRUCTIONS = "OVERVIEW".center(CENTER_SPACING, "-") + \
                "in a row. The four in a row can be horizontal, vertical, " + \
                "or diagonal\n3. A draw is declared if the entire board " + \
                "is full and neither player earned four in a row.\n"
-
-##               "SETUP".center(CENTER_SPACING, "-") + \
-##               "\n1. Select the number of rows and columns, ," + \
-##               "min " + str(MIN_DIMENSION) + " x " + \
-##               str(MIN_DIMENSION) + "\n" + \
-##               "2. Choose if you want to play human:human or " + \
-##               "human:computer\n" + \
-##               "3. Decide who goes first\n\n" + \
-
 
 # functions for checking winner
 def check_winner(lst):
@@ -121,6 +116,8 @@ class Game:
         self.game_over = False
         self.score = {}
         self.board = Game_Board()
+        self.player_1 = Player(PLAYER_ONE)
+        self.player_2 = Player(PLAYER_TWO)
 
     def ask_player_type(self):
         ''' Method: ask_player_type
@@ -170,6 +167,7 @@ class Game:
         print(INSTRUCTIONS)
         
         self.ask_player_type()
+        self.initialize_players()
         
         self.ask_board_size()
         if self.default_board is False:
@@ -177,6 +175,28 @@ class Game:
         self.board.setup_board()
 
         self.setup_graphics()
+
+    def initialize_players(self):
+        print(self.player_1.name.capitalize(), "information:")
+        self.player_1.collect_name()
+        self.player_1.collect_color()
+        
+        if self.player_1.color == RED:
+            self.player_2.color = YELLOW
+        else:
+            self.player_2.color = RED
+            
+        if self.play_computer == True:
+            self.player_2.name = COMPUTER_NAME
+        else:
+            print(self.player_2.name.capitalize(), "information:")
+            self.player_2.collect_name()
+            print(self.player_2.name, " your color is ",
+                  self.player_2.color, ".", sep = "")
+
+        self.player_1.initialize_score()
+        self.player_2.initialize_score()
+            
 
     def setup_graphics(self):
         # initialize turtle objects, each as global
@@ -198,6 +218,8 @@ class Game:
 
     def handle_click(self, x, y):
         if self.game_over is True:
+            self.player_1.save_score()
+            self.player_2.save_score()
             print("Game is over")
         else:
             self.process_turn(x, y)

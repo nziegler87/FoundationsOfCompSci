@@ -1,4 +1,5 @@
 TXT_EXT = ".txt"
+PLAYER_COLORS = {"R":"red", "Y":"yellow"}
 
 class Player:
 
@@ -11,8 +12,23 @@ class Player:
             score -- user's current score (an int)
         '''
         self.name = name
-        self.filename = name + TXT_EXT
+        self.filename = "" + TXT_EXT
         self.score = 0
+        self.color = ""
+
+    def collect_name(self):
+        self.name = input("Enter your name: ")
+        self.filename = self.name + TXT_EXT
+
+    def collect_color(self):
+        print("Please select your color.")
+        for k, v in PLAYER_COLORS.items():
+            print("  ", k, "-", v)
+        color = input("Enter your selection: ").upper()
+        while color not in PLAYER_COLORS.keys():
+            color = input("Invalid selection. Try again: ").upper()
+
+        self.color = PLAYER_COLORS[color]
 
     def initialize_score(self):
         '''
