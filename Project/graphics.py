@@ -1,11 +1,11 @@
 import turtle
+from game_board import *
 
 # image constants
-WHITE_IMG = "./images/white_piece_90.gif"
-RED_IMG = "./images/red_piece_90.gif"
-YELLOW_IMG = "./images/yellow_piece_90.gif"
-ARROW_IMG = "./images/down_arrow2.gif"
-SIZE = 100
+WHITE_IMG = "./images/white_piece_60.gif"
+RED_IMG = "./images/red_piece_60.gif"
+YELLOW_IMG = "./images/yellow_piece_60.gif"
+ARROW_IMG = "./images/down_arrow2_40.gif"
 COLOR = "blue"
 IMG_LST = [WHITE_IMG, RED_IMG, YELLOW_IMG, ARROW_IMG]
 
@@ -67,11 +67,11 @@ def draw_piece(turtle, screen, identifier, x, y, image):
     turtle.shape(image)
 
     # draw background square
-    turtle.goto(x - (SIZE / 2), y + (SIZE / 2))
+    turtle.goto(x - (PIECE_SIZE / 2), y + (PIECE_SIZE / 2))
     turtle.down()
     turtle.begin_fill()
     for i in range(4):
-        turtle.forward(SIZE)
+        turtle.forward(PIECE_SIZE)
         turtle.right(90)
     turtle.end_fill()
     turtle.up()

@@ -28,9 +28,6 @@ COMPUTER_NAME = "Computer"
 PLAYER_ONE = "player 1"
 PLAYER_TWO = "player 2"
 
-RED_PIECE = "./images/red_piece_90.gif"
-YELLOW_PIECE = "./images/yellow_piece_90.gif"
-
 # constants for printing instructions
 CENTER_SPACING = 20
 INSTRUCTIONS = "OVERVIEW".center(CENTER_SPACING, "-") + \
@@ -174,7 +171,7 @@ class Game:
         self.ask_player_type()
         self.collect_player_info()
         self.pick_starting_player()
-        
+        self.set_current_img()
         self.ask_board_size()
         if self.default_board is False:
             self.board.get_dimensions()
@@ -216,7 +213,6 @@ class Game:
 
     def pick_starting_player(self):
         self.current_move = random.randint(0, 1)
-        print(self.current_move)
         print(self.players[self.current_move].name, "goes first!")
 
     def set_current_img(self):
@@ -224,9 +220,12 @@ class Game:
             self.current_img = RED_IMG
         else:
             self.current_img = YELLOW_IMG
-
+            
     def switch_player(self):
-        pass
+        if self.current_move == 1:
+            self.current_move = 0
+        else:
+            self.current_move = 1
         
     def setup_graphics(self):
         # initialize turtle objects, each as global
@@ -250,8 +249,36 @@ class Game:
         if self.game_over is True:
             print("Game is over")
         else:
-            self.process_turn(x, y)
-            
+            if self.players[self.current_move].name == COMPUTER_NAME:
+                self.computer_turn()
+            else:
+                self.process_turn(x, y)
+
+    def computer_turn(self):
+##        while True:
+##            column = random.randint(0, len(self.board.board[0]) - 1)
+##            if not self.board.board[0][column].filled:
+##                break
+        valid_cols = []
+        for i in range(len(self.board.board[0])):
+            if not self.board.board[0][i].filled:
+                valid_cols.append(i)
+        print(valid_cols)
+        column = random.choice(valid_cols)
+        print(column)
+        for i in range(len(self.board.board) - 1, -1, -1):
+            if not self.board.board[i][column].filled:
+                self.board.board[i][column].fill_piece(self.players[self.current_move].color)
+                x, y = (self.board.board[i][column].x, self.board.board[i][column].y)
+                break
+        update_piece(arrows, screen, column, x, y, self.current_img)
+        self.check_full()
+        self.check_horizontal_streak()
+        self.switch_player()
+        self.set_current_img()
+        print(self.board)
+
+                
     def process_turn(self, x, y):
         '''
         returns column number, an int
@@ -263,19 +290,23 @@ class Game:
             for arrow in self.board.arrows:
                 if x > (arrow.x - CLICK_BUFFER) and x < (arrow.x + CLICK_BUFFER):
                     column = arrow.identifier
-            # if column has an empty space, drop it and update screen
-            # if column full, do not update screen and keep current player
-            move_value = self.drop_piece(column,
-                                         self.players[self.current_move].color)
-            if move_value is False:
-                pass
-            else:
-                x, y = move_value
-                update_piece(arrows, screen, column, x, y,
-                             self.current_img)
-                self.check_full()
-                self.check_horizontal_streak()
-##                print(self.board)
+                    
+                    # if column has an empty space, drop it and update screen
+                    # if column full, do not update screen and keep current player
+                    move_value = self.drop_piece(column,
+                                                 self.players[self.current_move].color)
+                    if move_value is False:
+                        pass
+                    else:
+                        x, y = move_value
+                        update_piece(arrows, screen, column, x, y,
+                                     self.current_img)
+                        self.check_full()
+                        self.check_horizontal_streak()
+                        self.switch_player()
+                        self.set_current_img()
+                        print(self.board)
+
 
     def drop_piece(self, column, color):
         if self.board.board[0][column].filled:

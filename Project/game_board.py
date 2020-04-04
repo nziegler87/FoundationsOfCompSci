@@ -6,12 +6,12 @@ ROWS = "rows"
 COLS = "cols"
 DIMENSIONS = ["rows", "columns"]
 MIN_DIMENSION = 4
-DEFAULT_ROWS = 4
-DEFAULT_COLS = 4
+DEFAULT_ROWS = 6
+DEFAULT_COLS = 7
 X_START = -250
-Y_START = 250
-PIECE_SIZE = 100
-ARROW_OFFSET = 100
+Y_START = 100
+PIECE_SIZE = 70
+ARROW_OFFSET = 70
 
 class Game_Board:
     def __init__(self):
