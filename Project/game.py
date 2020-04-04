@@ -121,6 +121,7 @@ class Game:
         self.board = Game_Board()
 
         self.current_move = ""
+        self.current_img = ""
         self.players = []
 
     def ask_player_type(self):
@@ -214,10 +215,19 @@ class Game:
               self.players[1].color, ".", sep = "")
 
     def pick_starting_player(self):
-        self.current_move = self.players[random.randint(0, 1)]
-        print(self.current_move.name, "goest first!")
-        
+        self.current_move = random.randint(0, 1)
+        print(self.current_move)
+        print(self.players[self.current_move].name, "goes first!")
 
+    def set_current_img(self):
+        if self.players[self.current_move].color == RED:
+            self.current_img = RED_IMG
+        else:
+            self.current_img = YELLOW_IMG
+
+    def switch_player(self):
+        pass
+        
     def setup_graphics(self):
         # initialize turtle objects, each as global
         global screen
@@ -230,8 +240,8 @@ class Game:
         arrows = setup_arrow()
 
         # draw gameboard
-        draw_board(self.board.board, piece, screen, WHITE)
-        draw_arrows(self.board.arrows, arrows, screen, ARROW)
+        draw_board(self.board.board, piece, screen, WHITE_IMG)
+        draw_arrows(self.board.arrows, arrows, screen, ARROW_IMG)
 
     def play_game(self):
         screen.onclick(self.handle_click)
@@ -255,13 +265,14 @@ class Game:
                     column = arrow.identifier
             # if column has an empty space, drop it and update screen
             # if column full, do not update screen and keep current player
-            move_value = self.drop_piece(column, "red")
+            move_value = self.drop_piece(column,
+                                         self.players[self.current_move].color)
             if move_value is False:
                 pass
             else:
                 x, y = move_value
                 update_piece(arrows, screen, column, x, y,
-                             "./images/red_piece_90.gif")
+                             self.current_img)
                 self.check_full()
                 self.check_horizontal_streak()
 ##                print(self.board)

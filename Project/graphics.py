@@ -1,14 +1,13 @@
 import turtle
 
 # image constants
-WHITE = "./images/white_piece_90.gif"
-RED = "./images/red_piece_90.gif"
-YELLOW = "./images/yellow_piece_90.gif"
-ARROW = "./images/down_arrow2.gif"
+WHITE_IMG = "./images/white_piece_90.gif"
+RED_IMG = "./images/red_piece_90.gif"
+YELLOW_IMG = "./images/yellow_piece_90.gif"
+ARROW_IMG = "./images/down_arrow2.gif"
 SIZE = 100
 COLOR = "blue"
-IMG_LST = [WHITE, RED, YELLOW, ARROW]
-GAME_PIECES = [WHITE, RED, YELLOW]
+IMG_LST = [WHITE_IMG, RED_IMG, YELLOW_IMG, ARROW_IMG]
 
 # window constants
 X_PERCENT = .5
