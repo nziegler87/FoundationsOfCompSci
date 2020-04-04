@@ -1,12 +1,16 @@
 from game_piece import Game_Piece
+import copy
 
 # constants for game setup
 ROWS = "rows"
 COLS = "cols"
 MIN_DIMENSION = 4
+DEFAULT_ROWS = 6
+DEFAULT_COLS = 7
 X_START = -250
 Y_START = 250
 PIECE_SIZE = 100
+ARROW_OFFSET = 100
 
 def get_dimensions(string):
     ''' Name: get_dimensions
@@ -29,9 +33,10 @@ class Game_Board:
             total_pieces -- the number of total pieces on board
             board -- an empty list, to eventually be filled with a nested list
                      of game piece objects
+            arrows -- an empty list, to eventually be filled with a list of arrow objects
         '''
-        self.rows = MIN_DIMENSION
-        self.cols = MIN_DIMENSION
+        self.rows = DEFAULT_ROWS
+        self.cols = DEFAULT_COLS
         self.total_pieces = self.rows * self.cols
         self.board = []
         self.arrows = []
@@ -41,11 +46,17 @@ class Game_Board:
         Method: collect settings needed to set up board
         Parameters:
             self -- the current object
+        Returns: nothing
+        Does: creates nested list of game pieces based on # rows and cols as well as
+              list of arrow objects
         '''
+        # collect game board information
         print("Specify game board dimensions.")
         self.rows = get_dimensions(ROWS)
         self.cols = get_dimensions(COLS)
         self.total_pieces = self.rows * self.cols
+
+        # make nested list of game piece objects and save to self.board
         y = Y_START
         for i in range(self.rows):
             x = X_START
@@ -59,11 +70,15 @@ class Game_Board:
             self.board.append(temp_row)
             y -= PIECE_SIZE
 
+        # make list of arrow piece objects and safe to self.arrows
+        col = 1
         for j in range(len(self.board[0])):
-            piece = self.board[0][j]
-            self.arrows.append([piece.identifier, piece.x, piece.y])
-
-        print(self.arrows)
+            # using deep copy to make a copy of each top row game pice to be arrows
+            piece = copy.deepcopy(self.board[0][j])
+            piece.y += ARROW_OFFSET
+            piece.identifier = col
+            self.arrows.append(piece)
+            col += 1
 
     def __str__(self):
         board = ""

@@ -7,7 +7,7 @@
 '''
 
 from stack import Stack
-from player import Player
+from player import Player           # STILL NEED TO DO THIS
 from game_board import Game_Board
 from graphics import *
 
@@ -44,24 +44,6 @@ INSTRUCTIONS = "OVERVIEW".center(CENTER_SPACING, "-") + \
 ##               "human:computer\n" + \
 ##               "3. Decide who goes first\n\n" + \
 
-
-# functions for collecting and validating user game settings
-def ask_player_type():
-    ''' Name: ask_play_type
-        Parameters: nothing
-        Returns: True, if they want to play against the computer
-    '''
-    print("Do you want to play against the computer or another human?")
-    for k, v in PLAYERS.items():
-        print("  ", k, "-", v)
-    response = input("Enter your selection: ").upper()
-    while response not in PLAYERS.keys():
-        response = input("Invalid entry. Try again: ").upper()
-
-    if response == COMPUTER:
-        return True
-    else:
-        return False
 
 # functions for checking winner
 def check_winner(lst):
@@ -125,18 +107,33 @@ class Game:
         Parameters:
             self -- the current object
             play_computer -- "", to be replaced with boolean
-            first_move -- "", to be replaced with player one color (string)
+            current_move -- "", to be replaced with player one color (string)
             score -- a blank dictionary to hold score
         '''
         self.play_computer = ""
-        self.first_move = ""
-        self.rows = "" 
-        self.cols = ""
+        self.current_move = ""
         self.score = {}
         self.board = Game_Board()
-        self.graphics = ""
-    
-    def collect_settings(self):           # I DON'T SEE HOW TO TEST THIS
+
+    def ask_player_type(self):
+        ''' Method: ask_player_type
+            Parameters:
+                self -- the current object
+            Returns: nothing
+        '''
+        print("Do you want to play against the computer or another human?")
+        for k, v in PLAYERS.items():
+            print("  ", k, "-", v)
+        response = input("Enter your selection: ").upper()
+        while response not in PLAYERS.keys():
+            response = input("Invalid entry. Try again: ").upper()
+
+        if response == COMPUTER:
+            self.play_computer = True
+        else:
+            self.play_computer = False
+
+    def initialize_game(self):           # I DON'T SEE HOW TO TEST THIS
         '''
         Method: collect default game values from user
         Parameters:
@@ -144,13 +141,27 @@ class Game:
         Does: 
         '''
         print(INSTRUCTIONS)
-        self.play_computer = ask_player_type()
+        self.ask_player_type()
         self.board.setup_board()
-        self.graphics = Graphics(self.board.board, self.board.arrows)
-        self.graphics.draw_blank_board()
+        self.setup_graphics()
+
+    def setup_graphics(self):
+        # initialize turtle objects, each as global
+        global screen
+        screen = setup_screen()
+        
+        global piece
+        piece = setup_piece()
+        
+        global arrow
+        arrow = setup_arrow()
+
+        # draw gameboard
+        draw_board(self.board.board, piece, screen, WHITE)
+        draw_arrows(self.board.arrows, arrow, screen, ARROW)
 
     def play_game(self):
-        self.graphics.screen.onclick(self.get_column)
+        screen.onclick(self.get_column)
 
     def get_column(self, x, y):
         '''

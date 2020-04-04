@@ -6,7 +6,7 @@ SCOREFILE = "scorefile.txt"     # NEED TO CREATE FUNCTION
 
 def main():
     game = Game()
-    game.collect_settings()
+    game.initialize_game()
     game.play_game()
     
 
