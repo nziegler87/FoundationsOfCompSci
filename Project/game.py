@@ -118,6 +118,7 @@ class Game:
         self.play_computer = ""
         self.current_move = ""
         self.default_board = ""
+        self.game_over = False
         self.score = {}
         self.board = Game_Board()
 
@@ -193,51 +194,70 @@ class Game:
         draw_arrows(self.board.arrows, arrows, screen, ARROW)
 
     def play_game(self):
-        screen.onclick(self.get_column)
+        screen.onclick(self.handle_click)
 
-    def get_column(self, x, y):
+    def handle_click(self, x, y):
+        if self.game_over is True:
+            print("Game is over")
+        else:
+            self.process_turn(x, y)
+            
+    def process_turn(self, x, y):
         '''
         returns column number, an int
         '''
+        # check to see if click is in arrow region and on an arrow
+        # if true, return the corresponding column
         arrow_y = self.board.arrows[0].y
         if y > arrow_y - CLICK_BUFFER and y < arrow_y + CLICK_BUFFER:
             for arrow in self.board.arrows:
                 if x > (arrow.x - CLICK_BUFFER) and x < (arrow.x + CLICK_BUFFER):
                     column = arrow.identifier
-
-            x, y = self.drop_piece(column - 1, "red")
-            print(self.board)
-            update_piece(arrows, screen, column, x, y, "./images/red_piece_90.gif")
-
-    
-# THESE I PULLED FROM GAME_BOARD AND PUT HERE BECAUSE THEY RELATE TO GAME PLAY
-# NEED TO INTEGRATE
+            # if column has an empty space, drop it and update screen
+            # if column full, do not update screen and keep current player
+            move_value = self.drop_piece(column, "red")
+            if move_value is False:
+                pass
+            else:
+                x, y = move_value
+                update_piece(arrows, screen, column, x, y,
+                             "./images/red_piece_90.gif")
+                self.check_full()
+                self.check_horizontal_streak()
+##                print(self.board)
 
     def drop_piece(self, column, color):
+        if self.board.board[0][column].filled:
+            print("That column is full. Try again.")
+            return False
         for i in range(len(self.board.board) - 1, -1, -1):
             if not self.board.board[i][column].filled:
                 self.board.board[i][column].fill_piece(color)
                 return (self.board.board[i][column].x, self.board.board[i][column].y)
+            
+# THESE I PULLED FROM GAME_BOARD AND PUT HERE BECAUSE THEY RELATE TO GAME PLAY
+# NEED TO INTEGRATE
 
     def check_full(self):
         total_filled = 0
-        for i in range(len(self.board)):
-            for j in range(len(self.board[i])):
-                if self.board[i][j].filled != "":
+        for i in range(len(self.board.board)):
+            for j in range(len(self.board.board[i])):
+                if self.board.board[i][j].filled != "":
                     total_filled += 1
-        if self.total_pieces == total_filled:
-            print("Board is Full")      # SHOULD RETURN BOOL
+        if self.board.total_pieces == total_filled:
+            self.game_over = True
+            print("The board is full and it is a draw.")
 
     def check_horizontal_streak(self):
-        for i in range(len(self.board)):
+        for i in range(len(self.board.board)):
             row_streak = []
-            for j in range(len(self.board[i])):
-                row_streak.append(self.board[i][j].filled)
+            for j in range(len(self.board.board[i])):
+                row_streak.append(self.board.board[i][j].filled)
             check_winner(row_streak)
 
     def check_vertical_streak(self):
-        for i in range(len(self.board)):
+        for i in range(len(self.board.board)):
             col_streak = []
-            for j in range(len(self.board[i])):
-                col_streak.append(self.board[j][i].filled)
+            for j in range(len(self.board.board[i])):
+                col_streak.append(self.board.board[j][i].filled)
             check_winner(col_streak)

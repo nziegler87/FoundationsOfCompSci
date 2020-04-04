@@ -11,8 +11,8 @@ IMG_LST = [WHITE, RED, YELLOW, ARROW]
 GAME_PIECES = [WHITE, RED, YELLOW]
 
 # window constants
-X_PERCENT = .75
-Y_PERCENT = 1.0
+X_PERCENT = .5
+Y_PERCENT = .5
 Y_POS = 0
 
 def setup_screen():

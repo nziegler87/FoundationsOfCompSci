@@ -6,8 +6,8 @@ ROWS = "rows"
 COLS = "cols"
 DIMENSIONS = ["rows", "columns"]
 MIN_DIMENSION = 4
-DEFAULT_ROWS = 6
-DEFAULT_COLS = 7
+DEFAULT_ROWS = 4
+DEFAULT_COLS = 4
 X_START = -250
 Y_START = 250
 PIECE_SIZE = 100
@@ -44,7 +44,6 @@ class Game_Board:
             while not value.isdigit() or int(value) < MIN_DIMENSION:
                 value = input("That was not a valid input. Try again: ")
             dimensions.append(int(value))
-
         self.rows, self.cols = dimensions
         self.total_pieces = self.rows * self.cols
 
@@ -62,25 +61,19 @@ class Game_Board:
         for i in range(self.rows):
             x = X_START
             temp_row = []
-            column = 1             # THIS IS AN IDENTIFIER THAT CAN BE REMOVED
-            for j in range(self.cols):
+            for column, j in enumerate(range(self.cols)):
                 piece = Game_Piece(column, x, y)
                 temp_row.append(piece)
                 x += PIECE_SIZE
-                column += 1       # REMOVE AT SOME POINT
             self.board.append(temp_row)
             y -= PIECE_SIZE
 
         # make list of arrow piece objects and safe to self.arrows
-        col = 1
         for j in range(len(self.board[0])):
             # using deep copy to make a copy of each top row game pice to be arrows
             piece = copy.deepcopy(self.board[0][j])
             piece.y += ARROW_OFFSET
-            piece.identifier = col
             self.arrows.append(piece)
-            col += 1
-
 
 
     def __str__(self):
