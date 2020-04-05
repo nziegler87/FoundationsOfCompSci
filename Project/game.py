@@ -4,6 +4,7 @@
     April 2020
     Consulted:
         https://www.fgbradleys.com/rules/Connect%20Four.pdf
+        https://stackoverflow.com/questions/6313308/get-all-the-diagonals-in-a-matrix-list-of-lists-in-python
 '''
 
 from stack import Stack
@@ -16,14 +17,17 @@ import random
 PLAYERS = {"C": "Computer", "H": "Another Human"}
 COMPUTER = "C"
 
+# constants for menus
 OPTIONS = {"yes": True, "no": False}
 
 # game piece colors
 RED = "red"
 YELLOW = "yellow"
 
+# constant for onclick handling
 CLICK_BUFFER = 30
 
+# player name constants
 COMPUTER_NAME = "Computer"
 PLAYER_ONE = "player 1"
 PLAYER_TWO = "player 2"
@@ -52,8 +56,8 @@ def check_winner(lst):
         Returns: if there is a streak of items four or great in the list,
                  a tuple with (True, item)
     '''
-    tuples = create_streak(lst)
-    check_four(tuples)
+    streak = create_streak(lst)
+    return(check_four(streak))
     
 def check_four(tuples_list):
     ''' Name: check_four
@@ -65,7 +69,7 @@ def check_four(tuples_list):
         # looks for streak of four or greater, ignoring any blanks
         if tuples_list[i][0] >= 4 and tuples_list[i][1] != "":
                 winner = tuples_list[i][1]
-                return (True, winner)
+                return winner
 
 def create_streak(lst):
     ''' Name: create_streak
@@ -127,13 +131,17 @@ class Game:
                 self -- the current object
             Returns: nothing
         '''
+        # print question and options
         print("Do you want to play against the computer or another human?")
         for k, v in PLAYERS.items():
             print("  ", k, "-", v)
+
+        # ask for and valdiate response
         response = input("Enter your selection: ").upper()
         while response not in PLAYERS.keys():
             response = input("Invalid entry. Try again: ").upper()
 
+        # set play_computer attribute with boolean based on reponse
         if response == COMPUTER:
             self.play_computer = True
         else:
@@ -145,21 +153,22 @@ class Game:
                 self -- the current object
             Returns: nothing
         '''
+        # print question and options
         print("\nDo you want to use the default board size of ",
               str(self.board.rows), " rows and ",
               str(self.board.cols), " columns? ", sep = "")
-        
         for k in OPTIONS.keys():
             print("  ", k.capitalize())
 
+        # collect and validate response
         response = input("Enter your selection: ").lower()
-
         while response not in OPTIONS.keys():
             response = input("Invalid entry. Try again: ").lower()
 
+        # update default_board attribute based on response
         self.default_board = OPTIONS[response]
 
-    def initialize_game(self):           # I DON'T SEE HOW TO TEST THIS
+    def initialize_game(self):                                  # I DON'T SEE HOW TO TEST THIS
         '''
         Method: collect default game values from user
         Parameters:
@@ -167,16 +176,20 @@ class Game:
         Does: 
         '''
         print(INSTRUCTIONS)
-        
+
+        # ask if user wants to play computer or human and collectinfo
         self.ask_player_type()
         self.collect_player_info()
-        self.pick_starting_player()
-        self.set_current_img()
+        self.pick_starting_player()                             # may get rid of this
+        self.set_player_img()                                   # this should probably go in a turn
+
+        # ask if user wants default board size or input own dimensions
         self.ask_board_size()
         if self.default_board is False:
             self.board.get_dimensions()
         self.board.setup_board()
 
+        # draw blank board and gamesetup on screen
         self.setup_graphics()
 
     def collect_player_info(self):
@@ -187,14 +200,14 @@ class Game:
             Does: calls player class two create two player objects
                   and saves instances in self.players list
         '''
-        # collect player 1 info
+        # create a player instance and collect info
         player_1 = Player(PLAYER_ONE)
         print(player_1.name.capitalize(), "information:")
         player_1.collect_name()
         player_1.collect_color()
         self.players.append(player_1)
 
-        # collect player 2 info
+        # create second player instance, either set to computer or collect info
         if self.play_computer == True:
             player_2 = Player(COMPUTER_NAME)
         else:
@@ -203,7 +216,7 @@ class Game:
             player_2.collect_name()
         self.players.append(player_2)
 
-        # set play 2 color, based on player 1 selection
+        # set player 2 color, based on player 1 selection
         if self.players[0].color == RED:
             self.players[1].color = YELLOW
         else:
@@ -212,22 +225,46 @@ class Game:
               self.players[1].color, ".", sep = "")
 
     def pick_starting_player(self):
+        ''' Method: pick_starting_player
+            Parameters:
+                self -- the current object
+            Returns: nothing
+            Does: randomly pick 0 or 1 and set current_move
+        '''
         self.current_move = random.randint(0, 1)
         print(self.players[self.current_move].name, "goes first!")
 
-    def set_current_img(self):
+    def set_player_img(self):
+        ''' Method: set_player_img
+            Parameters:
+                self -- the current object
+            Returns: nothing
+            Does: sets image piece (red or yellow) based on active player
+        '''
         if self.players[self.current_move].color == RED:
             self.current_img = RED_IMG
         else:
             self.current_img = YELLOW_IMG
             
     def switch_player(self):
+        ''' Method: switch_payer
+            Parameters:
+                self -- the current object
+            Returns: nothing
+            Does: alternates current_player attribute between 0 and 1
+        '''
         if self.current_move == 1:
             self.current_move = 0
         else:
             self.current_move = 1
         
     def setup_graphics(self):
+        ''' Method: setup_graphics
+            Parameters:
+                self -- the current object
+            Returns: nothing
+            Does: creates turtle instances draws gameboard
+        '''
         # initialize turtle objects, each as global
         global screen
         screen = setup_screen()
@@ -254,6 +291,67 @@ class Game:
             else:
                 self.process_turn(x, y)
 
+                
+    def process_turn(self, x, y):
+        '''
+        returns column number, an int
+        '''
+        
+        column = self.get_column(x, y)
+        
+        # if user clicks anwhere but an arrow 'hotzone' nothing happens
+        if column is not None:
+            # if column has an empty space, drop it and update screen
+            # if column full, do not update screen and keep current player
+            move_value = self.drop_piece(column,
+                                             self.players[self.current_move].color)
+            if move_value is False:
+                pass
+            else:
+                x, y = move_value
+                update_piece(arrows, screen, column, x, y,
+                             self.current_img)
+                self.check_full()
+                self.switch_player()
+                self.set_player_img()
+                print(self.board)
+            
+    def get_column(self, x, y):
+        ''' Method: get_column
+            Parameters:
+                self -- the current object
+                x -- x coordinate of click (float)
+                y -- y coordinate of click (float)
+            Returns: column number {an int)
+        '''
+        # check to see if click is in arrow region and on an arrow
+        # if true, return the corresponding column
+        arrow_y = self.board.arrows[0].y
+        if y > arrow_y - CLICK_BUFFER and y < arrow_y + CLICK_BUFFER:
+            for arrow in self.board.arrows:
+                if x > (arrow.x - CLICK_BUFFER) and x < (arrow.x + CLICK_BUFFER):
+                    return(arrow.identifier)
+
+    def drop_piece(self, column, color):
+        ''' Method: drop_piece
+            Parameters:
+                self -- the current object
+                column -- column number to try and drop piece (an int)
+                color -- color of the current player, a string, red or yellow
+            Returns: x, y coordinates as a tuple or a Boolean
+            Does: if there is an empty game piece in column, fill piece filled
+                  attribute with current player color string and return
+                  x, y coordinates of the piece, else False
+        '''
+        if self.board.board[0][column].filled:
+            print("That column is full. Try again.")
+            return False
+        for i in range(len(self.board.board) - 1, -1, -1):
+            if not self.board.board[i][column].filled:
+                self.board.board[i][column].fill_piece(color)
+                return (self.board.board[i][column].x, self.board.board[i][column].y)
+            
+
     def computer_turn(self):
 ##        while True:
 ##            column = random.randint(0, len(self.board.board[0]) - 1)
@@ -275,48 +373,9 @@ class Game:
         self.check_full()
         self.check_horizontal_streak()
         self.switch_player()
-        self.set_current_img()
+        self.set_player_img()
         print(self.board)
 
-                
-    def process_turn(self, x, y):
-        '''
-        returns column number, an int
-        '''
-        # check to see if click is in arrow region and on an arrow
-        # if true, return the corresponding column
-        arrow_y = self.board.arrows[0].y
-        if y > arrow_y - CLICK_BUFFER and y < arrow_y + CLICK_BUFFER:
-            for arrow in self.board.arrows:
-                if x > (arrow.x - CLICK_BUFFER) and x < (arrow.x + CLICK_BUFFER):
-                    column = arrow.identifier
-                    
-                    # if column has an empty space, drop it and update screen
-                    # if column full, do not update screen and keep current player
-                    move_value = self.drop_piece(column,
-                                                 self.players[self.current_move].color)
-                    if move_value is False:
-                        pass
-                    else:
-                        x, y = move_value
-                        update_piece(arrows, screen, column, x, y,
-                                     self.current_img)
-                        self.check_full()
-                        self.check_horizontal_streak()
-                        self.switch_player()
-                        self.set_current_img()
-                        print(self.board)
-
-
-    def drop_piece(self, column, color):
-        if self.board.board[0][column].filled:
-            print("That column is full. Try again.")
-            return False
-        for i in range(len(self.board.board) - 1, -1, -1):
-            if not self.board.board[i][column].filled:
-                self.board.board[i][column].fill_piece(color)
-                return (self.board.board[i][column].x, self.board.board[i][column].y)
-            
 # THESE I PULLED FROM GAME_BOARD AND PUT HERE BECAUSE THEY RELATE TO GAME PLAY
 # NEED TO INTEGRATE
 
@@ -334,9 +393,10 @@ class Game:
         all_directions = self.collect_all_directions()
         for i in range(len(all_directions)):
             for j in range(len(all_directions[0])):
-                self.game_over, winner = check_winner(all_directions[i][j])
-                
-            
+                winner = check_winner(all_directions[i][j])
+                if winner:
+                    self.game_over = True
+                    return winner
 
     def collect_all_directions(self):
         master = []
@@ -386,25 +446,3 @@ class Game:
                 antidiagonal.append(self.board.board[p - q][q].filled)
             master.append(antidiagonal)
         return master
-
-    # CAN DELETE THIS AT SOMEPOINT
-    def initialize_players2(self):
-        print(self.player_1.name.capitalize(), "information:")
-        self.player_1.collect_name()
-        self.player_1.collect_color()
-        
-        if self.player_1.color == RED:
-            self.player_2.color = YELLOW
-        else:
-            self.player_2.color = RED
-            
-        if self.play_computer == True:
-            self.player_2.name = COMPUTER_NAME
-        else:
-            print(self.player_2.name.capitalize(), "information:")
-            self.player_2.collect_name()
-            print(self.player_2.name, " your color is ",
-                  self.player_2.color, ".", sep = "")
-
-        self.player_1.initialize_score()
-        self.player_2.initialize_score()
