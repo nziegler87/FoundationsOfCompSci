@@ -77,7 +77,7 @@ def create_streak(lst):
     streak = []
     count = 1
 
-    # iterate through list in reverse
+    # iterate through list in reverse and push to stack
     for i in range(len(lst) - 1, -1, -1):
         stack.push(lst[i])
 
@@ -86,7 +86,7 @@ def create_streak(lst):
         item = stack.top()
         stack.pop()
 
-        # if next item on stack matches first, increase count, else append
+        # if next item identical, increase count, else append and reset count
         if stack.top() == item:
             count += 1
         else:
@@ -330,19 +330,62 @@ class Game:
             self.game_over = True
             print("The board is full and it is a draw.")
 
-    def check_horizontal_streak(self):
+    def check_win(sef):
+        all_directions = self.collect_all_directions()
+        for i in range(len(all_directions)):
+            for j in range(len(all_directions[0])):
+                self.game_over, winner = check_winner(all_directions[i][j])
+                
+            
+
+    def collect_all_directions(self):
+        master = []
+        master.append(self.collect_horizontals())
+        master.append(self.collect_verticals())
+        master.append(self.collect_diagonals())
+        master.append(self.collect_antidiagonals())
+        return master
+        
+
+    def collect_horizontals(self):
+        master = []
         for i in range(len(self.board.board)):
             row_streak = []
             for j in range(len(self.board.board[i])):
                 row_streak.append(self.board.board[i][j].filled)
-            check_winner(row_streak)
+            master.append(row_streak)
+        return master
 
-    def check_vertical_streak(self):
-        for i in range(len(self.board.board)):
+    def collect_verticals(self):
+        master = []
+        for j in range(len(self.board.board[0])):
             col_streak = []
-            for j in range(len(self.board.board[i])):
-                col_streak.append(self.board.board[j][i].filled)
-            check_winner(col_streak)
+            for i in range(len(self.board.board)):
+                col_streak.append(self.board.board[i][j].filled)
+            master.append(col_streak)
+        return master
+
+    def collect_diagonals(self):
+        height = len(self.board.board)
+        width = len(self.board.board[0])
+        master = []
+        for p in range(height + width - 1):
+            diagonal = []
+            for q in range(max(p - height + 1, 0), min(p + 1, width)):
+                diagonal.append(self.board.board[height - p + q - 1][q].filled)
+            master.append(diagonal)
+        return master
+
+    def collect_antidiagonals(self):
+        height = len(self.board.board)
+        width = len(self.board.board[0])
+        master = []
+        for p in range(height + width - 1):
+            antidiagonal = []
+            for q in range(max(p - height + 1,0), min(p + 1, width)):
+                antidiagonal.append(self.board.board[p - q][q].filled)
+            master.append(antidiagonal)
+        return master
 
     # CAN DELETE THIS AT SOMEPOINT
     def initialize_players2(self):

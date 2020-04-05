@@ -16,12 +16,25 @@ small = [['00', '01', '02'],
          ['10', '11', '12'],
          ['20', '21', '22']]
 
-def make_lst(row, col):
+def make_lst_num(row, col):
     master = []
     for i in range(row):
         row = []
         for j in range(col):
             row.append(str(i) + str(j))
+        master.append(row)
+    return master
+
+def make_lst_alpha(row, col, letter):
+    count = ord(letter)
+    master = []
+    for i in range(row):
+        row = []
+        for j in range(col):
+            if count == ord(letter) + 26:
+                count = ord(letter)
+            row.append(chr(count))
+            count += 1
         master.append(row)
     return master
 
