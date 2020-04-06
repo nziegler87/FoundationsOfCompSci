@@ -9,13 +9,21 @@ ARROW_IMG = "./images/down_arrow2_40.gif"
 COLOR = "blue"
 IMG_LST = [WHITE_IMG, RED_IMG, YELLOW_IMG, ARROW_IMG]
 
+# default font constants
+C_ALIGN = "center"
+FONT = "arial"
+SIZE = 15
+STYLE = "bold"
+
 # window constants
-X_PERCENT = .5
-Y_PERCENT = .5
+W_X_PERCENT = .8
+W_Y_PERCENT = .8
 Y_POS = 0
 
+# message constants
+X_PERCENT = .7
+Y_PERCENT = .2
 CURRENT_PLAYER_X_OFFSET = 100
-CURRENT_IMG_X_OFFSET = 125
 CURRENT_IMG_Y_OFFSET = 50
 
 def setup_screen():
@@ -26,7 +34,7 @@ def setup_screen():
     screen = turtle.Screen()
     screen.tracer(0)
     
-    screen.setup(width = X_PERCENT, height = Y_PERCENT,
+    screen.setup(width = W_X_PERCENT, height = W_Y_PERCENT,
                       starty = Y_POS)
     
     for image in IMG_LST:
@@ -34,55 +42,24 @@ def setup_screen():
 
     return screen
 
-def setup_piece():
-    ''' Name: setup_piece
+def setup_turtle():
+    ''' Name: setup_turtle
         Parameters: none
         Returns: variable where piece turtle object is saved
     '''
-    piece = turtle.Turtle()
-    piece.hideturtle()
-    piece.up()
+    draw = turtle.Turtle()
+    draw.hideturtle()
+    draw.up()
 
-    return piece
-
-def setup_arrow():
-    ''' Name: setup_arrow
-        Parameters: none
-        Returns: variable where arrow turtle object is saved
-    '''
-    arrow =  turtle.Turtle()
-    arrow.hideturtle()
-    arrow.up()
-
-    return arrow
-
-def setup_current_player_text(x, y):
-    ''' Name: setup_text
-        Parameters: x_cord and y_cords where text to be printed (floats)
-        Returns: variable where text turtle object is saved
-    '''
-    text = turtle.Turtle()
-    text.hideturtle()
-    text.up()
-    x -= CURRENT_PLAYER_X_OFFSET
-    text.goto(x, y)
-
-    return text
-
-def setup_box_message():
-    box = turtle.Turtle()
-    box.hideturtle()
-    box.up()
-
-    return box
+    return draw
 
 def display_text(box, screen, starting_x, starting_y, num_rows, num_cols, size, text):
     x_size = abs(num_cols * size)
     y_size = abs(num_rows * size)
     center_x = starting_x - (size / 2) + x_size / 2
     center_y = starting_y + (size / 2) - y_size / 2
-    box_width = x_size * .70
-    box_height = y_size * .20
+    box_width = x_size * X_PERCENT
+    box_height = y_size * Y_PERCENT
     box.goto(center_x - (box_width / 2), center_y + (box_height / 2))
     box.color("black", "light blue")
     box.begin_fill()
@@ -95,30 +72,30 @@ def display_text(box, screen, starting_x, starting_y, num_rows, num_cols, size, 
     box.end_fill()
     box.up()
     box.goto(center_x, center_y)
-    box.write(text, align = "center", font = ("arial", 15, "bold"))
+    box.write(text, align = C_ALIGN, font = (FONT, SIZE, STYLE))
     screen.update()
 
-
-def update_current_player_text(turtle, current_player):
+def update_current_player(turtle, screen, x, y, current_player, current_image):
     ''' Name: update_current_player_text
-        Parameters: name of current player (string)
+        Parameters: x_cord and y_cords of top left corner of board (floats)
+                    current_player name ( a string)
         Returns: nothing
     '''
     turtle.clear()
-    turtle.write("Current Player\n" + str(current_player),
-                 align = "center", font = ("Arial", 14, "bold"))
 
-def update_current_player_img(turtle, current_player_img, x, y):
-    ''' Name: update_current_player_img
-        Parameters: a turtle instance and image string
-        Returns: nothing
-    '''
-    x -= CURRENT_IMG_X_OFFSET
+    # write text
+    x -= CURRENT_PLAYER_X_OFFSET
+    turtle.goto(x, y)
+    turtle.write("Current Player:", align = C_ALIGN, font = (FONT, SIZE, STYLE))
+    turtle.goto(x, y - SIZE)
+    turtle.write(current_player, align = C_ALIGN, font = (FONT, SIZE, STYLE))
+
+    # stamp image
     y -= CURRENT_IMG_Y_OFFSET
     turtle.goto(x, y)
-    turtle.shape(current_player_img)
+    turtle.shape(current_image)
     turtle.stamp()
-    
+ 
 def draw_piece(turtle, screen, x, y, image):
     ''' Name: draw_piece
         Parameters:

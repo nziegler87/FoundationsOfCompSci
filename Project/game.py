@@ -8,7 +8,7 @@
 '''
 
 from stack import Stack
-from player import Player           # STILL NEED TO DO THIS
+from player import *           # STILL NEED TO DO THIS
 from game_board import Game_Board
 from graphics import *
 import random, time                 # DO I NEED TO IMPORT TIME?
@@ -27,11 +27,6 @@ YELLOW = "yellow"
 
 # constant for onclick handling
 CLICK_BUFFER = 30
-
-# player name constants
-COMPUTER_NAME = "Computer"
-PLAYER_ONE = "Player 1"
-PLAYER_TWO = "Player 2"
 
 # constants for printing instructions
 CENTER_SPACING = 20
@@ -238,26 +233,25 @@ class Game:
         screen = setup_screen()
         
         global piece
-        piece = setup_piece()
+        piece = setup_turtle()
         
         global arrows
-        arrows = setup_arrow()
+        arrows = setup_turtle()
 
-        global current_player_text
-        current_player_text = setup_current_player_text(X_START, Y_START)
+        global player_notification
+        player_notification = setup_turtle()
 
         global box_message
-        box_message = setup_box_message()
+        box_message = setup_turtle()
 
         # draw gameboard
         draw_board(self.board.board, piece, screen, WHITE_IMG)
         draw_arrows(self.board.arrows, arrows, screen, ARROW_IMG)
 
         # display current user player name and piece image
-        update_current_player_text(current_player_text,
-                                   self.players[self.current_move].name)
-        update_current_player_img(piece, self.current_img,
-                                    X_START, Y_START)
+        update_current_player(player_notification, screen, X_START, Y_START,
+                              self.players[self.current_move].name,
+                              self.current_img)
 
     def play_game(self):
         ''' Method: play_game
@@ -270,20 +264,38 @@ class Game:
         screen.onclick(self.handle_click)
 
     def handle_click(self, x, y):
+        ''' Method: handle_click
+            Parameter:
+                self -- the current object
+                x -- x coordinate (float) of mouse click
+                y -- y coordinate (float) of mouse click
+        '''
+        # if game is over, dislay message
         if self.game_over is True:
             print("Game is over")
             message = "Game Over"
             display_text(box_message, screen, X_START, Y_START, self.board.rows,
                          self.board.cols, PIECE_SIZE, message)
+
+        # if game not over, start with human turn
         else:
             self.process_human_turn(x, y)
+            
+            # if computer player turned on and game is not over, computer turn
             if (self.players[self.current_move].name == COMPUTER_NAME and
                 self.game_over is False):
                 self.process_computer_turn(x, y)
 
+    def process_turn(self, x, y):
+        pass
+
     def process_human_turn(self, x, y):
-        '''
-        returns column number, an int
+        ''' Method: process_human_turn
+            Parameters:
+                self -- the current object
+                x -- x coordinate (float) of mouse click
+                y -- y coordinate (float) of mouse click
+            Returns: nothing
         '''
         # translate x, y coordinates to column number
         col = self.get_column(x, y)
@@ -294,42 +306,31 @@ class Game:
             if cord is None:
                 pass
             else:
-                # CAN THIS BE TURNED TO A FUNCTION?
-                x, y = cord
-                update_piece(piece, screen, x, y, self.current_img)
-
-                self.check_game_end()
-                self.switch_player()
+                self.post_turn_process(cord)
                 
-                update_current_player_text(current_player_text,
-                                           self.players[self.current_move].name)
-                update_current_player_img(piece, self.current_img,
-                                            X_START, Y_START)
     def process_computer_turn(self, x, y):
-        time.sleep(1)
+        ''' Method: process_computer_turn
+            Parameters:
+                self -- the current object
+                x -- x coordinate (float) of mouse click
+                y -- y coordinate (float) of mouse click
+            Returns: nothing
+        '''
         # randomly pick a column, if filled, pick another
         col = self.get_random_column()
         print("Selected:", col)                                     # DEBUG STATEMENT
         cord = self.drop_piece(col, self.players[self.current_move].color)
+        self.post_turn_process(cord)
 
+    def post_turn_process(self, cord):
         x, y = cord
         update_piece(piece, screen, x, y, self.current_img)
         self.check_game_end()
-        self.switch_player()
-        self.switch_player()
-        update_current_player_text(current_player_text,
-                                   self.players[self.current_move].name)
-        update_current_player_img(piece, self.current_img,
-                                    X_START, Y_START)
-
-    def check_game_end(self):
-        print(self.board)                                       # DEBUG STATEMENT
-        self.check_win()
-        if self.game_over == False:
-            self.check_full()
-
-    def post_turn_process(self):
-        pass
+        if self.game_over is not True:
+            self.switch_player()
+            update_current_player(player_notification, screen, X_START, Y_START,
+                                  self.players[self.current_move].name,
+                                  self.current_img)
 
     def get_column(self, x, y):
         ''' Method: get_column
@@ -379,8 +380,11 @@ class Game:
                 self.board.board[i][column].fill_piece(color)
                 return (self.board.board[i][column].x, self.board.board[i][column].y)
 
-# THESE I PULLED FROM GAME_BOARD AND PUT HERE BECAUSE THEY RELATE TO GAME PLAY
-# NEED TO INTEGRATE
+    def check_game_end(self):
+        print(self.board)                                       # DEBUG STATEMENT
+        self.check_win()
+        if self.game_over == False:
+            self.check_full()
 
     def check_full(self):
         total_filled = 0

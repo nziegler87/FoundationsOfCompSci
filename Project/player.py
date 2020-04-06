@@ -1,6 +1,11 @@
 TXT_EXT = ".txt"
 PLAYER_COLORS = {"R":"red", "Y":"yellow"}
 
+# player name constants
+COMPUTER_NAME = "Computer"
+PLAYER_ONE = "Player 1"
+PLAYER_TWO = "Player 2"
+
 class Player:
 
     def __init__(self, name):
@@ -18,7 +23,13 @@ class Player:
 
     def collect_name(self, second_player = ""):
         self.name = input("Enter your name: ")
+        while self.name == COMPUTER_NAME:
+            self.name = input("Your name cannot match the computer name. " +
+                              "Try again: ")
         if len(second_player) != 0:
+            while self.name == COMPUTER_NAME:
+                self.name = input("Your name cannot match the computer name. " +
+                                  "Try again: ")
             while self.name == second_player:
                 self.name = input("Your name must be different than " + \
                                   "player 1. Try again: ")
