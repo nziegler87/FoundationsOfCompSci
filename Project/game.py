@@ -419,7 +419,7 @@ class Game:
     def check_win(self):
         all_directions = self.collect_all_directions()
         for i in range(len(all_directions)):
-            for j in range(len(all_directions[0])):
+            for j in range(len(all_directions[i])):
                 winner = check_winner(all_directions[i][j])
                 if winner:
                     self.game_over = True
