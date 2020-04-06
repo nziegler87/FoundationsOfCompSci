@@ -26,6 +26,14 @@ X_PERCENT = .7
 Y_PERCENT = .2
 CURRENT_PLAYER_X_OFFSET = 100
 CURRENT_IMG_Y_OFFSET = 50
+POP_BORDER = "black"
+POP_FILL = "light grey"
+
+SCORE_Y_OFFSET = 150      # COMBINE WITH ABOVE TWO CONSTANTS
+
+TEXT_COLOR = "black"
+SCORE_COLOR = "blue"
+HEADING_COLOR = "green"
 
 def setup_screen():
     ''' Name: setup_screen
@@ -54,49 +62,6 @@ def setup_turtle():
 
     return draw
 
-def display_text(box, screen, starting_x, starting_y, num_rows, num_cols, size, text):
-    x_size = abs(num_cols * size)
-    y_size = abs(num_rows * size)
-    center_x = starting_x - (size / 2) + x_size / 2
-    center_y = starting_y + (size / 2) - y_size / 2
-    box_width = x_size * X_PERCENT
-    box_height = y_size * Y_PERCENT
-    box.goto(center_x - (box_width / 2), center_y + (box_height / 2))
-    box.color("black", "light blue")
-    box.begin_fill()
-    box.down()
-    for i in range(2):
-        box.forward(box_width)
-        box.right(90)
-        box.forward(box_height)
-        box.right(90)
-    box.end_fill()
-    box.up()
-    box.goto(center_x, center_y)
-    box.write(text, align = C_ALIGN, font = (FONT, SIZE, STYLE))
-    screen.update()
-
-def update_current_player(turtle, screen, x, y, current_player, current_image):
-    ''' Name: update_current_player_text
-        Parameters: x_cord and y_cords of top left corner of board (floats)
-                    current_player name ( a string)
-        Returns: nothing
-    '''
-    turtle.clear()
-
-    # write text
-    x -= CURRENT_PLAYER_X_OFFSET
-    turtle.goto(x, y)
-    turtle.write("Current Player:", align = C_ALIGN, font = (FONT, SIZE, STYLE))
-    turtle.goto(x, y - SIZE)
-    turtle.write(current_player, align = C_ALIGN, font = (FONT, SIZE, STYLE))
-
-    # stamp image
-    y -= CURRENT_IMG_Y_OFFSET
-    turtle.goto(x, y)
-    turtle.shape(current_image)
-    turtle.stamp()
- 
 def draw_piece(turtle, screen, x, y, image):
     ''' Name: draw_piece
         Parameters:
@@ -124,21 +89,6 @@ def draw_piece(turtle, screen, x, y, image):
     turtle.goto(x, y)
     turtle.stamp()
 
-def draw_arrow(turtle, screen, image, x, y):
-    ''' Name: draw_arrow
-        Parameters:
-            turtle -- turtle object for drawing graphics
-            screen -- turtle object for screen
-            x -- center x coordinate of piece, an int (assumes square piece)
-            y -- center y coordinate of piece, an int (assumes square piece)
-            image -- file string for an image file
-        Returns: nothing
-    '''
-    turtle.goto(x, y)
-    turtle.shape(image)
-    turtle.stamp()
-    screen.update()
-    
 def draw_board(board, turtle, screen, image):
     ''' Name: draw_board
         Parameters:
@@ -153,6 +103,21 @@ def draw_board(board, turtle, screen, image):
         for j in range(len(board[0])):
             piece = board[i][j]
             draw_piece(turtle, screen, piece.x, piece.y, image)
+    screen.update()
+
+def draw_arrow(turtle, screen, image, x, y):
+    ''' Name: draw_arrow
+        Parameters:
+            turtle -- turtle object for drawing graphics
+            screen -- turtle object for screen
+            x -- center x coordinate of piece, an int (assumes square piece)
+            y -- center y coordinate of piece, an int (assumes square piece)
+            image -- file string for an image file
+        Returns: nothing
+    '''
+    turtle.goto(x, y)
+    turtle.shape(image)
+    turtle.stamp()
 
 def draw_arrows(arrow_lst, turtle, screen, image):
     ''' Name: draw_arrows
@@ -165,6 +130,63 @@ def draw_arrows(arrow_lst, turtle, screen, image):
     '''
     for arrow in arrow_lst:
         draw_arrow(turtle, screen, image, arrow.x, arrow.y)
+    screen.update()
+        
+def update_current_player(turtle, screen, x, y, current_player, current_image):
+    ''' Name: update_current_player_text
+        Parameters: turtle and screen instances
+                    x_cord and y_cords of top left corner of board (floats)
+                    current_player name (
+                    a string)
+        Returns: nothing
+    '''
+    turtle.clear()
+
+    # write text
+    x -= CURRENT_PLAYER_X_OFFSET
+    turtle.goto(x, y)
+    turtle.color(HEADING_COLOR)
+    turtle.write("Current Player", align = C_ALIGN, font = (FONT, SIZE, STYLE))
+    turtle.goto(x, y - SIZE)
+    turtle.color(TEXT_COLOR)
+    turtle.write(current_player, align = C_ALIGN, font = (FONT, SIZE, STYLE))
+
+    # stamp image
+    y -= CURRENT_IMG_Y_OFFSET
+    turtle.goto(x, y)
+    turtle.shape(current_image)
+    turtle.stamp()
+    
+    screen.update()
+
+def display_scores(turtle, screen, player_lst, x, y):
+    ''' Name: display_scores
+        Parameters: turtle and screen instances
+                    list with two player instances
+                    x and y coordinates for to left corner of board (floats)
+        Returns: nothing
+    '''
+    turtle.clear()
+    x -= CURRENT_PLAYER_X_OFFSET
+    y -= SCORE_Y_OFFSET
+    turtle.goto(x, y)
+    turtle.color(HEADING_COLOR)
+    turtle.write("Total Games Won", align = C_ALIGN, font = (FONT, SIZE, STYLE))
+    for player in player_lst:
+        name = player.name
+        score = str(player.score)
+        y -= SIZE
+        turtle.goto(x, y)
+        turtle.color(TEXT_COLOR)
+        turtle.write(name, align = C_ALIGN, font = (FONT, SIZE, STYLE))
+        y -= SIZE
+        turtle.goto(x, y)
+        turtle.color(SCORE_COLOR)
+        turtle.write(score, align = C_ALIGN, font = (FONT, SIZE, STYLE))
+        turtle.color(TEXT_COLOR)
+        y -= SIZE
+        turtle.goto(x, y)
+    screen.update()
 
 def update_piece(turtle, screen, start_y, x, y, image, size):
     ''' Name: update_piece
@@ -178,8 +200,6 @@ def update_piece(turtle, screen, start_y, x, y, image, size):
         Returns:
             nothing
     '''
-    print(start_y)
-    print(y)
     while start_y > y:
         turtle.goto(x, start_y)
         turtle.shape(image)
@@ -193,9 +213,36 @@ def update_piece(turtle, screen, start_y, x, y, image, size):
     turtle.goto(x, start_y)
     turtle.shape(image)
     turtle.stamp()
-    screen.update()
     
-        
-            
+    screen.update()
+   
+def popup_box(turtle, screen, starting_x, starting_y,
+                 num_rows, num_cols, piece_size, text):
+    # use board and game piece details to calculate size of popup box
+    board_x = abs(num_cols * piece_size)
+    board_y = abs(num_rows * piece_size)
+    center_x = starting_x - (piece_size / 2) + board_x / 2
+    center_y = starting_y + (piece_size / 2) - board_y / 2
+    box_width = board_x * X_PERCENT
+    box_height = board_y * Y_PERCENT
+
+    # draw message box
+    turtle.goto(center_x - (box_width / 2), center_y + (box_height / 2))
+    turtle.color(POP_BORDER, POP_FILL)
+    turtle.begin_fill()
+    turtle.down()
+    for i in range(2):
+        turtle.forward(box_width)
+        turtle.right(90)
+        turtle.forward(box_height)
+        turtle.right(90)
+    turtle.end_fill()
+    turtle.up()
+
+    # write text in window
+    turtle.goto(center_x, center_y)
+    turtle.write(text, align = C_ALIGN, font = (FONT, SIZE, STYLE))
+    
+    screen.update()
         
             

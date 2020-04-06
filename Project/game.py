@@ -45,6 +45,11 @@ INSTRUCTIONS = "OVERVIEW".center(CENTER_SPACING, "-") + \
                "or diagonal\n3. A draw is declared if the entire board " + \
                "is full and neither player earned four in a row.\n"
 
+GAME_OVER = "Game Over!"
+COL_FULL = "Column Full. Pick another."
+DRAW = "It was a draw. Game over!"
+WINNER = "The winner is {}!"
+
 class Game:
     ''' class: Game
         Attributes: play_computer, first_move, rows, columns
@@ -149,7 +154,7 @@ class Game:
                   and saves instances in self.players list
         '''
         # create a player instance and collect info
-        print(PLAYER_ONE, "information:")
+        print("\n", PLAYER_ONE, " information:", sep = "")
         player_1 = Player(PLAYER_ONE)
         player_1.collect_name()
         player_1.collect_color()
@@ -159,7 +164,7 @@ class Game:
         if self.play_computer == True:
             player_2 = Player(COMPUTER_NAME)
         else:
-            print(PLAYER_TWO, "information:")
+            print("\n", PLAYER_TWO, " information:", sep = "")
             player_2 = Player(PLAYER_TWO)
             player_2.collect_name(self.players[0].name)
         self.players.append(player_2)
@@ -169,7 +174,7 @@ class Game:
             self.players[1].color = YELLOW
         else:
             self.players[1].color = RED         
-        print(self.players[1].name, " your color is ",
+        print("\n", self.players[1].name, ", your color is ",
               self.players[1].color, ".", sep = "")
 
         # initialize player scores
@@ -191,8 +196,8 @@ class Game:
         # otherwise, pick at random
         else:
             self.current_move = random.randint(0, 1)
-            
-        print(self.players[self.current_move].name, "goes first!")
+        player_name = self.players[self.current_move].name
+        print("\n", player_name, " goes first!", sep = "")
 
     def set_player_img(self):
         ''' Method: set_player_img
@@ -241,6 +246,9 @@ class Game:
         global player_notification
         player_notification = setup_turtle()
 
+        global score_message
+        score_message = setup_turtle()
+
         global box_message
         box_message = setup_turtle()
 
@@ -252,6 +260,9 @@ class Game:
         update_current_player(player_notification, screen, X_START, Y_START,
                               self.players[self.current_move].name,
                               self.current_img)
+
+        # display current cores
+        display_scores(score_message, screen, self.players, X_START, Y_START)
 
     def play_game(self):
         ''' Method: play_game
@@ -272,10 +283,9 @@ class Game:
         '''
         # if game is over, dislay message
         if self.game_over is True:
-            print("Game is over")
-            message = "Game Over"
-            display_text(box_message, screen, X_START, Y_START, self.board.rows,
-                         self.board.cols, PIECE_SIZE, message)
+            print("Game is over")                                       # REMOVE LATER
+            popup_box(box_message, screen, X_START, Y_START, self.board.rows,
+                         self.board.cols, PIECE_SIZE, GAME_OVER)
 
         # if game not over, start with human turn
         else:
@@ -285,9 +295,6 @@ class Game:
             if (self.players[self.current_move].name == COMPUTER_NAME and
                 self.game_over is False):
                 self.process_computer_turn(x, y)
-
-    def process_turn(self, x, y):
-        pass
 
     def process_human_turn(self, x, y):
         ''' Method: process_human_turn
@@ -316,9 +323,12 @@ class Game:
                 y -- y coordinate (float) of mouse click
             Returns: nothing
         '''
+        # make the user think the computer takes time to pick a column
+        time.sleep(1)
+        
         # randomly pick a column, if filled, pick another
         col = self.get_random_column()
-        print("Selected:", col)                                     # DEBUG STATEMENT
+
         cord = self.drop_piece(col, self.players[self.current_move].color)
         self.post_turn_process(cord)
 
@@ -358,7 +368,6 @@ class Game:
         total_col = self.board.rows
         while True:
             col = random.randint(0, total_col - 1)
-            print("Random:", col)                                   # DEBUG STATEMENT
             if not self.board.board[0][col].filled:
                 return col
 
@@ -374,14 +383,17 @@ class Game:
                   x, y coordinates of the piece
         '''
         if self.board.board[0][column].filled:
-            print("That column is full. Try again.")
+            popup_box(box_message, screen, X_START, Y_START, self.board.rows,
+                         self.board.cols, PIECE_SIZE, COL_FULL)
+            time.sleep(1)
+            box_message.clear()
         for i in range(len(self.board.board) - 1, -1, -1):
             if not self.board.board[i][column].filled:
                 self.board.board[i][column].fill_piece(color)
                 return (self.board.board[i][column].x, self.board.board[i][column].y)
 
     def check_game_end(self):
-        print(self.board)                                       # DEBUG STATEMENT
+##        print(self.board)                                       # DEBUG STATEMENT
         self.check_win()
         if self.game_over == False:
             self.check_full()
@@ -394,20 +406,20 @@ class Game:
                     total_filled += 1
         if self.board.total_pieces == total_filled:
             self.game_over = True
-            display_text(box_message, screen, X_START, Y_START, self.board.rows,
-                         self.board.cols, PIECE_SIZE, "It is a draw")
+            popup_box(box_message, screen, X_START, Y_START, self.board.rows,
+                         self.board.cols, PIECE_SIZE, DRAW)
 
     def check_win(self):
         all_directions = self.collect_all_directions()
         for i in range(len(all_directions)):
             for j in range(len(all_directions[i])):
-                print(all_directions[i][j])                 # DEBUG STATEMENT
+##                print(all_directions[i][j])                 # DEBUG STATEMENT
                 winner = check_winner(all_directions[i][j])
                 if winner:
                     self.game_over = True
-                    message = "The winner is " + self.players[self.current_move].name + \
-                              "!" # CHANGED - CHECK LATER
-                    display_text(box_message, screen, X_START, Y_START, self.board.rows,
+                    winner_name = self.players[self.current_move].name
+                    message = WINNER.format(winner_name)
+                    popup_box(box_message, screen, X_START, Y_START, self.board.rows,
                                  self.board.cols, PIECE_SIZE, message)
                     
     def collect_all_directions(self):
