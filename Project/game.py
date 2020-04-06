@@ -11,7 +11,7 @@ from stack import Stack
 from player import Player           # STILL NEED TO DO THIS
 from game_board import Game_Board
 from graphics import *
-import random
+import random, time
 
 # constants for player types
 PLAYERS = {"C": "Computer", "H": "Another Human"}
@@ -231,7 +231,10 @@ class Game:
             Returns: nothing
             Does: randomly pick 0 or 1 and set current_move
         '''
-        self.current_move = random.randint(0, 1)
+        if self.play_computer == True:
+            self.current_move = 0
+        else:
+            self.current_move = random.randint(0, 1)
         print(self.players[self.current_move].name, "goes first!")
 
     def set_player_img(self):
@@ -286,36 +289,49 @@ class Game:
         if self.game_over is True:
             print("Game is over")
         else:
-            if self.players[self.current_move].name == COMPUTER_NAME:
-                self.computer_turn()
-            else:
-                self.process_turn(x, y)
+            self.process_human_turn(x, y)
+            if (self.players[self.current_move].name == COMPUTER_NAME and
+                self.game_over is False):
+                self.process_computer_turn(x, y)
 
-                
-    def process_turn(self, x, y):
+    def process_human_turn(self, x, y):
         '''
         returns column number, an int
         '''
+        # translate x, y coordinates to column number
+        col = self.get_column(x, y)
         
-        column = self.get_column(x, y)
-        
-        # if user clicks anwhere but an arrow 'hotzone' nothing happens
-        if column is not None:
-            # if column has an empty space, drop it and update screen
-            # if column full, do not update screen and keep current player
-            move_value = self.drop_piece(column,
-                                             self.players[self.current_move].color)
-            if move_value is False:
+        # if user does not click on an arrow, nothing happens
+        if col is not None:
+            cord = self.drop_piece(col, self.players[self.current_move].color)
+            if cord is None:
                 pass
             else:
-                x, y = move_value
-                update_piece(arrows, screen, column, x, y,
+                # CAN THIS BE TURNED TO A FUNCTION?
+                x, y = cord
+                update_piece(arrows, screen, col, x, y,
                              self.current_img)
                 self.check_full()
                 self.switch_player()
                 self.set_player_img()
-                print(self.board)
-            
+                print(self.board)                                   # DEBUG STATEMENT
+                self.check_win()
+
+    def process_computer_turn(self, x, y):
+        # randomly pick a column, if filled, pick another
+        col = self.get_random_column()
+        print("Selected:", col)                                     # DEBUG STATEMENT
+        cord = self.drop_piece(col, self.players[self.current_move].color)
+
+        x, y = cord
+        update_piece(arrows, screen, col, x, y,
+                     self.current_img)
+        self.check_full()
+        self.switch_player()
+        self.set_player_img()
+        print(self.board)                                           # DEBUG STATEMENT
+        self.check_win()
+        
     def get_column(self, x, y):
         ''' Method: get_column
             Parameters:
@@ -332,6 +348,20 @@ class Game:
                 if x > (arrow.x - CLICK_BUFFER) and x < (arrow.x + CLICK_BUFFER):
                     return(arrow.identifier)
 
+    def get_random_column(self):
+        ''' Method: get_random_colum
+            Parameters:
+                self -- the current object
+            Returns: a column number (an int)
+            Does: randomly returns a number of an unfilled column
+        '''
+        total_col = self.board.rows
+        while True:
+            col = random.randint(0, total_col - 1)
+            print("Random:", col)                                   # DEBUG STATEMENT
+            if not self.board.board[0][col].filled:
+                return col
+
     def drop_piece(self, column, color):
         ''' Method: drop_piece
             Parameters:
@@ -341,40 +371,14 @@ class Game:
             Returns: x, y coordinates as a tuple or a Boolean
             Does: if there is an empty game piece in column, fill piece filled
                   attribute with current player color string and return
-                  x, y coordinates of the piece, else False
+                  x, y coordinates of the piece
         '''
         if self.board.board[0][column].filled:
             print("That column is full. Try again.")
-            return False
         for i in range(len(self.board.board) - 1, -1, -1):
             if not self.board.board[i][column].filled:
                 self.board.board[i][column].fill_piece(color)
                 return (self.board.board[i][column].x, self.board.board[i][column].y)
-            
-
-    def computer_turn(self):
-##        while True:
-##            column = random.randint(0, len(self.board.board[0]) - 1)
-##            if not self.board.board[0][column].filled:
-##                break
-        valid_cols = []
-        for i in range(len(self.board.board[0])):
-            if not self.board.board[0][i].filled:
-                valid_cols.append(i)
-        print(valid_cols)
-        column = random.choice(valid_cols)
-        print(column)
-        for i in range(len(self.board.board) - 1, -1, -1):
-            if not self.board.board[i][column].filled:
-                self.board.board[i][column].fill_piece(self.players[self.current_move].color)
-                x, y = (self.board.board[i][column].x, self.board.board[i][column].y)
-                break
-        update_piece(arrows, screen, column, x, y, self.current_img)
-        self.check_full()
-        self.check_horizontal_streak()
-        self.switch_player()
-        self.set_player_img()
-        print(self.board)
 
 # THESE I PULLED FROM GAME_BOARD AND PUT HERE BECAUSE THEY RELATE TO GAME PLAY
 # NEED TO INTEGRATE
@@ -389,14 +393,14 @@ class Game:
             self.game_over = True
             print("The board is full and it is a draw.")
 
-    def check_win(sef):
+    def check_win(self):
         all_directions = self.collect_all_directions()
         for i in range(len(all_directions)):
             for j in range(len(all_directions[0])):
                 winner = check_winner(all_directions[i][j])
                 if winner:
                     self.game_over = True
-                    return winner
+                    print("The winner is", winner)      # CHANGED - CHECK LATER
 
     def collect_all_directions(self):
         master = []
