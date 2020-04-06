@@ -119,12 +119,11 @@ def update_current_player_img(turtle, current_player_img, x, y):
     turtle.shape(current_player_img)
     turtle.stamp()
     
-def draw_piece(turtle, screen, identifier, x, y, image):
+def draw_piece(turtle, screen, x, y, image):
     ''' Name: draw_piece
         Parameters:
             turtle -- turtle object for drawing graphics
             screen -- turtle object for screen
-            identifier -- a string
             x -- center x coordinate of piece, an int (assumes square piece)
             y -- center y coordinate of piece, an int (assumes square piece)
             image -- file string for an image file
@@ -143,12 +142,9 @@ def draw_piece(turtle, screen, identifier, x, y, image):
     turtle.end_fill()
     turtle.up()
 
-    # stamp gamepiece image
+    # go back to center and stamp piece
     turtle.goto(x, y)
-    turtle.shape(image)
     turtle.stamp()
-    turtle.write(identifier, align = "center")
-    screen.update()
 
 def draw_arrow(turtle, screen, image, x, y):
     ''' Name: draw_arrow
@@ -178,8 +174,7 @@ def draw_board(board, turtle, screen, image):
     for i in range(len(board)):
         for j in range(len(board[0])):
             piece = board[i][j]
-            draw_piece(turtle, screen, piece.identifier,
-                       piece.x, piece.y, image)
+            draw_piece(turtle, screen, piece.x, piece.y, image)
 
 def draw_arrows(arrow_lst, turtle, screen, image):
     ''' Name: draw_arrows
@@ -193,7 +188,7 @@ def draw_arrows(arrow_lst, turtle, screen, image):
     for arrow in arrow_lst:
         draw_arrow(turtle, screen, image, arrow.x, arrow.y)
 
-def update_piece(turtle, screen, identifier, x, y, image):
+def update_piece(turtle, screen, x, y, image):
     ''' Name: update_piece
         Parameters:
             turtle -- turtle object for drawing graphics
@@ -208,7 +203,6 @@ def update_piece(turtle, screen, identifier, x, y, image):
     turtle.goto(x, y)
     turtle.shape(image)
     turtle.stamp()
-    turtle.write(identifier, align = "center")
     screen.update()
         
             

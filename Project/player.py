@@ -12,12 +12,18 @@ class Player:
             score -- user's current score (an int)
         '''
         self.name = name
-        self.filename = "" + TXT_EXT
+        self.filename = ""
         self.score = 0
         self.color = ""
 
-    def collect_name(self):
+    def collect_name(self, second_player = ""):
         self.name = input("Enter your name: ")
+        if len(second_player) != 0:
+            while self.name == second_player:
+                self.name = input("Your name must be different than " + \
+                                  "player 1. Try again: ")
+
+    def set_filename(self):
         self.filename = self.name + TXT_EXT
 
     def collect_color(self):
