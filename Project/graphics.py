@@ -1,5 +1,6 @@
 import turtle
 from game_board import *
+import time
 
 # image constants
 WHITE_IMG = "./images/white_piece_60.gif"
@@ -165,7 +166,7 @@ def draw_arrows(arrow_lst, turtle, screen, image):
     for arrow in arrow_lst:
         draw_arrow(turtle, screen, image, arrow.x, arrow.y)
 
-def update_piece(turtle, screen, x, y, image):
+def update_piece(turtle, screen, start_y, x, y, image, size):
     ''' Name: update_piece
         Parameters:
             turtle -- turtle object for drawing graphics
@@ -177,10 +178,23 @@ def update_piece(turtle, screen, x, y, image):
         Returns:
             nothing
     '''
-    turtle.goto(x, y)
+    print(start_y)
+    print(y)
+    while start_y > y:
+        turtle.goto(x, start_y)
+        turtle.shape(image)
+        turtle.stamp()
+        screen.update()
+        turtle.shape(WHITE_IMG)
+        time.sleep(.05)
+        turtle.stamp()
+        screen.update()
+        start_y -= size
+    turtle.goto(x, start_y)
     turtle.shape(image)
     turtle.stamp()
     screen.update()
+    
         
             
         

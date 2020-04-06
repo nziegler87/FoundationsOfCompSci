@@ -324,7 +324,7 @@ class Game:
 
     def post_turn_process(self, cord):
         x, y = cord
-        update_piece(piece, screen, x, y, self.current_img)
+        update_piece(piece, screen, Y_START, x, y, self.current_img, PIECE_SIZE)
         self.check_game_end()
         if self.game_over is not True:
             self.switch_player()
