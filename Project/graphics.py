@@ -14,6 +14,10 @@ X_PERCENT = .5
 Y_PERCENT = .5
 Y_POS = 0
 
+CURRENT_PLAYER_X_OFFSET = 100
+CURRENT_IMG_X_OFFSET = 125
+CURRENT_IMG_Y_OFFSET = 50
+
 def setup_screen():
     ''' Name: setup_screen
         Parameters: nothing
@@ -52,6 +56,39 @@ def setup_arrow():
 
     return arrow
 
+def setup_current_player_text(x, y):
+    ''' Name: setup_text
+        Parameters: x_cord and y_cords where text to be printed (floats)
+        Returns: variable where text turtle object is saved
+    '''
+    text = turtle.Turtle()
+    text.hideturtle()
+    text.up()
+    x -= CURRENT_PLAYER_X_OFFSET
+    text.goto(x, y)
+
+    return text
+
+def update_current_player_text(turtle, current_player):
+    ''' Name: update_current_player_text
+        Parameters: name of current player (string)
+        Returns: nothing
+    '''
+    turtle.clear()
+    turtle.write("Current Player\n" + str(current_player),
+                 align = "center", font = ("Arial", 14, "bold"))
+
+def update_current_player_img(turtle, current_player_img, x, y):
+    ''' Name: update_current_player_img
+        Parameters: a turtle instance and image string
+        Returns: nothing
+    '''
+    x -= CURRENT_IMG_X_OFFSET
+    y -= CURRENT_IMG_Y_OFFSET
+    turtle.goto(x, y)
+    turtle.shape(current_player_img)
+    turtle.stamp()
+    
 def draw_piece(turtle, screen, identifier, x, y, image):
     ''' Name: draw_piece
         Parameters:

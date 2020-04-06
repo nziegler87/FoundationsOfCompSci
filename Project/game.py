@@ -278,9 +278,16 @@ class Game:
         global arrows
         arrows = setup_arrow()
 
+        global current_player_text
+        current_player_text = setup_current_player_text(X_START, Y_START)
+
         # draw gameboard
         draw_board(self.board.board, piece, screen, WHITE_IMG)
         draw_arrows(self.board.arrows, arrows, screen, ARROW_IMG)
+        update_current_player_text(current_player_text,
+                                   self.players[self.current_move].name)
+        update_current_player_img(piece, self.current_img,
+                                    X_START, Y_START)
 
     def play_game(self):
         screen.onclick(self.handle_click)
@@ -316,8 +323,12 @@ class Game:
                 self.set_player_img()
                 print(self.board)                                   # DEBUG STATEMENT
                 self.check_win()
-
+                update_current_player_text(current_player_text,
+                                           self.players[self.current_move].name)
+                update_current_player_img(piece, self.current_img,
+                                            X_START, Y_START)
     def process_computer_turn(self, x, y):
+        time.sleep(1)
         # randomly pick a column, if filled, pick another
         col = self.get_random_column()
         print("Selected:", col)                                     # DEBUG STATEMENT
@@ -331,7 +342,11 @@ class Game:
         self.set_player_img()
         print(self.board)                                           # DEBUG STATEMENT
         self.check_win()
-        
+        update_current_player_text(current_player_text,
+                                   self.players[self.current_move].name)
+        update_current_player_img(piece, self.current_img,
+                                    X_START, Y_START)
+
     def get_column(self, x, y):
         ''' Method: get_column
             Parameters:
