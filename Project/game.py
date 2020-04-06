@@ -281,6 +281,9 @@ class Game:
         global current_player_text
         current_player_text = setup_current_player_text(X_START, Y_START)
 
+        global box_message
+        box_message = setup_box_message()
+
         # draw gameboard
         draw_board(self.board.board, piece, screen, WHITE_IMG)
         draw_arrows(self.board.arrows, arrows, screen, ARROW_IMG)
@@ -295,6 +298,9 @@ class Game:
     def handle_click(self, x, y):
         if self.game_over is True:
             print("Game is over")
+            message = "Game Over"
+            display_text(box_message, screen, X_START, Y_START, self.board.rows,
+                         self.board.cols, PIECE_SIZE, message)
         else:
             self.process_human_turn(x, y)
             if (self.players[self.current_move].name == COMPUTER_NAME and
@@ -319,10 +325,11 @@ class Game:
                 update_piece(arrows, screen, col, x, y,
                              self.current_img)
                 self.check_full()
-                self.switch_player()
-                self.set_player_img()
+
                 print(self.board)                                   # DEBUG STATEMENT
                 self.check_win()
+                self.switch_player()
+                self.set_player_img()
                 update_current_player_text(current_player_text,
                                            self.players[self.current_move].name)
                 update_current_player_img(piece, self.current_img,
@@ -338,10 +345,10 @@ class Game:
         update_piece(arrows, screen, col, x, y,
                      self.current_img)
         self.check_full()
-        self.switch_player()
-        self.set_player_img()
         print(self.board)                                           # DEBUG STATEMENT
         self.check_win()
+        self.switch_player()
+        self.set_player_img()
         update_current_player_text(current_player_text,
                                    self.players[self.current_move].name)
         update_current_player_img(piece, self.current_img,
@@ -406,7 +413,8 @@ class Game:
                     total_filled += 1
         if self.board.total_pieces == total_filled:
             self.game_over = True
-            print("The board is full and it is a draw.")
+            display_text(box_message, screen, X_START, Y_START, self.board.rows,
+                         self.board.cols, PIECE_SIZE, "It is a draw")
 
     def check_win(self):
         all_directions = self.collect_all_directions()
@@ -415,8 +423,11 @@ class Game:
                 winner = check_winner(all_directions[i][j])
                 if winner:
                     self.game_over = True
-                    print("The winner is", winner)      # CHANGED - CHECK LATER
-
+                    message = "The winner is " + self.players[self.current_move].name + \
+                              "!" # CHANGED - CHECK LATER
+                    display_text(box_message, screen, X_START, Y_START, self.board.rows,
+                                 self.board.cols, PIECE_SIZE, message)
+                    
     def collect_all_directions(self):
         master = []
         master.append(self.collect_horizontals())

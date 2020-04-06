@@ -69,6 +69,36 @@ def setup_current_player_text(x, y):
 
     return text
 
+def setup_box_message():
+    box = turtle.Turtle()
+    box.hideturtle()
+    box.up()
+
+    return box
+
+def display_text(box, screen, starting_x, starting_y, num_rows, num_cols, size, text):
+    x_size = abs(num_cols * size)
+    y_size = abs(num_rows * size)
+    center_x = starting_x - (size / 2) + x_size / 2
+    center_y = starting_y + (size / 2) - y_size / 2
+    box_width = x_size * .70
+    box_height = y_size * .20
+    box.goto(center_x - (box_width / 2), center_y + (box_height / 2))
+    box.color("black", "light blue")
+    box.begin_fill()
+    box.down()
+    for i in range(2):
+        box.forward(box_width)
+        box.right(90)
+        box.forward(box_height)
+        box.right(90)
+    box.end_fill()
+    box.up()
+    box.goto(center_x, center_y)
+    box.write(text, align = "center", font = ("arial", 15, "bold"))
+    screen.update()
+
+
 def update_current_player_text(turtle, current_player):
     ''' Name: update_current_player_text
         Parameters: name of current player (string)
