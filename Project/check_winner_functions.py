@@ -1,15 +1,14 @@
 from stack import Stack
 
 # constant that makes it "Connect 4"
-# changing this makes it "Connect n"
+# changing this to n makes it "Connect n"
 STREAK = 4
 
-# functions for checking winner
 def check_winner(lst):
     ''' Name: check_winner
         Parameter: a list of items
-        Returns: if there is a streak of items four or great in the list,
-                 a tuple with (True, item)
+        Returns: if there is a streak of n or greater in the list of items,
+                 excluding blank lsts, item is returned
     '''
     streak = create_streak(lst)
     return(check_four(streak))
@@ -17,8 +16,7 @@ def check_winner(lst):
 def check_four(tuples_list):
     ''' Name: check_four
         Parameters: list of tuples -- [("count (an int)", item)]
-        Returns: True if an item has streak of four or more and the
-                 item with the streak as a tuple -- {TRUE, item)
+        Returns: the item with a streak of n or great, excluding blank lsts
     '''
     for i in range(len(tuples_list)):
         # looks for streak of four or greater, ignoring any blanks
