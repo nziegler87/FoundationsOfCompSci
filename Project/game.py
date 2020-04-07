@@ -387,8 +387,6 @@ class Game:
         if self.board.board[0][column].filled:
             popup_box(box_message, screen, X_START, Y_START, self.board.rows,
                          self.board.cols, PIECE_SIZE, COL_FULL)
-            time.sleep(1)
-            box_message.clear()
         for i in range(len(self.board.board) - 1, -1, -1):
             if not self.board.board[i][column].filled:
                 self.board.board[i][column].fill_piece(color)
@@ -427,7 +425,6 @@ class Game:
                     for player in self.players:
                         player.save_score()
                     for message in SAVE:
-                        time.sleep(1.5)
                         popup_box(box_message, screen, X_START, Y_START, self.board.rows,
                                      self.board.cols, PIECE_SIZE, message) 
                     

@@ -32,6 +32,8 @@ CURRENT_IMG_Y_OFFSET = 50
 SCORE_Y_OFFSET = 150
 POP_BORDER = "black"
 POP_FILL = "light grey"
+ANIMATION_DELAY = .05
+POPUP_DELAY = 2
 
 def setup_screen():
     ''' Name: setup_screen
@@ -84,7 +86,7 @@ def draw_piece(turtle, screen, x, y, image):
     turtle.end_fill()
     turtle.up()
 
-    # go back to center and stamp piece
+    # go back to center and stamp piece image
     turtle.goto(x, y)
     turtle.stamp()
 
@@ -219,7 +221,7 @@ def update_piece(turtle, screen, start_y, x, y, image, size):
         screen.update()
         
         turtle.shape(WHITE_IMG)
-        time.sleep(.05)
+        time.sleep(ANIMATION_DELAY)
         turtle.stamp()
         screen.update()
         start_y -= size
@@ -239,7 +241,7 @@ def popup_box(turtle, screen, starting_x, starting_y,
             starting_y -- y coordinate of top left game piece
             num_rows -- number of rows, an int
             num_cols -- number of cols, an int
-            piece_size -- size fo game pieces, an int
+            piece_size -- size of game pieces, an int
             text -- text, a string, to be printed
         Returns: nothing
         Does: creates a popup box on screen and prints message
@@ -270,4 +272,7 @@ def popup_box(turtle, screen, starting_x, starting_y,
     turtle.write(text, align = C_ALIGN, font = (FONT, SIZE, STYLE))
     
     screen.update()
+
+    time.sleep(POPUP_DELAY)
+    turtle.clear()
             
