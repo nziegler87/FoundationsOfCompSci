@@ -366,7 +366,8 @@ class Game:
             Returns: a column number (an int)
             Does: randomly returns a number of an unfilled column
         '''
-        total_col = self.board.rows
+        total_col = self.board.cols
+        
         while True:
             col = random.randint(0, total_col - 1)
             if not self.board.board[0][col].filled:

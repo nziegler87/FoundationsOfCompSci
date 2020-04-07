@@ -3,12 +3,13 @@ import unittest
 import os
 
 class Player_Test(unittest.TestCase):
+
     def test_init(self):
         player = Player("nate")
         self.assertEqual(player.name, "nate")
         self.assertEqual(player.filename, "")
         self.assertEqual(player.score, 0)
-        self.assertEQual(player.color, "")
+        self.assertEqual(player.color, "")
 
     def test_increase_score(self):
         player = Player("nate")
@@ -19,21 +20,32 @@ class Player_Test(unittest.TestCase):
 
         player = Player("nate")
 
-        # increase score by 20 from 0
+        # increase score 20 times, from 0
         for i in range(20):
             player.increase_score()
         self.assertEqual(player.score, 20)
 
         player = Player("nate")
 
-        # increase score by 5 from 5
+        # increase score 5 times, from 5
         player.score = 5
         for i in range(5):
             player.increase_score()
         self.assertEqual(player.score, 10)
 
+    def test_set_filename(self):
+        # create a player object but don't call set_filename method
+        player = Player("Nate")
+        self.assertEqual(player.filename, "")
+        self.assertNotEqual(player.filename, "Nate.txt")
+
+        # call set_filename method, which should update filename attribute
+        player.set_filename()
+        self.assertEqual(player.filename, "Nate.txt")
+
     def test_initialize_score(self):
         player = Player("nofile")
+        player.set_filename()
         
         # Initialize score from file with a non-existent file
         # where score goes back to zero
@@ -51,6 +63,7 @@ class Player_Test(unittest.TestCase):
 
     def test_save_score(self):
         player = Player("testfile")
+        player.set_filename()
 
         # set player score to 100
         player.score = 100

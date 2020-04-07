@@ -8,7 +8,7 @@ PLAYER_ONE = "Player 1"
 PLAYER_TWO = "Player 2"
 
 class Player:
-    ''' class: Car
+    ''' class: Player
         Attributes: name, filename, score, color
         Methods: collect_name, set_filename, collect_color,
                  initialize_score, increase_score, save_score
@@ -44,10 +44,11 @@ class Player:
             self.name = input("Your name cannot match the computer name. " +
                               "Try again: ")
             
-            if len(second_player) != 0:
-                while self.name == second_player:
-                    self.name = input("Your name must be different than " + \
-                                      "player 1. Try again: ")
+        if len(second_player) != 0:
+            while self.name == second_player or self.name == COMPUTER_NAME:
+                self.name = input("Your name must be different than " + \
+                                  "player 1 and/or cannot match computer " + \
+                                  "name. Try again: ")
 
     def set_filename(self):
         ''' Method: set_filename
