@@ -49,6 +49,7 @@ GAME_OVER = "Game Over!"
 COL_FULL = "Column Full. Pick another."
 DRAW = "It was a draw. Game over!"
 WINNER = "The winner is {}!"
+SAVE = ["Saving updated scores.", "Check terminal to confirm", "no save error."]
 
 class Game:
     ''' class: Game
@@ -421,6 +422,13 @@ class Game:
                     message = WINNER.format(winner_name)
                     popup_box(box_message, screen, X_START, Y_START, self.board.rows,
                                  self.board.cols, PIECE_SIZE, message)
+                    self.players[self.current_move].increase_score()
+                    for player in self.players:
+                        player.save_score()
+                    for message in SAVE:
+                        time.sleep(1.5)
+                        popup_box(box_message, screen, X_START, Y_START, self.board.rows,
+                                     self.board.cols, PIECE_SIZE, message) 
                     
     def collect_all_directions(self):
         master = []

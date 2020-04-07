@@ -6,8 +6,9 @@ class Player_Test(unittest.TestCase):
     def test_init(self):
         player = Player("nate")
         self.assertEqual(player.name, "nate")
-        self.assertEqual(player.filename, "nate.txt")
+        self.assertEqual(player.filename, "")
         self.assertEqual(player.score, 0)
+        self.assertEQual(player.color, "")
 
     def test_increase_score(self):
         player = Player("nate")
