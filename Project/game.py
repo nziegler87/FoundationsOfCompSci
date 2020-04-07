@@ -46,7 +46,7 @@ INSTRUCTIONS = "OVERVIEW".center(CENTER_SPACING, "-") + \
                "is full and neither player earned four in a row.\n"
 
 GAME_OVER = "Game Over!"
-COL_FULL = "Column Full. Pick another."
+COL_FULL = "Column full. Pick another."
 DRAW = "It was a draw. Game over!"
 WINNER = "The winner is {}!"
 SAVE = ["Saving updated scores.", "Check terminal to confirm", "no save error."]
