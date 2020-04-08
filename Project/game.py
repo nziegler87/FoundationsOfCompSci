@@ -356,7 +356,8 @@ class Game:
         for i in range(len(self.board.board) - 1, -1, -1):
             if not self.board.board[i][column].filled:
                 self.board.board[i][column].fill_piece(color)
-                return (self.board.board[i][column].x, self.board.board[i][column].y)
+                return (self.board.board[i][column].x,
+                        self.board.board[i][column].y)
 
     def post_turn_process(self, cord):
         x, y = cord

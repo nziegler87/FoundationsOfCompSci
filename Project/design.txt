@@ -1,0 +1,224 @@
+CS 5001
+Nathanial Ziegler
+April 2020
+Final Project
+
+Level to Accomplish: A
+
+Overview of Classes and Functions Developed + Data Types for Each:
+
+class: Player
+* Data Types: dictionary
+* Attributes:
+   * name -- name of user (a string)
+   * filename -- name with TXT_EXT concatenated, starts blank
+   * score -- user's current score (an int), starts as 0
+   * color -- color of player (string), red or yellow, starts blank
+
+* Methods:
+   * collect_name -- asks for player name, making sure it doesn't match the computer name.  If there is a second player, validation occurs to ensure player 2 doesn’t enter the same name as player 1.
+   * set_filename -- takes name attribute and adds appropriate extension
+   * collect_color -- asks player for color selection, validating against given options and updates player.color attribute
+   * initialize_score
+   * increase_score
+   * save_score
+
+
+class: Game_Piece
+* Attributes:
+   * identifier -- starts as a blank text string and is then later filled with a unique identifier (an int for this game) as the game board is built
+   * filled -- starts as a blank text string and is later filled with a string of text indicating the fill color of the piece. For this game, “red” or “yellow”. 
+   * x -- center x coordinate of the game piece (a float)
+   * y -- center y coordinate of the game piece (a float)
+
+* Method:
+   * fill_piece -- updates filled attribute with a text string indicating the fill color
+
+
+class: Game_Board
+* Data Types: lists
+* Attributes:
+   * rows -- number of rows (an int); set to a default by a constant but can be updated by the user via a method
+   * cols -- number of cols (an int); set to a default by a constant but can be updated by the user via a method
+   * total_pieces -- the number of total pieces on board (int), calculated by multiplying rows and cols attributes together
+   * board -- an empty list, to  be filled with a nested list of game piece objects; as gameplay progresses, game piece object attributes can be access to handle play
+   * arrows -- an empty list, to be filled with list of arrow objects; similar to board, as game progresses, arrow object attributes can be access to handle play
+
+* Methods:
+   * get_dimensions -- prompts user for their board dimensions; each response is validated against a MIN and MAX size constant
+   * setup_board --
+      * first, uses rows and cols attributes to loop through creating a nested list of game piece objects; constants for starting x, starting y, and piece size to assign x, y coordinates to each game piece object;
+      * second uses deep copy to duplicate each game piece object in the first row to make a list of arrow objects
+         * using copy of each first-row object insures column identifier is correct
+   * __str__ -- method to print game board as part of debugging
+
+
+non-class: graphics.py
+* Data Types: lists
+* Functions
+   * setup_screen
+      * Parameters: none
+      * Returns: variable where turtle.Screen() instance is saved, to be used for future functions
+      * Does: creates an instance of turtle.Screen(), uses .setup() method to specify window size and location on screen, uses a for loop of image files to add each image using .addshape() method
+   * setup_turtle
+      * Parameters: none
+      * Returns: variable where instance is saved for use in future functions
+      * Does: creates an instance of turtle.Turtle(), hides and lifts “up” turtle
+   * draw_piece
+      * Parameters:
+         * turtle -- turtle object for drawing graphics
+         * screen -- turtle object for screen
+         * x -- center x coordinate of piece, an int (assumes square piece)
+         * y -- center y coordinate of piece, an int (assumes square piece)
+         * image -- file string for an image file
+      * Returns: nothing
+      * Does: draws one piece of the gameboard by first drawing square, centered around x, y coordinates, and then stamping an image piece in center
+   * draw_board
+      * Parameters:
+         * board -- nested list of game_piece objects where all rows have same number of columns
+         * turtle -- turtle object for drawing graphics
+         * screen -- turtle object for screen
+         * image -- file string for an image file
+      * Returns: nothing
+      * Does: calls draw_piece function and uses data found in game_piece objects (x cord, y cord, and image) to draw board on screen
+   * draw_arrow
+      * Parameters:
+         * turtle -- turtle object for drawing graphics
+         * screen -- turtle object for screen
+         * x -- center x coordinate of piece, an int (assumes square piece)
+         * y -- center y coordinate of piece, an int (assumes square piece)
+         * image -- file string for an image file
+      * Returns: nothing
+      * Does: stamps image at given location
+   * update_current_player
+      * Parameters:
+         * Parameters: 
+            * turtle -- turtle object for drawing graphics
+            * screen -- turtle object for turtle.screen instance
+            * x_cord and y_cords of top left corner of board (floats)
+            * current_player name (a string)
+            * current player’s game piece image (str)
+         * Returns: nothing
+         * Does: writes current player information to left of game board, includes their name and game piece image
+   * display_scores
+      * Parameters:
+         * turtle -- turtle object for drawing graphics
+         * screen -- turtle object for turtle.screen instance 
+         * x_cord and y_cords of top left corner of board (floats)
+         * list with two player instances
+      * Returns: nothing
+      * Does: uses .score and .name attributes in player instances to write current player scores on the screen, to the left of the board
+   * update_piece
+      * Parameters:
+         * turtle -- turtle object for drawing graphics
+         * screen -- turtle object for screen
+         * x -- center x coordinate of piece, an int (assumes square piece)
+         * y -- center y coordinate of piece, an int (assumes square piece)
+         * image -- file string for an image file
+         * size -- size of game piece (an int)
+      * Returns: nothing
+      * Does: updates game piece at position x, y; it also temporarily updates any game piece above it (before resetting it back to white) to simulate the piece dropping down the board
+   * popup_box
+      * Parameters:
+         * turtle -- turtle object for drawing
+         * screen -- turtle object for screen
+         * starting_x -- x coordinate of top left game piece
+         * starting_y -- y coordinate of top left game piece
+         * num_rows -- number of rows, an int
+         * num_cols -- number of cols, an int
+         * piece_size -- size of game pieces, an int
+         * text -- text, a string, to be printed
+      * Returns: nothing
+      * Does: displays a popup box on screen and writes message to user
+
+
+non-class: check_winner_functions.py
+* Data Types: lists, stacks, and tuples
+* Functions:
+   * check_winner
+      * Parameters: a list of items
+      * Returns: if there is a streak of n or greater in the list of items, excluding blank lsts, item is returned
+      * Does: uses check_four and create_streak functions to return any streak n or greater, with n being 4 in this case
+   * check_four
+      * Parameters: list of tuples -- [(count (an int), item)]
+      * Returns: the first item with a streak of n or greater, excluding blank lists
+      * Does: reviews list of tuples and returns first item with n or greater, in this case n = 4
+   * create_streak
+      * Parameters: a list of items
+      * Returns: a list of tuples
+      * Does: takes in list and returns list items reported as streaks:
+         * [(count (an int), item), (count (an int), item)]
+
+class: Game
+* Data Types: lists and dictionaries
+* Parameters:
+   * self -- the current object
+   * play_computer -- "", to be replaced with boolean
+   * default_board -- "", to be replaced with a boolean
+   * game_over -- a boolean, False by default
+   * current_move -- "", to be replaced with 0 or 1 (int)
+   * current_img -- "", to be replaced with img file path (string)
+   * self.player -- blank list to be updated with two instances of player objects at position 0 and 1
+
+* Methods:
+   * set_player_type
+      * asks user if they want to play against the computer or another human; uses a dictionary of menu option and menu descriptor and validates reponse; then updates play_computer attribute to either True or False
+   * set_board_size
+      * asks user if they want to use the default board size, specified by constants, or if they want to enter their own; if they want to enter their own, their input is validated by min and max dimensions, specified by constants; then .rows and .cols attributes of the board instance created by the constructor are updated
+   * setup_players
+      * Player 1: creates an player instance from Player class, passing it “player 1” string from constant, and asks for player 1 (always human) to entier their name and color, using collect_name and collect_color methods of player class; player object appended to game.players list
+      * Player 2: if comp:human selected, creates another player instance, passing “Computer” from constant; otherwise passes “player 2” and uses collect_name method to ask name; player 2 color attribute is set to whatever player 1 didn’t select; player object appended to game.players list
+      * Scores for both are initialized using initialize_score method from Player class
+   * pick_starting_player
+      * if .play_computer is True, user 1, the human, is always first, else .current_move is selected at random (0 or 1)
+   * set_player_img
+      * sets .current_img to appropriate file, based on current player’s .color attribute, all strings and colors saved as constants
+   * initialze_game
+      * uses set_player_type, setup_players, pick_starting_player, set_player_img, set_board_size, get_dimensions, setup_board, and setup_graphics methods and functions to start the game
+   * switch_player
+      * flips the .current_move attribute to alternate players
+   * setup_graphics
+      * uses setup_screen method to create a screen object
+      * uses setup_turtle method to create piece, arrows, player_notification, score_message, and box_message objects
+      * calls draw_board, draw_arrows, update_current_player, and display_scores methods to start game graphics
+   * play_game
+      * binds onclick to screen turtle with function = self.handle_click
+   * handle_click
+      * takes x, y coordinates of onclick
+      * if .game_over attribute is True, it displays a message that game is over using popup_box function
+      * If .game_over is False, it calls the process_human_turn (a human always goes first) and then, if the next player is the computer and the game isn’t over, process_computer_turn happens; else, the method is over
+   * process_human_turn
+      * takes x, y coordinates of onclick
+      * converts x, y to column number using get_column method; if col is valid, drop_piece method is called to “place” piece in first non-empty row from the bottom and then calls post_turn_process
+   * process_computer_turn
+      * takes but ignores x, y coordinates of onclick, pauses for a second using time.sleep(), selects a random column using get_random_column method, then calls drop_piece method to get coordinates of where piece is placed, which are then passed to post_turn_process method
+   * drop_piece
+      * takes column number where user wants to place piece as well as the color text string; first checks to make sure top piece in column isn’t already filled (if so displays message); otherwise, uses a for loop to go through each space in column to find first unfilled one and returns x, y coordinates of that piece
+   * post_turn_process
+      * uses x, y coordinates from either process_human_turn or process_computer_turn and passes them to update_piece graphics function to visually update game board; if game is not over, the switch_player method is called and the current player on screen is updated with update_current_player graphics function
+   * get_column
+      * takes x, y coordinates from onclick and matches x coordinate to an .identifier attribute of an arrow, returning the int
+   * get_random_column
+      * uses board.cols attribute and random.randint to pick a random column; checks to make sure column is filled; and returns value
+   * check_game_end:
+      * first class check_win method and then check_full method if no win to make sure game is not over
+   * check_full:
+      * checks .filled attribute of each board piece, incrementing a counter each time and comparing total filled pieces to .total_pieces board attribute then updates .game_over and displays message to user if board is filled
+   * check_win
+      * checks for a streak of four pieces in all game directions, if there is a winner, run process_win method
+   * proces_win
+      * updates .game_over to True, displays winner name, increases winner's score, and saves scores
+   * collect_all_directions
+      * returns a nested list for each possible direction a streak could exist on the board, used in check_win
+   * collect_horizontals:
+      * Returns: a nested list of each game piece's .filled attribute  in each row of the board
+   * collect_verticals:
+      * Returns: a nested list of each game piece's .filled attribute in each column of the board
+   * collect_diagonals:
+      * Returns: a nested list of each game piece's .filled attribute in each diagonal of the board
+   * collect_antidiagonals:
+      * Returns: a nested list of each game piece's .filled attribute  in each antidiagonal of the board
+
+
+Approach to Testing:
+I was able to use unittesting for all of my constructors and most methods and functions. For methods or functions that required user input, I first created the function/method and then implemented it trying multiple permutations of input to check validation. I also inserted temporary print statements throughout to confirm correct return values, variable values, and attributes values. Because much of my Game class functions on objects saved in lists and nested lists, I had a very tough time figuring out how to unittest the functions. To ensure everything works, I inserted a printing debug statements throughout the code and monitored the Shell as I debugged gameplay. For the Game_Board class, I created a __str__ method that helped me confirm that Game class methods were functioning as designed. Coupled that with a print function in collect_all_directions to monitor all possible win directions as well as a print function of Game class attributes, I was able to monitor that things were correctly updated.

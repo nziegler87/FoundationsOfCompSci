@@ -1,5 +1,4 @@
 import unittest
-from unittest.mock import patch
 from game import *
 
 
@@ -38,7 +37,6 @@ def setup_custom_board(row, col):
     board.cols = col
     board.total_pieces = board.rows * board.cols
     board.setup_board()
-    print(board)
     return board
 
 def fill_row(board, row, string):
@@ -49,17 +47,6 @@ def fill_row(board, row, string):
     '''
     for i in range(len(board.board[row])):
         board.board[row][i].filled = string
-    print(board)
-
-def fill_col(board, col, string):
-    ''' Name: fill_col
-        Parameters: Game_Board instance, col (int), and a string
-        Returns: nothing
-        Does: fills specified col with a string
-    '''
-    for i in range(len(board.board)):
-        board.board[col][i].filled = string
-    print(board)
 
 class Game_Test(unittest.TestCase):
 
@@ -74,10 +61,13 @@ class Game_Test(unittest.TestCase):
         self.assertEqual(game.players, [])
     
     def test_pick_starting_player(self):
+        # set up a game with a human and computer player then make sure
+        # current move is player at position 0 in list
         game = setup_two_players()
         self.assertEqual(game.current_move, 0)
 
     def test_switch_player(self):
+        # set up game with a human and computer player
         game = setup_two_players()
 
         # confirm that method switches current player from 0 > 1 and then 1 > 0
@@ -87,29 +77,54 @@ class Game_Test(unittest.TestCase):
         game.switch_player()
         self.assertEqual(game.current_move, 0)
 
-    def test_collect_rows(self):
+    def test_collect_functions(self):
         # create custom board and fill a row with "red"
         board = setup_custom_board(5, 4)
         fill_row(board, 3, "red")
 
         # create game object and update board with custom
-        game = Game()
+        game = setup_two_players()
         game.board = board
-        
-        expected = [["", "", "", ""],
-                    ["", "", "", ""],
-                    ["", "", "", ""],
-                    ["red", "red", "red", "red"],
-                    ["", "", "", ""]]
 
         # first check that horizontal collection works
-        self.assertEqual(game.collect_horizontals(),expected)
+        horizontal = [["", "", "", ""],
+                      ["", "", "", ""],
+                      ["", "", "", ""],
+                      ["red", "red", "red", "red"],
+                      ["", "", "", ""]]
+        self.assertEqual(game.collect_horizontals(), horizontal)
 
-        # second check that check_win works
-        game.check_win()
-        self.assertEqual(game.game_over, True)
+        # check that vertical collection works
+        vertical = [["", "", "", "red", ""],
+                    ["", "", "", "red", ""],
+                    ["", "", "", "red", ""],
+                    ["", "", "", "red", ""]]
+        self.assertEqual(game.collect_verticals(), vertical)
 
-        
+
+        # check that antidiagonal collection works
+        antidiagonal = [[""],
+                        ["", ""],
+                        ["", "", ""],
+                        ["red", "", "", ""],
+                        ["", "red", "", ""],
+                        ["", "red", ""],
+                        ["", "red"],
+                        [""]]
+
+        self.assertEqual(game.collect_antidiagonals(), antidiagonal)
+
+        # check that diagonal collection works
+        diagonal = [[""],
+                    ["red", ""],
+                    ["", "red", ""],
+                    ["", "", "red", ""],
+                    ["", "", "", "red"],
+                    ["", "", ""],
+                    ["", ""],
+                    [""]]
+
+        self.assertEqual(game.collect_diagonals(), diagonal)
 
 def main():
     unittest.main(verbosity = 3)
