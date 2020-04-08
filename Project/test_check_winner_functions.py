@@ -1,3 +1,12 @@
+'''
+    CS 5001
+    Nathanial Ziegler
+    April 2020
+    Final Project
+    Description:
+        Test case for check_winner_functions
+'''
+
 from check_winner_functions import *
 import unittest
 

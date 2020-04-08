@@ -1,3 +1,12 @@
+'''
+    CS 5001
+    Nathanial Ziegler
+    April 2020
+    Final Project
+    Description:
+        Functions to display graphics of Connect 4
+'''
+
 from game_board import *
 import turtle
 import time

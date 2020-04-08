@@ -1,3 +1,12 @@
+'''
+    CS 5001
+    Nathanial Ziegler
+    April 2020
+    Final Project
+    Description:
+        Class to create and modify player object in Connect 4
+'''
+
 # constant for creating filenames
 TXT_EXT = ".txt"
 

@@ -1,3 +1,12 @@
+'''
+    CS 5001
+    Nathanial Ziegler
+    April 2020
+    Final Project
+    Description:
+        Class used to create and modify Connect 4 gameboard
+'''
+
 from game_piece import Game_Piece
 import copy
 
@@ -110,7 +119,7 @@ class Game_Board:
             arrow = self.arrows[i]
             board += "(" + str(arrow.identifier) + ", " + str(arrow.x) + \
                      ", " + str(arrow.y) + ")"
-        board += "\n"
+        board += "\n\n"
 
         # rest of rows = game piece object details
         for i in range(len(self.board)):

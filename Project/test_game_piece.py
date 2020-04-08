@@ -1,3 +1,12 @@
+'''
+    CS 5001
+    Nathanial Ziegler
+    April 2020
+    Final Project
+    Description:
+        Test case for game_piece class
+'''
+
 from game_piece import Game_Piece
 import unittest
 

@@ -1,3 +1,12 @@
+'''
+    CS 5001
+    Nathanial Ziegler
+    April 2020
+    Final Project
+    Description:
+        Test case for player class
+'''
+
 from player import Player
 import unittest
 import os

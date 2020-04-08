@@ -1,3 +1,12 @@
+'''
+    CS 5001
+    Nathanial Ziegler
+    April 2020
+    Final Project
+    Description:
+        Functions used to check four in a row pieces
+'''
+
 from stack import Stack
 
 # constant that makes it "Connect 4"
@@ -6,7 +15,7 @@ STREAK = 4
 
 def check_winner(lst):
     ''' Name: check_winner
-        Parameter: a list of items
+        Parameters: a list of items
         Returns: if there is a streak of n or greater in the list of items,
                  excluding blank lsts, item is returned
     '''
@@ -15,8 +24,9 @@ def check_winner(lst):
     
 def check_four(tuples_list):
     ''' Name: check_four
-        Parameters: list of tuples -- [("count (an int)", item)]
-        Returns: the item with a streak of n or great, excluding blank lsts
+        Parameters: list of tuples -- [(count (an int), item)]
+        Returns: the first item with a streak of n or greater,
+                 excluding blank lsts
     '''
     for i in range(len(tuples_list)):
         # looks for streak of four or greater, ignoring any blanks
@@ -28,7 +38,7 @@ def create_streak(lst):
     ''' Name: create_streak
         Parameters: a list
         Returns: a list of tuples with list items reported as streaks --
-                    [("count (an int)", item),( "count (an int)", item)]
+                    [(count (an int), item),(count (an int), item)]
     '''
     stack = Stack()
     streak = []

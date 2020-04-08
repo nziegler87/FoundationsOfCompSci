@@ -1,3 +1,12 @@
+'''
+    CS 5001
+    Nathanial Ziegler
+    April 2020
+    Final Project
+    Description:
+        Class to create and modify game pieces for Connect 4
+'''
+
 class Game_Piece:
     ''' class: Game_Piece
         Attributes: identifier, filled, x, y
