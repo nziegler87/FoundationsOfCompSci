@@ -18,6 +18,7 @@ def divides(int1, int2):
 def append(dictionary, key, value):
     if key not in dictionary.keys():
         dictionary[key] = value
+
     return dictionary
 
 def more_efficient(string1, string2):

@@ -31,14 +31,9 @@ def is_missing(lst):
     '''
     Runtime complexity = O(n)
     '''
-    minimum = lst[0]
-    for item in lst:
-        if item < minimum:
-            minimum = item
+    minimum = 1
 
-    length = len(lst) + 1
-
-    for i in range(length):
+    for i in range(len(lst) + 1):
         if minimum not in lst:
             return minimum
         else:
