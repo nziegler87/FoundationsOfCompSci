@@ -11,7 +11,8 @@ from player import Player
 import unittest
 import os
 
-class Player_Test(unittest.TestCase):
+
+class PlayerTest(unittest.TestCase):
 
     def test_init(self):
         player = Player("nate")
@@ -55,7 +56,7 @@ class Player_Test(unittest.TestCase):
     def test_initialize_score(self):
         player = Player("nofile")
         player.set_filename()
-        
+
         # Initialize score from file with a non-existent file
         # where score goes back to zero
         if os.path.exists(player.filename):
@@ -83,9 +84,10 @@ class Player_Test(unittest.TestCase):
             score = int(infile.read().strip())
         self.assertEqual(score, 100)
         os.remove("testfile.txt")
-        
+
 
 def main():
-    unittest.main(verbosity = 3)
+    unittest.main(verbosity=3)
+
 
 main()
