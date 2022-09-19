@@ -16,7 +16,10 @@ As this was an intro foundations class, we covered a lot of ground in 15 weeks:
 
 ## Final Project
 Four our final project, we had to create a Connect Four game using all of the knowledge gained from the course.
+
 ![Connect Four Screenshot](/Project/screenshot_resize.jpeg)
+
+Watch a quick video demo [here](https://youtu.be/csNT23PWrr4)
 
 My project has the following features:
   - Text interface that allows the user to select or input:
@@ -36,4 +39,4 @@ My project has the following features:
     - after each move is made, a check is done for a line of any four colors
     - human player results are saved and loaded via .txt files
 
-You can browse my final submission code [here](/Project/submission) and watch a quick video demo [here](https://youtu.be/csNT23PWrr4)
+You can browse my final submission code [here](/Project/submission)
