@@ -16,7 +16,7 @@ As this was an intro foundations class, we covered a lot of ground in 15 weeks:
 
 ## Final Project
 Four our final project, we had to create a Connect Four game using all of the knowledge gained from the course.
-![Connect Four Screenshot](/Project/screenshot.jpg | width=50)
+![Connect Four Screenshot](/Project/screenshot_resize.jpg)
 
 My project has the following features:
   - Text interface that allows the user to select or input:
