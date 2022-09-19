@@ -1,5 +1,5 @@
 # Intensive Foundations of Computer Science
-This was the first CS class that I ever took and was also the first of four bridge classes designed to prepare those with non CS backgrounds for the program. This repo holds my [homework](/Homework), [labs](/Labs), and project(/Project) work that I completed while taking this course.
+This was the first CS class that I ever took and was also the first of four bridge classes designed to prepare those with non CS backgrounds for the program. This repo holds my [homework](/Homework), [labs](/Labs), and [project](/Project) work that I completed while taking this course.
 
 ## Course Topics
 As this was an intro foundations class, we covered a lot of ground in 15 weeks:
