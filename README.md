@@ -1,5 +1,5 @@
 # Intensive Foundations of Computer Science
-This was the first CS class that I ever took and was also the first of four bridge classes designed to prepare those with non CS backgrounds for the program. This repo holds my homework, labs, and project work that I completed while taking this course.
+This was the first CS class that I ever took and was also the first of four bridge classes designed to prepare those with non CS backgrounds for the program. This repo holds my [homework](/Homework), [labs](/Labs), and project(/Project) work that I completed while taking this course.
 
 ## Course Topics
 As this was an intro foundations class, we covered a lot of ground in 15 weeks:
@@ -32,3 +32,5 @@ Four our final project, we had to create a Connect Four game using all of the kn
     - computer user randomly drops a piece in any open column
     - after each move is made, a check is done for a line of any four colors
     - human player results are saved and loaded via .txt files
+
+You can browse my final submission code [here](/Project/submission) and watch a quick video demo [here](https://youtu.be/csNT23PWrr4)
